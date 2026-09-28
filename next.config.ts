@@ -6,22 +6,6 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 768, 1024, 1280, 1536, 1920, 2560],
   },
-  experimental: {
-    optimizePackageImports: [
-      "framer-motion",
-      "@react-three/fiber",
-      "@react-three/drei",
-      "three",
-    ],
-  },
-  transpilePackages: ["three"],
-  webpack: (config) => {
-    config.module?.rules?.push({
-      test: /\.(glsl|vs|fs|vert|frag)$/,
-      type: "asset/source",
-    });
-    return config;
-  },
   async headers() {
     return [
       {

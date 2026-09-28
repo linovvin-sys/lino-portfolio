@@ -1,31 +1,33 @@
 import { profileSchema } from './schemas';
 
-/* PLACEHOLDER: social URLs and resume path are unverified — swap for real links before launch */
+/* PLACEHOLDER: GitHub, LinkedIn, X and calendar links are unverified — swap for real links before launch */
 const data = {
   name: 'Lino Vincent G. Dela Cruz',
-  title: 'Senior Generative AI Engineer',
+  title: 'Aspiring Network DevOps Engineer',
   location: 'Cavite, Philippines',
   timezone: 'Asia/Manila',
-  tagline: 'Senior Generative AI Engineer working across networking DevOps and generative AI systems.',
-  bio: 'I build AI systems that ship. From orchestrating multi-agent workflows to optimizing LLM inference, I focus on transforming cutting-edge research into production-grade products. My approach is grounded in rigorous evaluation, robust infrastructure, and a deep understanding of user needs.',
+  // Drop your photo at public/images/portrait.jpg (square-ish, at least 800px wide)
+  photo: '/images/portrait.jpg',
+  tagline: '3rd-year IT student and aspiring Network DevOps engineer who builds full-stack systems and is learning to automate the networks they run on.',
+  bio: 'I’m a third-year IT student who likes understanding how things work end to end. I’ve built web, desktop and AR projects with PHP, Java, Python and C++, built this portfolio with Next.js and TypeScript, and I ship my work with Git, Docker and CI/CD pipelines. Now I’m going deeper into networking fundamentals and Linux. My goal is to become a Network DevOps engineer who treats networks like software: automated, versioned and reliable.',
   availability: {
     status: 'available',
-    message: 'Open to senior/staff roles and consulting',
+    message: 'Open to OJT and internship opportunities',
   },
   links: {
     github: 'https://github.com/placeholder',
     linkedin: 'https://linkedin.com/in/placeholder',
     x: 'https://x.com/placeholder',
-    email: 'hello@placeholder.dev',
+    email: 'linovincentdelacruz@gmail.com',
     resume: '/resume',
     calendar: 'https://cal.com/placeholder',
   },
   principles: [
-    { title: 'Ship, then optimize', description: 'Get a robust baseline into production early, then iteratively improve.' },
-    { title: 'Evals before vibes', description: 'Rely on data-driven metrics and automated evaluation frameworks over subjective testing.' },
-    { title: 'Complexity is a cost', description: 'Favor simpler architectures and predictable pipelines unless advanced techniques are strictly necessary.' },
-    { title: 'UX drives AI design', description: 'The models serve the product, and the product serves the user.' },
-    { title: 'Understand the constraints', description: 'Always design around latency, cost, and reliability requirements.' },
+    { title: 'Learn by building', description: 'Every concept sticks better once I’ve used it in a real project.' },
+    { title: 'Fundamentals first', description: 'Packets before platforms: understand how the network works before automating it.' },
+    { title: 'Automate the boring parts', description: 'If I do something twice by hand, I look for a way to script it.' },
+    { title: 'Document as I go', description: 'Clear READMEs and notes make my projects easy to run, review and improve.' },
+    { title: 'Stay curious', description: 'Ask questions, read the docs, and share what I learn with classmates.' },
   ],
 };
 

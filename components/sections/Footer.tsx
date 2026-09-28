@@ -1,7 +1,5 @@
-'use client';
-
 import { Container } from '@/components/ui/Container';
-import { Grid } from '@/components/ui/Grid';
+import { ArrowUp } from '@/components/ui/Icons';
 import { navigation } from '@/content/navigation';
 import { profile } from '@/content/profile';
 
@@ -11,57 +9,76 @@ const SOCIALS = [
   { label: 'X', href: profile.links.x },
 ].filter((s): s is { label: string; href: string } => Boolean(s.href));
 
-export function Footer() {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
+export function Footer({ bordered = false }: { bordered?: boolean }) {
   return (
-    <footer className="bg-[var(--color-bg)] text-[var(--color-fg)] border-t border-[var(--color-rule)] pt-16 pb-8">
+    <footer className={`bg-[var(--color-bg)] pb-10 pt-16 md:pt-20 ${bordered ? 'border-t border-[var(--color-rule)]' : ''}`}>
       <Container>
-        <Grid className="gap-12 mb-16">
-          <div className="col-span-6 md:col-span-3">
-            <h4 className="font-mono text-xs uppercase tracking-widest text-[var(--color-muted)] mb-6">Sitemap</h4>
-            <ul className="space-y-3 font-mono text-sm">
+        <div className="grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-12">
+          <div className="col-span-12 md:col-span-6">
+            <p className="font-display text-[length:var(--text-2xl)] leading-[1.1] text-[var(--color-fg)]">{profile.name}</p>
+            <p className="mt-2 text-[15px] text-[var(--color-muted)]">
+              {profile.title} · {profile.location}
+            </p>
+          </div>
+
+          <nav aria-label="Footer" className="col-span-6 md:col-span-3">
+            <h2 className="eyebrow">Sitemap</h2>
+            <ul className="mt-4 space-y-2.5 text-[15px]">
               {navigation.map((item) => (
                 <li key={item.href}>
-                  <a href={item.href} className="hover:text-[var(--color-accent)] transition-colors">{item.label}</a>
+                  <a href={item.href} className="text-[var(--color-muted)] transition-colors hover:text-[var(--color-fg)]">
+                    {item.label}
+                  </a>
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
           <div className="col-span-6 md:col-span-3">
-            <h4 className="font-mono text-xs uppercase tracking-widest text-[var(--color-muted)] mb-6">Connect</h4>
-            <ul className="space-y-3 font-mono text-sm">
+            <h2 className="eyebrow">Connect</h2>
+            <ul className="mt-4 space-y-2.5 text-[15px]">
               {SOCIALS.map((item) => (
                 <li key={item.label}>
-                  <a href={item.href} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--color-accent)] transition-colors">{item.label}</a>
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[var(--color-muted)] transition-colors hover:text-[var(--color-fg)]"
+                  >
+                    {item.label}
+                  </a>
                 </li>
               ))}
               <li>
-                <a href={`mailto:${profile.links.email}`} className="hover:text-[var(--color-accent)] transition-colors">Email</a>
+                <a
+                  href={`mailto:${profile.links.email}`}
+                  className="text-[var(--color-muted)] transition-colors hover:text-[var(--color-fg)]"
+                >
+                  Email
+                </a>
               </li>
+              {profile.links.resume && (
+                <li>
+                  <a href={profile.links.resume} className="text-[var(--color-muted)] transition-colors hover:text-[var(--color-fg)]">
+                    Résumé
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
+        </div>
 
-          <div className="col-span-12 md:col-span-6 flex flex-col md:items-end justify-between">
-            <button
-              onClick={scrollToTop}
-              className="font-mono text-sm w-fit border border-[var(--color-rule)] px-4 py-2 hover:bg-[var(--color-surface)] transition-colors"
-            >
-              ↑ Back to top
-            </button>
-          </div>
-        </Grid>
-
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center pt-8 border-t border-[var(--color-rule)] gap-4 font-mono text-xs text-[var(--color-muted)]">
+        <div className="mt-16 flex flex-col-reverse gap-4 border-t border-[var(--color-rule)] pt-6 text-[13px] text-[var(--color-muted)] sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} {profile.name}. All rights reserved.
+            © {new Date().getFullYear()} {profile.name}
           </p>
-          <p>
-            Built with Next.js, TypeScript, GSAP. Set in Instrument Serif & General Sans.
-          </p>
+          <a
+            href="#hero"
+            className="group inline-flex w-fit items-center gap-1.5 transition-colors hover:text-[var(--color-fg)]"
+          >
+            Back to top
+            <ArrowUp className="h-3.5 w-3.5 transition-transform duration-300 ease-[var(--ease-out)] group-hover:-translate-y-0.5" />
+          </a>
         </div>
       </Container>
     </footer>

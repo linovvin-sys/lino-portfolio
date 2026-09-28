@@ -1,16 +1,16 @@
 import type { ComponentType } from 'react';
-import { TokenizerVisualizer } from './TokenizerVisualizer';
-import { PromptDiffViewer } from './PromptDiffViewer';
-import { AttentionHeatmap } from './AttentionHeatmap';
-import { RagChunkingPlayground } from './RagChunkingPlayground';
-import { EmbeddingNearestNeighbors } from './EmbeddingNearestNeighbors';
-import { InferenceLatencySimulator } from './InferenceLatencySimulator';
+import { SubnetCalculator } from './SubnetCalculator';
+import { PacketPath } from './PacketPath';
+import { ConfigDiffViewer } from './ConfigDiffViewer';
+import { LoadBalancerSimulator } from './LoadBalancerSimulator';
+import { ErrorBudgetCalculator } from './ErrorBudgetCalculator';
+import { RolloutSimulator } from './RolloutSimulator';
 
 export const labComponents: Record<string, ComponentType> = {
-  'tokenizer-visualizer': TokenizerVisualizer,
-  'prompt-diff-viewer': PromptDiffViewer,
-  'attention-heatmap': AttentionHeatmap,
-  'rag-chunking-playground': RagChunkingPlayground,
-  'embedding-nearest-neighbors': EmbeddingNearestNeighbors,
-  'inference-latency-simulator': InferenceLatencySimulator,
+  'subnet-calculator': SubnetCalculator,
+  'packet-path': PacketPath,
+  'config-diff-viewer': ConfigDiffViewer,
+  'load-balancer-simulator': LoadBalancerSimulator,
+  'error-budget-calculator': ErrorBudgetCalculator,
+  'rollout-simulator': RolloutSimulator,
 };

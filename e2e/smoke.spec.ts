@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test.describe("Navigation", () => {
   test("should load the home page", async ({ page }) => {
     await page.goto("/");
-    await expect(page).toHaveTitle(/Senior Generative AI Engineer/);
+    await expect(page).toHaveTitle(/Network DevOps/);
   });
 
   test("should navigate to work page", async ({ page }) => {
@@ -30,8 +30,10 @@ test.describe("Navigation", () => {
     const themeToggle = page.locator("[aria-label*='theme']").first();
     if (await themeToggle.isVisible()) {
       await themeToggle.click();
-      const newTheme = await html.getAttribute("data-theme");
-      expect(newTheme).not.toBe(initialTheme);
+      // The circular reveal applies the new theme on the next frame (View
+      // Transitions snapshot the old page first), so wait for it rather than
+      // reading the attribute synchronously.
+      await expect(html).not.toHaveAttribute("data-theme", initialTheme ?? "");
     }
   });
 });
@@ -53,8 +55,10 @@ test.describe("Contact Form", () => {
       await submitButton.click();
 
       // Should show success or error state
+      // Success renders role="status"; a server-side failure renders role="alert".
+      const contact = page.locator("#contact");
       await expect(
-        page.locator("text=Thank you").or(page.locator("text=error")),
+        contact.getByRole("status").or(contact.getByRole("alert")),
       ).toBeVisible({ timeout: 5000 });
     }
   });

@@ -1,117 +1,84 @@
-'use client';
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { experience } from '@/content/experience';
+import { Section } from '@/components/ui/Section';
 import { SectionHeader } from '@/components/ui/SectionHeader';
-
-gsap.registerPlugin(ScrollTrigger);
+import { TagList } from '@/components/ui/Tag';
+import { Button } from '@/components/ui/Button';
+import { ArrowUpRight } from '@/components/ui/Icons';
+import { profile } from '@/content/profile';
+import { TimelineProgress } from '@/components/motion/TimelineProgress';
 
 interface ExperienceProps {
   id?: string;
 }
 
 export function Experience({ id }: ExperienceProps) {
-  const sectionRef = useRef<HTMLElement>(null);
-  const lineRef = useRef<SVGPathElement>(null);
-  const prefersReducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    if (prefersReducedMotion) return;
-
-    const ctx = gsap.context(() => {
-      // Draw line animation
-      if (lineRef.current) {
-        const length = lineRef.current.getTotalLength();
-        gsap.set(lineRef.current, { strokeDasharray: length, strokeDashoffset: length });
-        
-        gsap.to(lineRef.current, {
-          strokeDashoffset: 0,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top center',
-            end: 'bottom center',
-            scrub: true,
-          }
-        });
-      }
-
-      // Pin roles briefly
-      const roles = gsap.utils.toArray<HTMLElement>('.role-item');
-      roles.forEach(role => {
-        ScrollTrigger.create({
-          trigger: role,
-          start: 'center center',
-          end: '+=200',
-          pin: true,
-          pinSpacing: false,
-        });
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, [prefersReducedMotion]);
-
   return (
-    <section id={id} ref={sectionRef} className="py-24 px-6 relative">
-      <div className="max-w-4xl mx-auto">
-        <SectionHeader index={3} title="Experience" />
-        
-        <div className="relative mt-24 pl-8 md:pl-16">
-          <svg className="absolute left-0 top-0 w-4 h-full hidden md:block" preserveAspectRatio="none">
-            <path 
-              ref={lineRef}
-              d="M 2 0 L 2 10000" 
-              className="stroke-[var(--color-rule)] stroke-[2px] fill-none" 
-              vectorEffect="non-scaling-stroke"
-            />
-          </svg>
+    <Section id={id}>
+      <SectionHeader
+        index={5}
+        eyebrow="Journey"
+        title="Where I am so far."
+        action={
+          profile.links.resume ? (
+            <Button href={profile.links.resume} variant="secondary">
+              Full résumé
+              <ArrowUpRight className="h-4 w-4" />
+            </Button>
+          ) : undefined
+        }
+      />
 
-          <div className="space-y-32">
-            {experience.map((role) => (
-              <div key={role.id} className="role-item relative">
-                <div className="absolute -left-10 md:-left-18 top-2 w-4 h-4 rounded-full bg-[var(--color-bg)] border-2 border-[var(--color-accent)] z-10" />
+      <ol className="mt-14 border-t border-[var(--color-rule)] md:mt-20">
+        {experience.map((role) => (
+          <li
+            key={role.id}
+            data-timeline-item
+            data-reveal
+            className="group/role grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-4 border-b border-[var(--color-rule)] py-10 md:border-b-0 md:py-12"
+          >
+            <div className="col-span-12 md:col-span-3">
+              <p className="font-tabular text-sm text-[var(--color-fg)]">
+                {role.period.start} — {role.period.end}
+              </p>
+              <p className="mt-1 text-[13px] text-[var(--color-muted)]">{role.location}</p>
+            </div>
 
-                <div className="mb-4 flex flex-col md:flex-row md:items-baseline md:justify-between gap-2">
-                  <h3 className="font-display text-3xl md:text-4xl text-[var(--color-fg)]">
-                    {role.role}
-                  </h3>
-                  <div className="font-mono text-xs text-[var(--color-muted)]">
-                    {role.period.start} — {role.period.end} · {role.location}
-                  </div>
-                </div>
+            <div className="relative col-span-12 md:col-span-9 md:pl-12 lg:col-span-8">
+              {/* scroll-linked timeline rail */}
+              <span aria-hidden="true" className="absolute -bottom-12 -top-12 left-0 hidden w-px bg-[var(--color-rule)] md:block" />
+              <span
+                aria-hidden="true"
+                className="absolute -bottom-12 -top-12 left-0 hidden w-px origin-top bg-[var(--color-accent)] md:block"
+                style={{ transform: 'scaleY(var(--p, 0))' }}
+              />
+              <span
+                aria-hidden="true"
+                className="absolute left-[-5px] top-2.5 hidden h-[11px] w-[11px] rounded-full border-2 border-[var(--color-rule)] bg-[var(--color-bg)] transition-[border-color,background-color,transform] duration-500 ease-[var(--ease-out)] group-data-[active]/role:scale-110 group-data-[active]/role:border-[var(--color-accent)] group-data-[active]/role:bg-[var(--color-accent)] md:block"
+              />
+              <h3 className="font-display text-[length:var(--text-2xl)] leading-[1.1] text-[var(--color-fg)]">
+                {role.role}
+                <span className="text-[var(--color-muted)]"> · {role.company}</span>
+              </h3>
+              <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[var(--color-muted)]">{role.description}</p>
 
-                <div className="font-mono text-sm text-[var(--color-fg)] mb-8">
-                  {role.company}
-                </div>
+              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                {role.impacts.map((item) => (
+                  <li
+                    key={item.metric}
+                    className="rounded-[var(--radius-md)] border border-[var(--color-rule)] bg-[var(--color-surface)] p-4"
+                  >
+                    <p className="font-mono text-[13px] text-[var(--color-accent)]">{item.metric}</p>
+                    <p className="mt-1.5 text-sm leading-relaxed text-[var(--color-fg)]">{item.description}</p>
+                  </li>
+                ))}
+              </ul>
 
-                <p className="font-body text-[var(--color-muted)] mb-6">{role.description}</p>
-
-                <ul className="space-y-4 font-body text-[var(--color-muted)]">
-                  {role.impacts.map((item) => (
-                    <li key={item.metric} className="flex items-start gap-4">
-                      <span className="mt-1.5 font-mono text-xs text-[var(--color-accent)] whitespace-nowrap">{item.metric}</span>
-                      <span>{item.description}</span>
-                    </li>
-                  ))}
-                </ul>
-                
-                {role.stack && (
-                  <div className="mt-8 flex flex-wrap gap-2">
-                    {role.stack.map(tech => (
-                      <span key={tech} className="font-mono text-[10px] px-2 py-1 bg-[var(--color-surface)] border border-[var(--color-rule)] rounded">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
+              {role.stack && <TagList items={role.stack} className="mt-6" />}
+            </div>
+          </li>
+        ))}
+      </ol>
+      <TimelineProgress scope="#experience" />
+    </Section>
   );
 }

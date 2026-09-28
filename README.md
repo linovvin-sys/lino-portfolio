@@ -1,6 +1,6 @@
 # lino-portfolio
 
-Portfolio for a Senior Generative AI Engineer — Next.js App Router, TypeScript strict mode, Tailwind v4, GSAP/Lenis-driven scroll scenes, and a small RAG-grounded "Ask me" agent.
+Portfolio for a Network DevOps Engineer — Next.js App Router, TypeScript strict mode, Tailwind v4, Lenis smooth scrolling, an interactive live network topology in the hero, browser-based networking lab tools, and a small RAG-grounded "Ask me" agent.
 
 ## Setup
 
@@ -39,6 +39,10 @@ npm run test:e2e      # playwright (nav + contact form smoke tests)
 npm run check          # typecheck + lint + format:check + test, all in one
 ```
 
+## Adding your photo
+
+Save a photo as `public/images/portrait.jpg` (roughly square, at least 800px wide). It appears on the swingable ID badge in the About section. Until the file exists, the badge shows your initials instead. To use a different filename, change `photo` in `content/profile.ts`.
+
 ## Editing content
 
 All portfolio content lives in `/content` as typed TypeScript files, each validated against a Zod schema in `content/schemas.ts` at import time — **the app throws immediately on invalid content**, so a typo in a required field fails loudly in dev rather than silently rendering blank. You should never need to touch a component to change what's on the page.
@@ -48,25 +52,40 @@ All portfolio content lives in `/content` as typed TypeScript files, each valida
 | `content/profile.ts` | Name, title, bio, links, availability, operating principles |
 | `content/projects.ts` | Selected Work index — slugs here must match a file in `content/case-studies/` |
 | `content/case-studies/*.mdx` | The long-form case study write-ups (frontmatter validated by `caseStudyFrontmatterSchema`, body is MDX) |
-| `content/capabilities.ts` | The five pinned capability groups |
+| `content/capabilities.ts` | The five capability groups |
 | `content/experience.ts` | Timeline roles, each with 2–4 metric-backed impact bullets |
-| `content/writing.ts` | Research, Writing & Talks horizontal scroller |
+| `content/writing.ts` | Writing & talks cards |
 | `content/oss.ts` | Open Source repo cards |
-| `content/testimonials.ts` | Stacking-card pull quotes |
+| `content/testimonials.ts` | Endorsement cards |
 | `content/lab.ts` | Lab experiment index — `id` must match a route under `app/lab/[slug]` and a `component` registered in `components/lab/registry.ts` |
 | `content/education.ts` | Degrees and certifications |
-| `content/metrics.ts` | The count-up metrics strip between Hero and Capabilities |
+| `content/metrics.ts` | The count-up metrics strip under the hero |
 | `content/navigation.ts` | Nav/footer sitemap links |
+
+The hero's interactive topology lives in `components/network/` (`topology.ts` holds node positions and links; `NetworkTopology.tsx` runs the packet simulation; `Terminal.tsx` is the log pane). The Workflow section's pipeline stages are defined at the top of `components/sections/Workflow.tsx`.
+
+Everything marked `PLACEHOLDER` in `/content` is illustrative and should be replaced with your real details.
 
 To add a new case study: add a project to `content/projects.ts` and an MDX file to `content/case-studies/` with a matching `slug`. `app/work/[slug]/page.tsx` reads both — the project entry for the index-page card, the MDX file for the detail page (problem, constraints, architecture, outcome, and a scroll-spy side nav generated from its `##` headings).
 
-## Motion system
+## Design system
 
-Everything animated goes through one shared config: `/lib/motion.ts` exports `DURATION`, `EASE`, `STAGGER`, `SCROLL_DEFAULTS`, and Framer Motion `VARIANTS`/`MOTION_EASE` — no component should hard-code a duration or easing curve. Reusable animation primitives live in `/components/motion` (`ClipReveal`, `TextReveal`, `ScrollFill`, `ParallaxImage`, `DrawLine`, `HorizontalScroll`, `StackingCards`, `CountUp`, `Marquee`, `MorphTransition`), and typed hooks in `/hooks` (`useGsap`, `useScrollScene`, `useMagnetic`, `useSplitReveal`) wrap `gsap.context()` so every GSAP effect cleans up its triggers on unmount.
+- **Tokens** live in `styles/tokens.css`: palette (light + dark), type scale, grid (1200px max width, 12 columns), radii, elevation and easing curves. Change a value there and it applies everywhere.
+- **Layout primitives** in `components/ui`: `Section` (consistent vertical rhythm, optional tinted `surface` tone), `Container`, `SectionHeader` (numbered eyebrow + serif heading + optional action), `Button`, `Tag`, `Icons`, and `PageShell` for secondary pages (case studies, lab, résumé).
+- **Typography**: Instrument Serif for display headings, Geist for body text, Geist Mono for small labels (`eyebrow` utility).
+- **Motion** lives in `components/motion` and is all disabled under `prefers-reduced-motion`:
+  - `SmoothScroll`: Lenis inertial scrolling, including in-page anchor links
+  - `ScrollProgress`: reading-progress hairline at the top of the viewport
+  - `TokenStream`: the hero's "sampled output" that streams in token by token
+  - `AnimatedNumber`: count-up for the metrics strip
+  - `TechMarquee`: CSS-only infinite stack ticker (pauses on hover)
+  - `Magnetic`: subtle cursor pull on the primary CTAs
+  - Hero intro: masked line-by-line name reveal (`.animate-line-up` / `.animate-rise-in` in `globals.css`)
+  - Scroll reveal: add `data-reveal` to any element (optionally with `--reveal-delay`); wrap heading text in `.mask > .mask-inner` for a slide-up reveal. Handled by `components/ui/RevealObserver.tsx`, which also drives the cursor spotlight on `.spotlight` cards.
+  - The nav highlights the section in view with a sliding pill.
+- All base styles in `app/globals.css` live in `@layer base` so Tailwind utilities always win. Don't add unlayered element resets there: they override every spacing utility.
 
-Scroll is smoothed by Lenis (`hooks/useLenis.ts`), wired into GSAP's own ticker so both share one `requestAnimationFrame` loop — see `LenisProvider` in that file, mounted once in `app/page.tsx`.
-
-`prefers-reduced-motion` is checked by every motion component individually (`useReducedMotion()` / a direct `matchMedia` check) and disables pins, scrub, parallax, and the custom cursor, falling back to a static, fully readable layout. The theme toggle (`hooks/useTheme.ts`) does a circular `clip-path` wipe from the toggle button's click position, skipped in favor of an instant swap under reduced motion.
+The heavier GSAP primitives in `/components/motion` and `/hooks` are still in the repo but are no longer mounted on the home page.
 
 ## Deploy
 

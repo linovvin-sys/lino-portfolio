@@ -1,29 +1,39 @@
 import { testimonialsSchema } from './schemas';
 
-/* PLACEHOLDER: names/companies are illustrative until real references are collected */
+/*
+ * PLACEHOLDER: ask your friends/classmates for a short quote, then fill in
+ * their name, what they do, and a link to their portfolio (`url`).
+ * The card links to `url` with a "View portfolio" button when it's set.
+ */
 const data = [
   {
-    id: 'vp-eng-acme',
-    quote: "Their deep understanding of both LLM inference and distributed systems allowed us to cut our serving costs in half while improving latency. They don't just build demos; they build robust platforms that handle real production traffic.",
-    author: 'Priya Ramachandran',
-    role: 'VP Engineering',
-    company: 'Acme AI',
+    id: 'friend-1',
+    quote: 'Lino is the teammate who actually reads the error message. On our projects he set up the database, kept everyone on Git branches, and still found time to help the rest of us debug.',
+    author: '[Friend’s Name]',
+    role: 'IT Student',
+    company: 'National College of Science and Technology',
+    relationship: 'Classmate',
+    url: 'https://example.com',
     featured: true,
   },
   {
-    id: 'cto-nextgen',
-    quote: 'The evaluation framework they architected fundamentally changed how we ship AI features. We went from vibes-based testing to rigorous, automated CI/CD for prompts in a matter of weeks.',
-    author: 'Marcus Whitfield',
-    role: 'CTO',
-    company: 'NextGen Tech',
+    id: 'friend-2',
+    quote: 'Working with Lino on our capstone has been easy. He explains networking and backend concepts clearly, and he’s always excited to try the next tool, whether that’s Docker, AR or a new framework.',
+    author: '[Friend’s Name]',
+    role: 'Frontend Developer',
+    company: 'Capstone teammate',
+    relationship: 'Teammate',
+    url: 'https://example.com',
     featured: true,
   },
   {
-    id: 'staff-eng-datacorp',
-    quote: 'An exceptional engineer who seamlessly bridges the gap between AI research and product engineering. Their work on our multi-agent orchestrator was instrumental in unlocking new autonomous capabilities for our users.',
-    author: 'Alessandra Ferreira',
-    role: 'Staff Engineer',
-    company: 'DataCorp',
+    id: 'friend-3',
+    quote: 'Whenever our labs broke in Packet Tracer, Lino was the one tracing the problem hop by hop. He’s patient, curious, and genuinely likes figuring out how things work.',
+    author: '[Friend’s Name]',
+    role: 'Aspiring Network Engineer',
+    company: 'National College of Science and Technology',
+    relationship: 'Lab partner',
+    url: 'https://example.com',
     featured: true,
   },
 ];

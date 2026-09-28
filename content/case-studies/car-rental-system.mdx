@@ -1,0 +1,62 @@
+---
+slug: "car-rental-system"
+title: "Car Rental System"
+subtitle: "My first-year project: renting, returning and billing cars from a C++ console app"
+category: "Console application"
+year: "2024"
+role: "Developer"
+duration: "First-year project"
+stack:
+  - "C++"
+  - "OOP"
+  - "File handling"
+problem: "A small car rental shop needed a simple way to keep track of which cars were available, who rented them, and how much each rental cost, instead of writing everything in a logbook."
+constraints:
+  - "Pure C++ console application"
+  - "Records must survive after the program closes"
+  - "Menu-driven so anyone can use it without training"
+  - "Validate input so wrong entries don't break the records"
+outcome: "A working menu-driven program that lists available cars, handles rentals and returns, computes the fee from the number of days, and saves everything to files so data is kept between runs."
+metrics:
+  - label: "Type"
+    value: "Console app"
+  - label: "Language"
+    value: "C++"
+  - label: "Storage"
+    value: "Files"
+  - label: "Year"
+    value: "1st year"
+published: true
+---
+
+{/* PLACEHOLDER — Double-check the details below and add screenshots of the console if you have them. */}
+
+## Features
+
+- **Car list**: view every car with its model, plate number, daily rate and availability
+- **Rent a car**: pick an available car, enter the customer's name and number of days
+- **Return a car**: mark it available again and show the final bill
+- **Saved records**: cars and rentals are written to files and loaded on startup
+
+## How it's built
+
+The program is organized around classes for cars and rentals, with a simple menu loop in `main()`.
+
+```cpp
+class Car {
+public:
+    std::string plate, model;
+    double dailyRate;
+    bool available = true;
+
+    double rentalFee(int days) const { return dailyRate * days; }
+};
+```
+
+## What I learned
+
+This was my first real program, and it's where the fundamentals clicked:
+
+- Classes and objects, and why grouping data with behavior makes code easier to follow
+- Reading and writing files so a program can remember things
+- Validating user input, and how easily a program breaks without it

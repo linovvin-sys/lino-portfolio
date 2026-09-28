@@ -1,0 +1,54 @@
+---
+slug: "parking-monitoring-system"
+title: "Parking Monitoring System"
+subtitle: "Real-time slot availability and vehicle entry/exit logging in Java"
+category: "Desktop application"
+year: "2024"
+role: "Developer"
+duration: "School project"
+stack:
+  - "Java"
+  - "Java Swing"
+  - "MySQL"
+problem: "Parking attendants had no quick way to see which slots were free, and entry and exit times were written by hand, which made fees slow to compute and easy to get wrong."
+constraints:
+  - "Desktop app for the parking attendant's computer"
+  - "Slot status must update immediately when a car enters or leaves"
+  - "Fees computed automatically from time parked"
+  - "Records saved for daily reports"
+outcome: "The attendant sees every slot as free or occupied at a glance, logs vehicles in and out with a plate number, and gets the parking fee computed automatically at exit."
+metrics:
+  - label: "Type"
+    value: "Desktop app"
+  - label: "Language"
+    value: "Java"
+  - label: "UI"
+    value: "Swing"
+  - label: "Database"
+    value: "MySQL"
+published: true
+---
+
+{/* PLACEHOLDER — Confirm the stack and details below and add screenshots if you have them. */}
+
+## Features
+
+- **Slot map**: a grid of parking slots colored by status (free / occupied)
+- **Vehicle entry**: record plate number and time, assign a slot
+- **Vehicle exit**: free the slot and compute the fee from the time parked
+- **History**: a searchable log of all entries and exits for reports
+
+## How it's built
+
+The app follows an object-oriented design in Java, with classes for slots, vehicles and parking records, a Swing interface, and MySQL for storage.
+
+```java
+long minutes = Duration.between(record.getTimeIn(), LocalDateTime.now()).toMinutes();
+double fee = Math.max(1, Math.ceil(minutes / 60.0)) * ratePerHour;
+```
+
+## What I learned
+
+- Applying OOP principles (classes, encapsulation, separation of concerns) in a real app
+- Building event-driven desktop interfaces with Swing
+- Connecting Java to MySQL with JDBC

@@ -1,10 +1,10 @@
 import { metricsStripSchema } from './schemas';
 
 const data = [
-  { label: 'p95 latency', value: '142', numericValue: 142, suffix: 'ms' },
-  { label: 'Cost reduction', value: '60', numericValue: 60, suffix: '%' },
-  { label: 'Eval score', value: '94', numericValue: 94, suffix: '%' },
-  { label: 'Queries served', value: '50', numericValue: 50, suffix: 'K+/day' },
+  { label: 'Projects built', value: '6', numericValue: 6 },
+  { label: 'Technologies', value: '15', numericValue: 15, suffix: '+' },
+  { label: 'Languages', value: '5', numericValue: 5, suffix: 'PHP · Java · Python · C++ · TS' },
+  { label: 'Year in college', value: '3', numericValue: 3, suffix: 'rd' },
 ];
 
 export const metricsStrip = metricsStripSchema.parse(data);

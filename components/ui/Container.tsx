@@ -5,24 +5,19 @@ interface ContainerProps {
   children: React.ReactNode;
   className?: string;
   as?: keyof React.JSX.IntrinsicElements;
-  wide?: boolean;
+  size?: "default" | "narrow";
 }
 
-export function Container({
-  children,
-  className,
-  as: Component = "div",
-  wide = false,
-}: ContainerProps) {
+export function Container({ children, className, as: Component = "div", size = "default" }: ContainerProps) {
   return React.createElement(
     Component,
     {
       className: cn(
-        "mx-auto px-[var(--grid-margin)] w-full",
-        !wide && "max-w-[var(--grid-max-width)]",
-        className
+        "mx-auto w-full px-[var(--grid-margin)]",
+        size === "default" ? "max-w-[calc(var(--grid-max-width)+var(--grid-margin)*2)]" : "max-w-[calc(760px+var(--grid-margin)*2)]",
+        className,
       ),
     },
-    children
+    children,
   );
 }

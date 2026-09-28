@@ -3,27 +3,45 @@ import { cn, formatIndex } from "@/lib/utils";
 
 interface SectionHeaderProps {
   index: number;
-  title: string;
-  subtitle?: string;
+  eyebrow: string;
+  title: React.ReactNode;
+  subtitle?: React.ReactNode;
+  action?: React.ReactNode;
   className?: string;
 }
 
-export function SectionHeader({ index, title, subtitle, className }: SectionHeaderProps) {
+/**
+ * One header pattern for every section: mono eyebrow with the section number,
+ * a serif heading, an optional supporting line, and an optional action that
+ * aligns to the heading's baseline on wide screens.
+ */
+export function SectionHeader({ index, eyebrow, title, subtitle, action, className }: SectionHeaderProps) {
   return (
-    <header className={cn("relative mb-8 pb-4 border-b border-[var(--color-rule)]", className)}>
-      <div className="flex flex-col md:flex-row md:items-baseline">
-        <span className="font-mono text-[var(--color-muted)] text-sm mb-2 md:mb-0 md:absolute md:-left-12 md:top-2">
-          {formatIndex(index)}
-        </span>
-        <h2 className="font-display text-4xl md:text-5xl text-[var(--color-fg)]">
-          {title}
-        </h2>
-      </div>
-      {subtitle && (
-        <p className="mt-4 font-body text-[var(--color-muted)] max-w-2xl">
-          {subtitle}
-        </p>
+    <header
+      data-reveal
+      className={cn(
+        "flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-12",
+        className,
       )}
+    >
+      <div className="max-w-2xl">
+        <p className="eyebrow flex items-center gap-3">
+          <span className="text-[var(--color-accent)]">{formatIndex(index)}</span>
+          <span aria-hidden="true" className="h-px w-6 bg-[var(--color-rule)]" />
+          <span>{eyebrow}</span>
+        </p>
+        <h2 className="font-display mt-5 text-[length:var(--text-4xl)] leading-[1.05] text-[var(--color-fg)]">
+          <span className="mask">
+            <span className="mask-inner">{title}</span>
+          </span>
+        </h2>
+        {subtitle && (
+          <p className="mt-5 max-w-xl text-[length:var(--text-md)] leading-relaxed text-[var(--color-muted)]">
+            {subtitle}
+          </p>
+        )}
+      </div>
+      {action && <div className="shrink-0">{action}</div>}
     </header>
   );
 }

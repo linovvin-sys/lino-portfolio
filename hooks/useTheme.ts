@@ -1,8 +1,54 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { gsap } from 'gsap';
+import { useState, useEffect, useCallback } from 'react';
 
 type Theme = 'light' | 'dark';
+
+function setThemeAttribute(theme: Theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  try {
+    localStorage.setItem('theme', theme);
+  } catch {
+    /* storage unavailable — theme still applies for this visit */
+  }
+}
+
+/** Instant swap with every transition suppressed for one frame, so colors don't animate out of sync. */
+function swapInstantly(theme: Theme) {
+  const root = document.documentElement;
+  root.classList.add('theme-switching');
+  setThemeAttribute(theme);
+  requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('theme-switching')));
+}
+
+/**
+ * Circular reveal from (x, y): the new theme grows out of the toggle button.
+ * Uses the View Transitions API; browsers without it (or with reduced motion)
+ * fall back to the instant swap.
+ */
+function swapWithReveal(theme: Theme, x: number, y: number) {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced || typeof document.startViewTransition !== 'function') {
+    swapInstantly(theme);
+    return;
+  }
+
+  const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+  const root = document.documentElement;
+  root.classList.add('theme-switching');
+
+  const transition = document.startViewTransition(() => setThemeAttribute(theme));
+  transition.ready
+    .then(() => {
+      root.animate(
+        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+        { duration: 620, easing: 'cubic-bezier(0.65, 0, 0.35, 1)', pseudoElement: '::view-transition-new(root)' },
+      );
+    })
+    .catch(() => {
+      /* transition skipped — the theme is already applied */
+    });
+  transition.finished.finally(() => root.classList.remove('theme-switching'));
+}
 
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>('light');
@@ -10,68 +56,19 @@ export function useTheme() {
 
   useEffect(() => {
     setMounted(true);
-    const savedTheme = localStorage.getItem('theme') as Theme | null;
-    const sysPref = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    const initialTheme = savedTheme || sysPref;
-    
-    setTheme(initialTheme);
-    document.documentElement.setAttribute('data-theme', initialTheme);
+    const current = document.documentElement.getAttribute('data-theme');
+    setTheme(current === 'dark' ? 'dark' : 'light');
   }, []);
 
-  const toggleTheme = (event: React.MouseEvent) => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    
-    // Check for reduced motion
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setTheme(newTheme);
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      return;
-    }
-
-    const { clientX, clientY } = event;
-    const maxRadius = Math.hypot(
-      Math.max(clientX, window.innerWidth - clientX),
-      Math.max(clientY, window.innerHeight - clientY)
-    );
-
-    const overlay = document.createElement('div');
-    overlay.style.position = 'fixed';
-    overlay.style.top = '0';
-    overlay.style.left = '0';
-    overlay.style.width = '100vw';
-    overlay.style.height = '100vh';
-    overlay.style.zIndex = '9999';
-    overlay.style.pointerEvents = 'none';
-    overlay.style.backgroundColor = newTheme === 'dark' ? 'var(--color-bg, #000)' : 'var(--color-bg, #fff)';
-    overlay.style.clipPath = `circle(0px at ${clientX}px ${clientY}px)`;
-    document.body.appendChild(overlay);
-
-    gsap.to(overlay, {
-      clipPath: `circle(${maxRadius}px at ${clientX}px ${clientY}px)`,
-      duration: 0.7,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        setTheme(newTheme);
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        gsap.to(overlay, {
-          opacity: 0,
-          duration: 0.3,
-          onComplete: () => {
-            overlay.remove();
-          }
-        });
-      }
-    });
-    
-    // Switch theme midway
-    setTimeout(() => {
-      setTheme(newTheme);
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-    }, 350);
-  };
+  /** Pass the click (or the button element) so the reveal starts from the toggle. */
+  const toggleTheme = useCallback(
+    (origin?: { x: number; y: number }) => {
+      const next: Theme = theme === 'light' ? 'dark' : 'light';
+      setTheme(next);
+      swapWithReveal(next, origin?.x ?? window.innerWidth - 48, origin?.y ?? 32);
+    },
+    [theme],
+  );
 
   return { theme, toggleTheme, mounted };
 }

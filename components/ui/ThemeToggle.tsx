@@ -1,47 +1,49 @@
 'use client';
 
 import { useTheme } from '@/hooks/useTheme';
-import { Button } from './Button';
+import { Moon, Sun } from './Icons';
+import { cn } from '@/lib/utils';
 
-export function ThemeToggle() {
+export function ThemeToggle({ className }: { className?: string }) {
   const { theme, toggleTheme, mounted } = useTheme();
 
+  const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Keyboard activation reports 0,0 — start the reveal from the button's center instead
+    const rect = e.currentTarget.getBoundingClientRect();
+    const fromPointer = e.clientX !== 0 || e.clientY !== 0;
+    toggleTheme({
+      x: fromPointer ? e.clientX : rect.left + rect.width / 2,
+      y: fromPointer ? e.clientY : rect.top + rect.height / 2,
+    });
+  };
+
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      className="h-8 w-8 rounded-full p-0"
-      onClick={toggleTheme}
+    <button
+      type="button"
+      onClick={onClick}
       aria-label={mounted ? `Switch theme to ${theme === 'dark' ? 'light' : 'dark'}` : 'Toggle theme'}
+      className={cn(
+        'group relative inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full text-[var(--color-muted)]',
+        'transition-[color,background-color,transform] duration-[var(--dur-fast)] ease-[var(--ease-out)]',
+        'hover:bg-[var(--color-subtle)] hover:text-[var(--color-fg)] active:scale-[0.9]',
+        className,
+      )}
     >
-      <svg
-        className="h-4 w-4 dark:hidden"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.5}
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-        />
-      </svg>
-      <svg
-        className="hidden h-4 w-4 dark:block"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.5}
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-        />
-      </svg>
-    </Button>
+      {/* Sun spins out and the moon rises in; both stay mounted so they can animate */}
+      <Sun
+        className={cn(
+          'theme-icon absolute h-4 w-4 transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]',
+          'rotate-0 scale-100 opacity-100 group-hover:rotate-45',
+          'dark:-rotate-90 dark:scale-0 dark:opacity-0',
+        )}
+      />
+      <Moon
+        className={cn(
+          'theme-icon absolute h-4 w-4 transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]',
+          'translate-y-3 rotate-90 scale-50 opacity-0',
+          'dark:translate-y-0 dark:rotate-0 dark:scale-100 dark:opacity-100 dark:group-hover:-rotate-12',
+        )}
+      />
+    </button>
   );
 }
