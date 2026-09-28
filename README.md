@@ -65,7 +65,16 @@ To add a new case study: add a project to `content/projects.ts` and an MDX file 
 - **Tokens** live in `styles/tokens.css`: palette (light + dark), type scale, grid (1200px max width, 12 columns), radii, elevation and easing curves. Change a value there and it applies everywhere.
 - **Layout primitives** in `components/ui`: `Section` (consistent vertical rhythm, optional tinted `surface` tone), `Container`, `SectionHeader` (numbered eyebrow + serif heading + optional action), `Button`, `Tag`, `Icons`, and `PageShell` for secondary pages (case studies, lab, résumé).
 - **Typography**: Instrument Serif for display headings, Geist for body text, Geist Mono for small labels (`eyebrow` utility).
-- **Motion** is deliberately restrained: short ease-out transitions on hover/press (buttons scale to 0.97 when pressed), and a one-time fade-up on scroll driven by `components/ui/RevealObserver.tsx`. Add `data-reveal` to any element (and optionally a `--reveal-delay`) to opt in. Content is only hidden while JS runs, and `prefers-reduced-motion` disables it entirely.
+- **Motion** lives in `components/motion` and is all disabled under `prefers-reduced-motion`:
+  - `SmoothScroll`: Lenis inertial scrolling, including in-page anchor links
+  - `ScrollProgress`: reading-progress hairline at the top of the viewport
+  - `TokenStream`: the hero's "sampled output" that streams in token by token
+  - `AnimatedNumber`: count-up for the metrics strip
+  - `TechMarquee`: CSS-only infinite stack ticker (pauses on hover)
+  - `Magnetic`: subtle cursor pull on the primary CTAs
+  - Hero intro: masked line-by-line name reveal (`.animate-line-up` / `.animate-rise-in` in `globals.css`)
+  - Scroll reveal: add `data-reveal` to any element (optionally with `--reveal-delay`); wrap heading text in `.mask > .mask-inner` for a slide-up reveal. Handled by `components/ui/RevealObserver.tsx`, which also drives the cursor spotlight on `.spotlight` cards.
+  - The nav highlights the section in view with a sliding pill.
 - All base styles in `app/globals.css` live in `@layer base` so Tailwind utilities always win. Don't add unlayered element resets there: they override every spacing utility.
 
 The heavier GSAP primitives in `/components/motion` and `/hooks` are still in the repo but are no longer mounted on the home page.

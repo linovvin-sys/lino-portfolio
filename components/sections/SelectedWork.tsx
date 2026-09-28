@@ -19,7 +19,7 @@ export function SelectedWork({ id }: SelectedWorkProps) {
         subtitle="Four case studies covering retrieval, evaluation, agents and inference, each with the constraints and numbers behind it."
       />
 
-      <ul className="mt-14 border-t border-[var(--color-rule)] md:mt-20">
+      <ul className="group/list mt-14 border-t border-[var(--color-rule)] md:mt-20">
         {projects.map((project, i) => (
           <li
             key={project.slug}
@@ -30,7 +30,7 @@ export function SelectedWork({ id }: SelectedWorkProps) {
             <a
               href={`/work/${project.slug}`}
               data-cursor="view"
-              className="group relative isolate grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-5 py-8 md:py-10"
+              className="group relative isolate grid grid-cols-12 transition-opacity duration-500 ease-[var(--ease-out)] group-hover/list:opacity-45 hover:!opacity-100 gap-x-[var(--grid-gap)] gap-y-5 py-8 md:py-10"
             >
               <span
                 aria-hidden="true"
@@ -39,14 +39,14 @@ export function SelectedWork({ id }: SelectedWorkProps) {
 
               <span className="sr-only">Read the case study: </span>
               <div className="col-span-12 flex items-baseline gap-5 md:col-span-7">
-                <span className="font-mono font-tabular w-6 shrink-0 text-xs text-[var(--color-muted)]">
+                <span className="font-mono font-tabular w-6 shrink-0 text-xs text-[var(--color-muted)] transition-colors duration-300 group-hover:text-[var(--color-accent)]">
                   {formatIndex(i + 1)}
                 </span>
                 <div className="min-w-0">
                   <p className="eyebrow">
                     {project.category} · {project.year}
                   </p>
-                  <h3 className="font-display mt-3 text-[length:var(--text-2xl)] leading-[1.1] text-[var(--color-fg)] md:text-[2.5rem]">
+                  <h3 className="font-display mt-3 text-[length:var(--text-2xl)] transition-transform duration-500 ease-[var(--ease-out)] group-hover:translate-x-1.5 leading-[1.1] text-[var(--color-fg)] md:text-[2.5rem]">
                     {project.title}
                   </h3>
                   <p className="mt-3 max-w-lg text-[15px] leading-relaxed text-[var(--color-muted)]">

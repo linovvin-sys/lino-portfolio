@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { Container } from '@/components/ui/Container';
 import { Close, Menu, Sparkle } from '@/components/ui/Icons';
@@ -23,6 +23,43 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMac, setIsMac] = useState(true);
+  const [active, setActive] = useState<string | null>(null);
+  const [pill, setPill] = useState<{ left: number; width: number } | null>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+
+  // Track which section is under the middle of the viewport
+  useEffect(() => {
+    const ids = navigation.map((item) => item.href.split('#')[1]).filter((id): id is string => Boolean(id));
+    const sections = ids.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => Boolean(el));
+    if (sections.length === 0) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        }
+      },
+      { rootMargin: '-45% 0px -50% 0px' },
+    );
+    sections.forEach((el) => observer.observe(el));
+    const onTop = () => window.scrollY < window.innerHeight * 0.5 && setActive(null);
+    window.addEventListener('scroll', onTop, { passive: true });
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', onTop);
+    };
+  }, []);
+
+  // Slide the highlight pill under the active link
+  useLayoutEffect(() => {
+    const measure = () => {
+      const link = active ? listRef.current?.querySelector<HTMLElement>(`a[href$="#${active}"]`) : null;
+      const item = link?.parentElement; // the <li>, whose offsetParent is the list
+      setPill(item ? { left: item.offsetLeft, width: item.offsetWidth } : null);
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [active]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -69,12 +106,22 @@ export function Nav() {
             <span className="hidden text-sm font-medium text-[var(--color-fg)] sm:block lg:hidden xl:block">{profile.name}</span>
           </a>
 
-          <ul className="hidden items-center gap-1 lg:flex">
+          <ul ref={listRef} className="relative hidden items-center gap-1 lg:flex">
+            <li
+              aria-hidden="true"
+              className="absolute left-0 top-1/2 h-8 rounded-full bg-[var(--color-subtle)] transition-[transform,width,opacity] duration-500 ease-[var(--ease-out)]"
+              style={{
+                width: pill?.width ?? 0,
+                transform: `translate(${pill?.left ?? 0}px, -50%)`,
+                opacity: pill ? 1 : 0,
+              }}
+            />
             {navigation.map((item) => (
-              <li key={item.href}>
+              <li key={item.href} className="relative">
                 <a
                   href={item.href}
-                  className="rounded-full px-3 py-2 text-sm text-[var(--color-muted)] transition-colors duration-[var(--dur-fast)] hover:text-[var(--color-fg)]"
+                  aria-current={active && item.href.endsWith(`#${active}`) ? 'location' : undefined}
+                  className="block rounded-full px-3 py-2 text-sm text-[var(--color-muted)] transition-colors duration-[var(--dur-fast)] hover:text-[var(--color-fg)] aria-[current=location]:text-[var(--color-fg)]"
                 >
                   {item.label}
                 </a>

@@ -91,6 +91,7 @@ export function CommandPalette() {
 
   return (
     <div
+      data-lenis-prevent
       className="animate-overlay-in fixed inset-0 z-[var(--z-modal)] flex items-start justify-center bg-[color-mix(in_oklab,var(--color-ink)_28%,transparent)] px-4 pt-[12vh] backdrop-blur-[2px] sm:px-6"
       onClick={() => setIsOpen(false)}
     >

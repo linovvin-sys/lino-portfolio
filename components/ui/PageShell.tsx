@@ -5,6 +5,8 @@ import { CommandPalette } from '@/components/sections/CommandPalette';
 import { SkipLink } from '@/components/ui/SkipLink';
 import { Container } from '@/components/ui/Container';
 import { ArrowLeft } from '@/components/ui/Icons';
+import { SmoothScroll } from '@/components/motion/SmoothScroll';
+import { ScrollProgress } from '@/components/motion/ScrollProgress';
 
 interface PageShellProps {
   children: React.ReactNode;
@@ -19,6 +21,8 @@ export function PageShell({ children, back, size = 'default' }: PageShellProps) 
       <SkipLink />
       <Nav />
       <CommandPalette />
+      <SmoothScroll />
+      <ScrollProgress />
       <main id="main" className="pb-24 pt-[calc(var(--nav-height)+48px)] md:pb-32 md:pt-[calc(var(--nav-height)+72px)]">
         <Container size={size}>
           {back && (

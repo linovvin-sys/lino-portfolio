@@ -14,6 +14,8 @@ import { Footer } from '@/components/sections/Footer';
 import { SkipLink } from '@/components/ui/SkipLink';
 import { RevealObserver } from '@/components/ui/RevealObserver';
 import { CommandPalette } from '@/components/sections/CommandPalette';
+import { SmoothScroll } from '@/components/motion/SmoothScroll';
+import { ScrollProgress } from '@/components/motion/ScrollProgress';
 
 export default function Home() {
   return (
@@ -22,6 +24,8 @@ export default function Home() {
       <Nav />
       <CommandPalette />
       <RevealObserver />
+      <SmoothScroll />
+      <ScrollProgress />
 
       <main id="main">
         <Hero id="hero" />

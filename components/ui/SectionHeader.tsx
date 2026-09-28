@@ -31,7 +31,9 @@ export function SectionHeader({ index, eyebrow, title, subtitle, action, classNa
           <span>{eyebrow}</span>
         </p>
         <h2 className="font-display mt-5 text-[length:var(--text-4xl)] leading-[1.05] text-[var(--color-fg)]">
-          {title}
+          <span className="mask">
+            <span className="mask-inner">{title}</span>
+          </span>
         </h2>
         {subtitle && (
           <p className="mt-5 max-w-xl text-[length:var(--text-md)] leading-relaxed text-[var(--color-muted)]">

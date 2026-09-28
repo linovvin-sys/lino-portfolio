@@ -52,7 +52,7 @@ function WritingCard({ item }: { item: Writing }) {
     <Tag
       {...(href ? { href, target: '_blank', rel: 'noopener noreferrer' } : {})}
       className={cn(
-        'group flex h-full flex-col rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-bg)] p-6 md:p-7',
+        'spotlight group flex h-full flex-col rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-bg)] p-6 md:p-7',
         href &&
           'transition-[border-color,transform] duration-300 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:border-[color-mix(in_oklab,var(--color-fg)_20%,var(--color-rule))]',
       )}

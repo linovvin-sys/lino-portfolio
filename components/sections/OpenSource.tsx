@@ -37,7 +37,7 @@ export function OpenSource({ id }: OpenSourceProps) {
               href={repo.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex h-full flex-col rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-card)] transition-[border-color,transform] duration-300 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:border-[color-mix(in_oklab,var(--color-fg)_20%,var(--color-rule))] md:p-7"
+              className="spotlight group flex h-full flex-col rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-card)] transition-[border-color,transform] duration-300 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:border-[color-mix(in_oklab,var(--color-fg)_20%,var(--color-rule))] md:p-7"
             >
               <div className="flex items-start justify-between gap-4">
                 <h3 className="font-mono break-all text-[15px] font-medium text-[var(--color-fg)]">{repo.name}</h3>
