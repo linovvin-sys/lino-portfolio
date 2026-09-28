@@ -192,7 +192,7 @@ export function Hero({ id }: HeroProps) {
         </dl>
       </Container>
 
-      <div data-reveal className="mt-20 border-y border-[var(--color-rule)] py-6 md:mt-24 md:py-8">
+      <div data-reveal className="mt-20 border-t border-[var(--color-rule)] py-6 md:mt-24 md:py-8">
         <p className="sr-only">Technologies I work with: {STACK.join(', ')}</p>
         <TechMarquee items={STACK} />
       </div>

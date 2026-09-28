@@ -15,7 +15,7 @@ export function Experience({ id }: ExperienceProps) {
   return (
     <Section id={id}>
       <SectionHeader
-        index={4}
+        index={5}
         eyebrow="Journey"
         title="Where I am so far."
         action={

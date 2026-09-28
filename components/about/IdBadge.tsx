@@ -39,7 +39,8 @@ export function IdBadge() {
   const cardRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const [flipped, setFlipped] = useState(false);
-  const [photoOk, setPhotoOk] = useState(Boolean(profile.photo));
+  const [photoLoaded, setPhotoLoaded] = useState(false);
+  const photoRef = useRef<HTMLImageElement>(null);
   const [grabbing, setGrabbing] = useState(false);
 
   const sim = useRef({ angle: 0, velocity: 0, dragging: false, frame: 0, last: 0, reduced: false });
@@ -78,6 +79,12 @@ export function IdBadge() {
       s.frame = requestAnimationFrame(step);
     }
   };
+
+  // The image may finish loading before hydration attaches onLoad
+  useEffect(() => {
+    const img = photoRef.current;
+    if (img?.complete && img.naturalWidth > 0) setPhotoLoaded(true);
+  }, []);
 
   // Drop-in swing the first time the badge scrolls into view
   useEffect(() => {
@@ -237,24 +244,28 @@ export function IdBadge() {
               </div>
 
               <div className="relative mt-3 aspect-[5/4.4] overflow-hidden rounded-[12px] bg-[var(--color-fg)]">
-                {photoOk && profile.photo ? (
+                {/* Monogram is always underneath; the photo fades in over it only once it has loaded */}
+                <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_30%_20%,color-mix(in_oklab,var(--color-accent)_55%,transparent),transparent_60%)]">
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 opacity-[0.12] [background-image:linear-gradient(var(--color-bg)_1px,transparent_1px),linear-gradient(90deg,var(--color-bg)_1px,transparent_1px)] [background-size:18px_18px]"
+                  />
+                  <span className="font-display relative text-[5.5rem] leading-none text-[var(--color-bg)]">{initials(profile.name)}</span>
+                </div>
+                {profile.photo && (
                   <Image
+                    ref={photoRef}
                     src={profile.photo}
                     alt={`Photo of ${profile.name}`}
                     fill
                     sizes="272px"
                     draggable={false}
-                    className="pointer-events-none object-cover"
-                    onError={() => setPhotoOk(false)}
+                    onLoad={() => setPhotoLoaded(true)}
+                    className={cn(
+                      'pointer-events-none object-cover transition-opacity duration-500',
+                      photoLoaded ? 'visible opacity-100' : 'invisible opacity-0',
+                    )}
                   />
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_30%_20%,color-mix(in_oklab,var(--color-accent)_55%,transparent),transparent_60%)]">
-                    <div
-                      aria-hidden="true"
-                      className="absolute inset-0 opacity-[0.12] [background-image:linear-gradient(var(--color-bg)_1px,transparent_1px),linear-gradient(90deg,var(--color-bg)_1px,transparent_1px)] [background-size:18px_18px]"
-                    />
-                    <span className="font-display relative text-[5.5rem] leading-none text-[var(--color-bg)]">{initials(profile.name)}</span>
-                  </div>
                 )}
               </div>
 

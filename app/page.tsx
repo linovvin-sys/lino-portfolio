@@ -29,6 +29,7 @@ export default function Home() {
 
       <main id="main">
         <Hero id="hero" />
+        <About id="about" />
         <SelectedWork id="work" />
         <Capabilities id="capabilities" />
         <Workflow id="workflow" />
@@ -36,12 +37,11 @@ export default function Home() {
         <Roadmap id="roadmap" />
         <Lab id="lab" />
         <Testimonials id="testimonials" />
-        <About id="about" />
         <Education id="education" />
         <Contact id="contact" />
       </main>
 
-      <Footer bordered />
+      <Footer />
     </>
   );
 }

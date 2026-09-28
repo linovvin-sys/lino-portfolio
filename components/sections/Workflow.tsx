@@ -97,7 +97,7 @@ export function Workflow({ id }: WorkflowProps) {
   return (
     <Section id={id} tone="inverse">
       <SectionHeader
-        index={3}
+        index={4}
         eyebrow="Workflow"
         title="How I build and ship."
         subtitle="The workflow I use on my projects: plan, branch, let CI check it, ship it in Docker and verify it works."

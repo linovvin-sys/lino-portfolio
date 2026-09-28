@@ -53,7 +53,7 @@ export function Roadmap({ id }: RoadmapProps) {
   return (
     <Section id={id} tone="surface">
       <SectionHeader
-        index={5}
+        index={6}
         eyebrow="Roadmap"
         title="My path to Network DevOps."
         subtitle="What I’ve learned, what I’m working on now, and what comes next. I update it as I go."

@@ -11,7 +11,7 @@ export function Capabilities({ id }: CapabilitiesProps) {
   return (
     <Section id={id} tone="surface">
       <SectionHeader
-        index={2}
+        index={3}
         eyebrow="Skills"
         title="What I work with."
         subtitle="The languages, frameworks and tools I’ve used in real projects, and the networking skills I’m building next."

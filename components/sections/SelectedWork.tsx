@@ -13,7 +13,7 @@ export function SelectedWork({ id }: SelectedWorkProps) {
   return (
     <Section id={id}>
       <SectionHeader
-        index={1}
+        index={2}
         eyebrow="Projects"
         title="Things I’ve built."
         subtitle="From my first C++ program to my AR + AI capstone, with web and desktop systems in PHP, Java and Python along the way. Each one taught me something new."

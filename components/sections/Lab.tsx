@@ -11,7 +11,7 @@ export function Lab({ id }: LabProps) {
   return (
     <Section id={id}>
       <SectionHeader
-        index={6}
+        index={7}
         eyebrow="Lab"
         title="Tools you can play with."
         subtitle="Interactive networking and platform tools that run entirely in your browser."

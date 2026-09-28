@@ -18,8 +18,8 @@ export function About({ id }: AboutProps) {
   ];
 
   return (
-    <Section id={id}>
-      <SectionHeader index={8} eyebrow="About" title="Curious about how it all connects." />
+    <Section id={id} tone="surface">
+      <SectionHeader index={1} eyebrow="About" title="Curious about how it all connects." />
 
       <div className="mt-14 grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-14 md:mt-20">
         <div className="col-span-12 lg:col-span-7">
@@ -48,7 +48,7 @@ export function About({ id }: AboutProps) {
           </div>
         </div>
 
-        <aside data-reveal className="col-span-12 lg:col-span-4 lg:col-start-9">
+        <aside data-reveal className="order-first col-span-12 lg:order-none lg:col-span-4 lg:col-start-9">
           <div className="lg:sticky lg:top-[calc(var(--nav-height)+40px)]">
             <IdBadge />
             {/* Same facts as the back of the badge, for anyone who doesn't flip it */}
