@@ -3,7 +3,7 @@ import { Section } from '@/components/ui/Section';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { AvailabilityDot } from '@/components/ui/AvailabilityDot';
 import { formatIndex } from '@/lib/utils';
-import { roadmap } from '@/content/roadmap';
+import { IdBadge } from '@/components/about/IdBadge';
 
 interface AboutProps {
   id?: string;
@@ -49,38 +49,22 @@ export function About({ id }: AboutProps) {
         </div>
 
         <aside data-reveal className="col-span-12 lg:col-span-4 lg:col-start-9">
-          <div className="rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-card)] md:p-7 lg:sticky lg:top-[calc(var(--nav-height)+32px)]">
-            <div className="flex items-center gap-2.5 text-sm text-[var(--color-fg)]">
-              <AvailabilityDot status={profile.availability.status} />
-              {profile.availability.message}
-            </div>
-            <dl className="mt-6 border-t border-[var(--color-rule)]">
+          <div className="lg:sticky lg:top-[calc(var(--nav-height)+40px)]">
+            <IdBadge />
+            {/* Same facts as the back of the badge, for anyone who doesn't flip it */}
+            <dl className="sr-only">
               {facts.map((fact) => (
-                <div key={fact.label} className="border-b border-[var(--color-rule)] py-4">
-                  <dt className="eyebrow">{fact.label}</dt>
-                  <dd className="mt-1.5 text-[15px] text-[var(--color-fg)]">{fact.value}</dd>
+                <div key={fact.label}>
+                  <dt>{fact.label}</dt>
+                  <dd>{fact.value}</dd>
                 </div>
               ))}
             </dl>
-            <div className="mt-6">
-              <p className="eyebrow">Learning right now</p>
-              <ul className="mt-3 flex flex-wrap gap-1.5">
-                {roadmap
-                  .filter((stage) => stage.status === 'in-progress')
-                  .flatMap((stage) => stage.items.filter((item) => !item.done))
-                  .slice(0, 5)
-                  .map((item) => (
-                    <li
-                      key={item.name}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-[var(--color-rule)] bg-[var(--color-bg)] px-2.5 py-1 text-[12px] text-[var(--color-fg)]"
-                    >
-                      <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]" aria-hidden="true" />
-                      {item.name}
-                    </li>
-                  ))}
-              </ul>
+            <div className="mt-8 flex items-center justify-center gap-2 text-sm text-[var(--color-muted)]">
+              <AvailabilityDot status={profile.availability.status} />
+              {profile.availability.message}
             </div>
-            <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 border-t border-[var(--color-rule)] pt-5 text-sm">
+            <div className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm">
               {[
                 { label: 'GitHub', href: profile.links.github },
                 { label: 'LinkedIn', href: profile.links.linkedin },
@@ -88,13 +72,7 @@ export function About({ id }: AboutProps) {
               ]
                 .filter((l): l is { label: string; href: string } => Boolean(l.href))
                 .map((l) => (
-                  <a
-                    key={l.label}
-                    href={l.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="link-underline text-[var(--color-fg)]"
-                  >
+                  <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className="link-underline text-[var(--color-fg)]">
                     {l.label}
                   </a>
                 ))}

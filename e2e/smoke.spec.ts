@@ -30,8 +30,10 @@ test.describe("Navigation", () => {
     const themeToggle = page.locator("[aria-label*='theme']").first();
     if (await themeToggle.isVisible()) {
       await themeToggle.click();
-      const newTheme = await html.getAttribute("data-theme");
-      expect(newTheme).not.toBe(initialTheme);
+      // The circular reveal applies the new theme on the next frame (View
+      // Transitions snapshot the old page first), so wait for it rather than
+      // reading the attribute synchronously.
+      await expect(html).not.toHaveAttribute("data-theme", initialTheme ?? "");
     }
   });
 });

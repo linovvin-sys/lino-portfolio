@@ -202,10 +202,24 @@
   animation: dialog-in 0.24s var(--ease-out) both;
 }
 
-.theme-switching *,
+.theme-switching *:not(.theme-icon),
 .theme-switching *::before,
 .theme-switching *::after {
   transition: none !important;
+}
+
+/* ── Theme reveal (View Transitions) ─────────────── */
+/* The JS drives a clip-path circle on the new snapshot; disable the default
+   cross-fade so the old theme stays fully visible under the growing circle. */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
 }
 
 /* ── Smooth scroll (Lenis) ───────────────────────── */

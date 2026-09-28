@@ -39,6 +39,10 @@ npm run test:e2e      # playwright (nav + contact form smoke tests)
 npm run check          # typecheck + lint + format:check + test, all in one
 ```
 
+## Adding your photo
+
+Save a photo as `public/images/portrait.jpg` (roughly square, at least 800px wide). It appears on the swingable ID badge in the About section. Until the file exists, the badge shows your initials instead. To use a different filename, change `photo` in `content/profile.ts`.
+
 ## Editing content
 
 All portfolio content lives in `/content` as typed TypeScript files, each validated against a Zod schema in `content/schemas.ts` at import time — **the app throws immediately on invalid content**, so a typo in a required field fails loudly in dev rather than silently rendering blank. You should never need to touch a component to change what's on the page.
