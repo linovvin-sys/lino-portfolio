@@ -19,8 +19,9 @@ const envSchema = z.object({
     z.string().url().default("http://localhost:3000"),
   ),
 
-  // AI (optional — chat feature degrades gracefully)
-  ANTHROPIC_API_KEY: z.preprocess(emptyToUndefined, z.string().min(1).optional()),
+  // AI (optional — the "Ask AI" chat only appears when a key is set)
+  GEMINI_API_KEY: z.preprocess(emptyToUndefined, z.string().min(1).optional()),
+  GEMINI_MODEL: z.preprocess(emptyToUndefined, z.string().min(1).default("gemini-2.5-flash")),
 
   // Email (optional — contact form degrades gracefully)
   RESEND_API_KEY: z.preprocess(emptyToUndefined, z.string().min(1).optional()),

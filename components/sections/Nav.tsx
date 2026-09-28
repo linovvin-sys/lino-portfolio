@@ -19,7 +19,12 @@ function initials(name: string) {
   return ((parts[0]?.[0] ?? '') + (surname?.[0] ?? '')).toUpperCase();
 }
 
-export function Nav() {
+interface NavProps {
+  /** Show the "Ask AI" button (only when the chat has an API key configured) */
+  chatEnabled?: boolean;
+}
+
+export function Nav({ chatEnabled = false }: NavProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMac, setIsMac] = useState(true);
@@ -130,17 +135,19 @@ export function Nav() {
           </ul>
 
           <div className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={openPalette}
-              className="hidden h-9 items-center gap-2 rounded-full border border-[var(--color-rule)] bg-[var(--color-surface)] pl-3 pr-1.5 text-sm text-[var(--color-fg)] shadow-[var(--shadow-card)] transition-[border-color,transform] duration-[var(--dur-fast)] ease-[var(--ease-out)] hover:border-[color-mix(in_oklab,var(--color-fg)_25%,var(--color-rule))] active:scale-[0.97] md:inline-flex"
-            >
-              <Sparkle className="h-3.5 w-3.5 text-[var(--color-accent)]" />
-              Ask AI
-              <kbd className="ml-1 rounded-full bg-[var(--color-subtle)] px-2 py-0.5 font-mono text-[11px] text-[var(--color-muted)]">
-                {isMac ? '⌘K' : 'Ctrl K'}
-              </kbd>
-            </button>
+            {chatEnabled && (
+              <button
+                type="button"
+                onClick={openPalette}
+                className="hidden h-9 items-center gap-2 rounded-full border border-[var(--color-rule)] bg-[var(--color-surface)] pl-3 pr-1.5 text-sm text-[var(--color-fg)] shadow-[var(--shadow-card)] transition-[border-color,transform] duration-[var(--dur-fast)] ease-[var(--ease-out)] hover:border-[color-mix(in_oklab,var(--color-fg)_25%,var(--color-rule))] active:scale-[0.97] md:inline-flex"
+              >
+                <Sparkle className="h-3.5 w-3.5 text-[var(--color-accent)]" />
+                Ask AI
+                <kbd className="ml-1 rounded-full bg-[var(--color-subtle)] px-2 py-0.5 font-mono text-[11px] text-[var(--color-muted)]">
+                  {isMac ? '⌘K' : 'Ctrl K'}
+                </kbd>
+              </button>
+            )}
             <ThemeToggle />
             <button
               type="button"
@@ -176,14 +183,16 @@ export function Nav() {
               </li>
             ))}
           </ul>
-          <button
-            type="button"
-            onClick={openPalette}
-            className="mt-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-[var(--color-rule)] bg-[var(--color-surface)] text-sm font-medium text-[var(--color-fg)] active:scale-[0.98]"
-          >
-            <Sparkle className="h-3.5 w-3.5 text-[var(--color-accent)]" />
-            Ask my AI assistant
-          </button>
+          {chatEnabled && (
+            <button
+              type="button"
+              onClick={openPalette}
+              className="mt-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-[var(--color-rule)] bg-[var(--color-surface)] text-sm font-medium text-[var(--color-fg)] active:scale-[0.98]"
+            >
+              <Sparkle className="h-3.5 w-3.5 text-[var(--color-accent)]" />
+              Ask my AI assistant
+            </button>
+          )}
         </Container>
       </div>
     </header>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Nav } from '@/components/sections/Nav';
+import { env } from '@/lib/env';
 import { Footer } from '@/components/sections/Footer';
 import { CommandPalette } from '@/components/sections/CommandPalette';
 import { SkipLink } from '@/components/ui/SkipLink';
@@ -16,11 +17,12 @@ interface PageShellProps {
 
 /** Shared chrome for secondary pages: same nav, back link, container and footer as the home page. */
 export function PageShell({ children, back, size = 'default' }: PageShellProps) {
+  const chatEnabled = Boolean(env.GEMINI_API_KEY);
   return (
     <>
       <SkipLink />
-      <Nav />
-      <CommandPalette />
+      <Nav chatEnabled={chatEnabled} />
+      {chatEnabled && <CommandPalette />}
       <SmoothScroll />
       <ScrollProgress />
       <main id="main" className="pb-24 pt-[calc(var(--nav-height)+48px)] md:pb-32 md:pt-[calc(var(--nav-height)+72px)]">

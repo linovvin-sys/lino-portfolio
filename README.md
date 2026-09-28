@@ -21,7 +21,8 @@ All of these are optional — features that need a missing key degrade to a clea
 | Variable | Used for |
 |---|---|
 | `NEXT_PUBLIC_SITE_URL` | Canonical URL for metadata, OG tags, sitemap, robots.txt |
-| `ANTHROPIC_API_KEY` | The Cmd/Ctrl+K "Ask me" agent (`/api/chat`) |
+| `GEMINI_API_KEY` | The Cmd/Ctrl+K "Ask AI" chat (`/api/chat`), powered by Google Gemini. The button is hidden when this is unset |
+| `GEMINI_MODEL` | Optional Gemini model override (default `gemini-2.5-flash`) |
 | `RESEND_API_KEY`, `CONTACT_EMAIL` | The contact form's email delivery (server action in `app/actions/contact.ts`) |
 | `NEXT_PUBLIC_VERCEL_ANALYTICS_ID` | Vercel Analytics |
 | `CHAT_RATE_LIMIT_PER_MINUTE`, `CONTACT_RATE_LIMIT_PER_HOUR` | In-memory rate limiting for the chat route and contact form |
