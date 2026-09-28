@@ -1,6 +1,6 @@
 import { profileSchema } from './schemas';
 
-/* PLACEHOLDER: GitHub, LinkedIn, X and calendar links are unverified — swap for real links before launch */
+/* Add `x` or `calendar` here if you want those links to appear; they're hidden when unset. */
 const data = {
   name: 'Lino Vincent G. Dela Cruz',
   title: 'Aspiring Network DevOps Engineer',
@@ -17,12 +17,10 @@ const data = {
     message: 'Open to OJT and internship opportunities',
   },
   links: {
-    github: 'https://github.com/placeholder',
-    linkedin: 'https://linkedin.com/in/placeholder',
-    x: 'https://x.com/placeholder',
+    github: 'https://github.com/linovvin-sys',
+    linkedin: 'https://www.linkedin.com/in/lino-dela-cruz-7b9584421',
     email: 'linovincentdelacruz@gmail.com',
     resume: '/resume',
-    calendar: 'https://cal.com/placeholder',
   },
   principles: [
     { title: 'Learn by building', description: 'Every concept sticks better once I’ve used it in a real project.' },
