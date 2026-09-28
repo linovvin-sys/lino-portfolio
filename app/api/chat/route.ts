@@ -1,4 +1,4 @@
-import { anthropic } from '@ai-sdk/anthropic';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { streamText } from 'ai';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -43,7 +43,7 @@ function isRateLimited(ip: string): boolean {
 }
 
 export async function POST(req: NextRequest) {
-  if (!env.ANTHROPIC_API_KEY) {
+  if (!env.GEMINI_API_KEY) {
     return NextResponse.json({ error: 'AI service not configured.' }, { status: 503 });
   }
 
@@ -72,16 +72,22 @@ Context:
 ${contextBlock}`;
 
   try {
+    const google = createGoogleGenerativeAI({ apiKey: env.GEMINI_API_KEY });
     const result = streamText({
-      model: anthropic('claude-3-5-haiku-20241022'),
+      model: google(env.GEMINI_MODEL),
       system: systemPrompt,
       messages,
       maxTokens: 500,
     });
 
     const response = result.toDataStreamResponse();
-    response.headers.set('X-Chat-Sources', JSON.stringify(sources.map((s) => ({ title: s.title, url: s.url }))));
-    response.headers.set('X-Chat-Model', 'claude-3-5-haiku-20241022');
+    // Header values must be ASCII: escape anything else (e.g. curly quotes) as \uXXXX, which JSON.parse restores
+    const sourcesJson = JSON.stringify(sources.map((s) => ({ title: s.title, url: s.url }))).replace(
+      /[^\x20-\x7e]/g,
+      (c) => `\\u${c.charCodeAt(0).toString(16).padStart(4, '0')}`,
+    );
+    response.headers.set('X-Chat-Sources', sourcesJson);
+    response.headers.set('X-Chat-Model', env.GEMINI_MODEL);
     return response;
   } catch (error) {
     console.error('Chat API Error:', error);

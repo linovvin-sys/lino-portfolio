@@ -25,5 +25,7 @@ export default defineConfig({
     command: "npm run dev",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env["CI"],
+    // The "Ask AI" chat only renders when a key is set; the tests open it but never send a message
+    env: { GEMINI_API_KEY: process.env["GEMINI_API_KEY"] ?? "e2e-placeholder-key" },
   },
 });
