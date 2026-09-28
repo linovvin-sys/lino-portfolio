@@ -1,10 +1,9 @@
 import { profile } from '@/content/profile';
-import { capabilities } from '@/content/capabilities';
 import { Section } from '@/components/ui/Section';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { AvailabilityDot } from '@/components/ui/AvailabilityDot';
 import { formatIndex } from '@/lib/utils';
-import { UptimeBars } from '@/components/network/UptimeBars';
+import { roadmap } from '@/content/roadmap';
 
 interface AboutProps {
   id?: string;
@@ -12,14 +11,15 @@ interface AboutProps {
 
 export function About({ id }: AboutProps) {
   const facts = [
-    { label: 'Role', value: profile.title },
+    { label: 'Currently', value: '3rd-year B.S. Information Technology' },
+    { label: 'Aiming for', value: profile.title.replace('Aspiring ', '') },
     { label: 'Based in', value: profile.location },
-    { label: 'Focus', value: capabilities.slice(0, 3).map((c) => c.title).join(', ') },
+    { label: 'Focus', value: 'Networking, DevOps and full-stack development' },
   ];
 
   return (
-    <Section id={id} tone="surface">
-      <SectionHeader index={9} eyebrow="About" title="Network fundamentals, software discipline." />
+    <Section id={id}>
+      <SectionHeader index={8} eyebrow="About" title="Curious about how it all connects." />
 
       <div className="mt-14 grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-14 md:mt-20">
         <div className="col-span-12 lg:col-span-7">
@@ -28,7 +28,7 @@ export function About({ id }: AboutProps) {
           </p>
 
           <div data-reveal className="mt-14">
-            <h3 className="eyebrow">Operating principles</h3>
+            <h3 className="eyebrow">How I work</h3>
             <ol className="mt-5 border-t border-[var(--color-rule)]">
               {profile.principles.map((principle, i) => (
                 <li
@@ -49,7 +49,7 @@ export function About({ id }: AboutProps) {
         </div>
 
         <aside data-reveal className="col-span-12 lg:col-span-4 lg:col-start-9">
-          <div className="rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-bg)] p-6 md:p-7 lg:sticky lg:top-[calc(var(--nav-height)+32px)]">
+          <div className="rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-card)] md:p-7 lg:sticky lg:top-[calc(var(--nav-height)+32px)]">
             <div className="flex items-center gap-2.5 text-sm text-[var(--color-fg)]">
               <AvailabilityDot status={profile.availability.status} />
               {profile.availability.message}
@@ -62,7 +62,24 @@ export function About({ id }: AboutProps) {
                 </div>
               ))}
             </dl>
-            <UptimeBars className="mt-6" />
+            <div className="mt-6">
+              <p className="eyebrow">Learning right now</p>
+              <ul className="mt-3 flex flex-wrap gap-1.5">
+                {roadmap
+                  .filter((stage) => stage.status === 'in-progress')
+                  .flatMap((stage) => stage.items.filter((item) => !item.done))
+                  .slice(0, 5)
+                  .map((item) => (
+                    <li
+                      key={item.name}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-[var(--color-rule)] bg-[var(--color-bg)] px-2.5 py-1 text-[12px] text-[var(--color-fg)]"
+                    >
+                      <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]" aria-hidden="true" />
+                      {item.name}
+                    </li>
+                  ))}
+              </ul>
+            </div>
             <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 border-t border-[var(--color-rule)] pt-5 text-sm">
               {[
                 { label: 'GitHub', href: profile.links.github },

@@ -12,9 +12,9 @@ export function Capabilities({ id }: CapabilitiesProps) {
     <Section id={id} tone="surface">
       <SectionHeader
         index={2}
-        eyebrow="Capabilities"
-        title="From packets to pipelines."
-        subtitle="Deep networking fundamentals, plus the software practices to automate them."
+        eyebrow="Skills"
+        title="What I work with."
+        subtitle="The languages, frameworks and tools I’ve used in real projects, and the networking skills I’m building next."
       />
 
       <div className="mt-14 border-t border-[var(--color-rule)] md:mt-20">

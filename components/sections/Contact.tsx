@@ -15,7 +15,7 @@ interface ContactProps {
 }
 
 const fieldClass =
-  'mt-2 block w-full rounded-[var(--radius-md)] border border-[var(--color-rule)] bg-[var(--color-surface)] px-4 py-3 text-[15px] text-[var(--color-fg)] ' +
+  'mt-2 block w-full rounded-[var(--radius-md)] border border-[var(--color-rule)] bg-[var(--color-bg)] px-4 py-3 text-[15px] text-[var(--color-fg)] ' +
   'placeholder:text-[color-mix(in_oklab,var(--color-muted)_70%,transparent)] transition-[border-color,box-shadow] duration-[var(--dur-fast)] ' +
   'focus:border-[var(--color-fg)] focus:outline-none focus:ring-4 focus:ring-[color-mix(in_oklab,var(--color-fg)_8%,transparent)] ' +
   'aria-[invalid=true]:border-[var(--color-accent)]';
@@ -49,19 +49,19 @@ export function Contact({ id }: ContactProps) {
   });
 
   return (
-    <Section id={id} tone="surface">
+    <Section id={id}>
       <div className="grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-14">
         <div data-reveal className="col-span-12 flex flex-col lg:col-span-5">
           <p className="eyebrow flex items-center gap-3">
-            <span className="text-[var(--color-accent)]">{formatIndex(11)}</span>
+            <span className="text-[var(--color-accent)]">{formatIndex(10)}</span>
             <span aria-hidden="true" className="h-px w-6 bg-[var(--color-rule)]" />
             <span>Contact</span>
           </p>
           <h2 className="font-display mt-5 text-[clamp(2.75rem,2rem+3vw,4.5rem)] leading-[1] text-[var(--color-fg)]">
-            Let&apos;s build something that ships.
+            Let&apos;s build something together.
           </h2>
           <p className="mt-6 max-w-md text-[length:var(--text-md)] leading-relaxed text-[var(--color-muted)]">
-            Tell me about the problem, the constraints and the timeline. I usually reply within 24 hours.
+            Internships, OJT, projects or just talking networking and DevOps. I usually reply within a day.
           </p>
 
           <div className="mt-10 flex flex-col gap-4 border-t border-[var(--color-rule)] pt-8">
@@ -93,7 +93,7 @@ export function Contact({ id }: ContactProps) {
           style={{ ['--reveal-delay' as string]: '80ms' }}
           className="col-span-12 lg:col-span-6 lg:col-start-7"
         >
-          <div className="rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-bg)] p-6 shadow-[var(--shadow-card)] sm:p-8">
+          <div className="rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-card)] sm:p-8">
             {state.success ? (
               <div className="flex min-h-[380px] flex-col items-center justify-center text-center" role="status">
                 <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-fg)] text-[var(--color-bg)]">

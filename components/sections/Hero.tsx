@@ -13,7 +13,6 @@ import { Terminal, type TerminalLine } from '@/components/network/Terminal';
 import { useLocalTime } from '@/hooks/useLocalTime';
 import { profile } from '@/content/profile';
 import { metricsStrip } from '@/content/metrics';
-import { projects } from '@/content/projects';
 import { cn } from '@/lib/utils';
 
 interface HeroProps {
@@ -22,14 +21,30 @@ interface HeroProps {
 
 /** Plays once on load: a deploy run, a health check, then a hint to interact. */
 const BOOT: Omit<TerminalLine, 'id'>[] = [
-  { text: 'ansible-playbook fabric.yml --limit spine,leaf', tone: 'command' },
-  { text: 'PLAY RECAP  spine-01..leaf-04  ok=84  changed=6  failed=0', tone: 'ok' },
-  { text: 'show bgp evpn summary | count Established', tone: 'command' },
-  { text: '8/8 sessions Established · fabric healthy', tone: 'ok' },
+  { text: 'ping -c 3 10.42.1.10', tone: 'command' },
+  { text: '3 packets transmitted, 3 received, 0% packet loss', tone: 'ok' },
+  { text: 'show ip interface brief | include up', tone: 'command' },
+  { text: '8 interfaces up/up · network healthy', tone: 'ok' },
   { text: '# hover the map · click a spine or edge to fail it · click a server to ping', tone: 'muted' },
 ];
 
-const STACK = Array.from(new Set(projects.flatMap((p) => p.stack)));
+const STACK = [
+  'Bootstrap',
+  'Tailwind CSS',
+  'React',
+  'Next.js',
+  'TypeScript',
+  'PHP',
+  'Java',
+  'Python',
+  'MySQL',
+  'Docker',
+  'GitHub Actions',
+  'Git',
+  'GitHub',
+  'Linux',
+  'Cisco Packet Tracer',
+];
 
 /** Split the name into two balanced lines for the masked line-by-line intro. */
 function nameLines(name: string) {
@@ -127,7 +142,7 @@ export function Hero({ id }: HeroProps) {
           <figure style={delay(300)} className="animate-rise-in col-span-12 lg:col-span-5">
             <div className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-surface)] shadow-[var(--shadow-card)]">
               <div className="flex items-center justify-between border-b border-[var(--color-rule)] px-5 py-3">
-                <span className="eyebrow">Fig. 01 — Live fabric</span>
+                <span className="eyebrow">Fig. 01 — Network lab</span>
                 <span
                   className={cn(
                     'inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors duration-300',
@@ -146,7 +161,7 @@ export function Hero({ id }: HeroProps) {
               <Terminal lines={lines} rows={5} />
             </div>
             <figcaption className="mt-3 text-[13px] text-[var(--color-muted)]">
-              A spine-leaf fabric like the ones I automate. Break something. The network routes around it.
+              A small data-center network like the ones I’m learning to build. Break something and watch it route around the failure.
             </figcaption>
           </figure>
         </div>

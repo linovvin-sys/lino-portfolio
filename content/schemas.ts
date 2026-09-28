@@ -131,7 +131,7 @@ export const experienceSchema = z.object({
   company: z.string(),
   role: z.string(),
   location: z.string(),
-  type: z.enum(["full-time", "contract", "freelance", "research"]),
+  type: z.enum(["full-time", "contract", "freelance", "research", "academic", "self-study"]),
   period: dateRangeSchema,
   description: z.string(),
   impacts: z.array(z.object({
@@ -182,6 +182,8 @@ export const testimonialSchema = z.object({
   role: z.string(),
   company: z.string(),
   relationship: z.string().optional(),
+  /** Link to the person's own portfolio or profile */
+  url: z.string().url().optional(),
   featured: z.boolean().default(false),
 });
 
@@ -207,6 +209,18 @@ export const labExperimentSchema = z.object({
 });
 
 export const labListSchema = z.array(labExperimentSchema).min(1);
+
+/* ── Learning roadmap ────────────────────────────── */
+
+export const roadmapStageSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  status: z.enum(["done", "in-progress", "next"]),
+  summary: z.string(),
+  items: z.array(z.object({ name: z.string(), done: z.boolean() })).min(1),
+});
+
+export const roadmapSchema = z.array(roadmapStageSchema).min(1);
 
 /* ── Education ───────────────────────────────────── */
 
@@ -258,6 +272,7 @@ export type OSSProject = z.infer<typeof ossProjectSchema>;
 export type Testimonial = z.infer<typeof testimonialSchema>;
 export type LabExperiment = z.infer<typeof labExperimentSchema>;
 export type Education = z.infer<typeof educationSchema>;
+export type RoadmapStage = z.infer<typeof roadmapStageSchema>;
 export type Certification = z.infer<typeof certificationSchema>;
 export type Metric = z.infer<typeof metricSchema>;
 export type NavItem = z.infer<typeof navItemSchema>;

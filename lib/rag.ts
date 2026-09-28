@@ -2,7 +2,7 @@ import { profile } from '@/content/profile';
 import { experience } from '@/content/experience';
 import { capabilities } from '@/content/capabilities';
 import { projects } from '@/content/projects';
-import { writing } from '@/content/writing';
+import { roadmap } from '@/content/roadmap';
 import { getAllCaseStudies } from '@/lib/case-studies';
 
 export interface RagDocument {
@@ -60,13 +60,18 @@ function buildCorpus(): RagDocument[] {
     });
   }
 
-  for (const item of writing) {
+  for (const stage of roadmap) {
     docs.push({
-      id: `writing-${item.id}`,
-      title: item.title,
-      section: 'Research, Writing & Talks',
-      url: '/#research',
-      text: [item.description, item.venue ?? ''].join(' '),
+      id: `roadmap-${stage.id}`,
+      title: `Roadmap: ${stage.title}`,
+      section: 'Roadmap',
+      url: '/#roadmap',
+      text: [
+        `${stage.title} (${stage.status}).`,
+        stage.summary,
+        `Done: ${stage.items.filter((i) => i.done).map((i) => i.name).join(', ') || 'none yet'}.`,
+        `Still learning: ${stage.items.filter((i) => !i.done).map((i) => i.name).join(', ') || 'nothing'}.`,
+      ].join(' '),
     });
   }
 

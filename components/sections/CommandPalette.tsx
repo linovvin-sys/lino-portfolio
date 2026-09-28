@@ -12,9 +12,9 @@ interface Source {
 }
 
 const SUGGESTED_PROMPTS = [
-  'What is your automation stack?',
-  'How do you roll out network changes safely?',
-  'Where did you work previously?',
+  'What projects have you built?',
+  'What is your tech stack?',
+  'What are you learning right now?',
 ];
 
 export function CommandPalette() {

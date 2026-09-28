@@ -1,0 +1,63 @@
+---
+slug: "enrollment-lms"
+title: "Enrollment Management System + LMS"
+subtitle: "Online enrollment, class sections and a learning management system in one platform"
+category: "Web application"
+year: "2025"
+role: "Full-stack developer"
+duration: "One semester"
+stack:
+  - "Next.js"
+  - "React"
+  - "TypeScript"
+  - "Tailwind CSS"
+  - "MySQL"
+problem: "Enrollment was handled with paper forms and long lines, and class materials were scattered across group chats. Students, registrars and teachers needed one place to handle enrollment and classes."
+constraints:
+  - "Three user roles with different permissions: student, registrar and teacher"
+  - "Prevent enrolling in full sections or conflicting schedules"
+  - "Works well on phones, since most students enroll from mobile"
+  - "Teachers must be able to post lessons and grades without technical help"
+outcome: "Students can enroll online and track their status, registrars approve enrollments and assign sections from a dashboard, and teachers manage lessons, activities and grades in the built-in LMS."
+metrics:
+  - label: "Type"
+    value: "Web app"
+  - label: "User roles"
+    value: "3"
+  - label: "Frontend"
+    value: "Next.js"
+  - label: "Database"
+    value: "MySQL"
+published: true
+---
+
+{/* PLACEHOLDER — Confirm the stack and details below, and add screenshots or a demo link if you have them. */}
+
+## Features
+
+### Enrollment
+
+- Online enrollment form with required documents
+- Registrar dashboard to review, approve or reject enrollments
+- Section assignment with capacity checks, so full sections can't be over-enrolled
+
+### Learning management
+
+- Teachers create classes, post lessons and upload materials
+- Students see their classes, lessons and announcements in one place
+- Grades are recorded by teachers and visible to each student
+
+## How it's built
+
+| Part | Technology |
+|------|------------|
+| Frontend | Next.js, React, TypeScript, Tailwind CSS |
+| Backend | Next.js API routes |
+| Database | MySQL |
+| Access control | Role-based permissions |
+
+## What I learned
+
+- Designing a relational schema for students, sections, subjects and grades
+- Role-based access control, and why every check must happen on the server
+- Building reusable, typed components with React and TypeScript

@@ -14,9 +14,9 @@ export function SelectedWork({ id }: SelectedWorkProps) {
     <Section id={id}>
       <SectionHeader
         index={1}
-        eyebrow="Selected work"
-        title="Infrastructure that ships, measured by outcomes."
-        subtitle="Four case studies across network automation, infrastructure as code, observability and platform delivery, each with the constraints and numbers behind it."
+        eyebrow="Projects"
+        title="Things I’ve built."
+        subtitle="From my AR + AI capstone to full-stack school systems in PHP, Java, Python and Next.js. Each one taught me something new."
       />
 
       <ul className="group/list mt-14 border-t border-[var(--color-rule)] md:mt-20">

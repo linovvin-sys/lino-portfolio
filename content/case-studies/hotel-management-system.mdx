@@ -1,0 +1,59 @@
+---
+slug: "hotel-management-system"
+title: "Hotel Management System"
+subtitle: "Room booking, check-in/check-out and billing, built with native PHP and Bootstrap"
+category: "Web application"
+year: "2025"
+role: "Full-stack developer"
+duration: "School project"
+stack:
+  - "PHP"
+  - "Bootstrap"
+  - "MySQL"
+  - "JavaScript"
+problem: "Small hotels often track rooms and reservations in notebooks or spreadsheets, which leads to double bookings, lost records and slow check-outs."
+constraints:
+  - "Native PHP only, no framework"
+  - "Must prevent double-booking the same room for overlapping dates"
+  - "Front-desk staff need a simple, fast interface"
+  - "Runs locally on XAMPP (Apache + MySQL)"
+outcome: "Front-desk staff can see which rooms are available, create reservations, check guests in and out, and generate a bill at check-out, with all data stored in MySQL."
+metrics:
+  - label: "Type"
+    value: "Web app"
+  - label: "Backend"
+    value: "Native PHP"
+  - label: "UI"
+    value: "Bootstrap"
+  - label: "Database"
+    value: "MySQL"
+published: true
+---
+
+{/* PLACEHOLDER — Confirm the details below and add screenshots or a demo link if you have them. */}
+
+## Features
+
+- **Room management**: add rooms, set types and rates, and see live availability
+- **Reservations**: book a room for a date range, with overlap checks to prevent double bookings
+- **Check-in / check-out**: record guest arrivals and departures
+- **Billing**: compute the total from the room rate and number of nights
+- **Login**: staff accounts protected with sessions and hashed passwords
+
+## How it's built
+
+The app is written in native PHP with Bootstrap for the interface. Pages talk to MySQL through prepared statements to keep queries safe from SQL injection.
+
+```php
+$stmt = $conn->prepare(
+  "SELECT COUNT(*) FROM reservations
+   WHERE room_id = ? AND check_in < ? AND check_out > ?"
+);
+$stmt->bind_param("iss", $roomId, $checkOut, $checkIn);
+```
+
+## What I learned
+
+- Structuring a PHP project without a framework: includes, sessions and form handling
+- Writing safe SQL with prepared statements
+- Building responsive layouts quickly with Bootstrap's grid and components

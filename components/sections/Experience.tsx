@@ -16,8 +16,8 @@ export function Experience({ id }: ExperienceProps) {
     <Section id={id}>
       <SectionHeader
         index={4}
-        eyebrow="Experience"
-        title="From the NOC to Network DevOps."
+        eyebrow="Journey"
+        title="Where I am so far."
         action={
           profile.links.resume ? (
             <Button href={profile.links.resume} variant="secondary">

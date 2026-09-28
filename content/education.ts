@@ -1,40 +1,40 @@
 import { educationListSchema, certificationsSchema } from './schemas';
 
-/* PLACEHOLDER: replace the institution, years and certifications with your real ones */
+/* Networking certifications. Update `date` as you progress: 'In progress' → 'Up next' → the year you earned it. */
 const degreeData = [
   {
-    id: 'bs-computer-engineering',
-    institution: '[Your University]',
-    degree: 'B.S. Computer Engineering',
-    field: 'Computer Networks',
-    period: { start: '2013', end: '2017' },
+    id: 'bs-information-technology',
+    institution: 'National College of Science and Technology',
+    degree: 'B.S. Information Technology',
+    field: '3rd year',
+    period: { start: '2024', end: '2028 (expected)' },
   },
 ];
 
 const certificationData = [
   {
-    id: 'ccnp-enterprise',
-    name: 'Cisco Certified Network Professional (CCNP) Enterprise',
+    id: 'netacad-networking-basics',
+    name: 'Cisco NetAcad: Networking Basics',
+    issuer: 'Cisco Networking Academy',
+    date: 'In progress',
+  },
+  {
+    id: 'netacad-itn',
+    name: 'CCNA: Introduction to Networks',
+    issuer: 'Cisco Networking Academy',
+    date: 'In progress',
+  },
+  {
+    id: 'netacad-srwe',
+    name: 'CCNA: Switching, Routing & Wireless Essentials',
+    issuer: 'Cisco Networking Academy',
+    date: 'Up next',
+  },
+  {
+    id: 'ccna',
+    name: 'Cisco Certified Network Associate (CCNA)',
     issuer: 'Cisco',
-    date: '2022',
-  },
-  {
-    id: 'cka',
-    name: 'Certified Kubernetes Administrator (CKA)',
-    issuer: 'Cloud Native Computing Foundation',
-    date: '2023',
-  },
-  {
-    id: 'aws-advanced-networking',
-    name: 'AWS Certified Advanced Networking – Specialty',
-    issuer: 'Amazon Web Services',
-    date: '2023',
-  },
-  {
-    id: 'terraform-associate',
-    name: 'HashiCorp Certified: Terraform Associate',
-    issuer: 'HashiCorp',
-    date: '2024',
+    date: 'Goal',
   },
 ];
 

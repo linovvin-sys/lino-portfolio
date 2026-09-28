@@ -1,0 +1,58 @@
+---
+slug: "inventory-management-system"
+title: "Inventory Management System"
+subtitle: "Stock tracking, low-stock alerts and simple reports in Python"
+category: "Desktop application"
+year: "2024"
+role: "Developer"
+duration: "School project"
+stack:
+  - "Python"
+  - "Tkinter"
+  - "MySQL"
+problem: "Stock levels were tracked by hand, so items ran out without warning and nobody could easily tell what came in or went out."
+constraints:
+  - "Simple enough for non-technical staff"
+  - "Every stock movement must be recorded"
+  - "Warn before items run out"
+  - "Quick summary reports"
+outcome: "Staff can add products, record stock in and stock out, see low-stock warnings right away, and view simple inventory reports."
+metrics:
+  - label: "Type"
+    value: "Desktop app"
+  - label: "Language"
+    value: "Python"
+  - label: "UI"
+    value: "Tkinter"
+  - label: "Database"
+    value: "MySQL"
+published: true
+---
+
+{/* PLACEHOLDER — Confirm the stack and details below and add screenshots if you have them. */}
+
+## Features
+
+- **Products**: add, edit and search items with category, price and quantity
+- **Stock in / stock out**: every movement is recorded with date and quantity
+- **Low-stock alerts**: items below their reorder level are highlighted
+- **Reports**: current stock value and recent movements
+
+## How it's built
+
+A Python desktop app with a Tkinter interface and a MySQL database. Stock changes are written as movement records, and the current quantity is always derived from them, so the history and the totals can't disagree.
+
+```python
+def low_stock(cursor):
+    cursor.execute(
+        "SELECT name, quantity, reorder_level FROM products "
+        "WHERE quantity <= reorder_level ORDER BY quantity"
+    )
+    return cursor.fetchall()
+```
+
+## What I learned
+
+- Organizing a Python project into modules for UI, data access and logic
+- Designing tables for products and stock movements
+- Validating user input so bad data never reaches the database

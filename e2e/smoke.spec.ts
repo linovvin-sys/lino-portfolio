@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test.describe("Navigation", () => {
   test("should load the home page", async ({ page }) => {
     await page.goto("/");
-    await expect(page).toHaveTitle(/Network DevOps Engineer/);
+    await expect(page).toHaveTitle(/Network DevOps/);
   });
 
   test("should navigate to work page", async ({ page }) => {

@@ -9,9 +9,9 @@ interface LabProps {
 
 export function Lab({ id }: LabProps) {
   return (
-    <Section id={id} tone="surface">
+    <Section id={id}>
       <SectionHeader
-        index={7}
+        index={6}
         eyebrow="Lab"
         title="Tools you can play with."
         subtitle="Interactive networking and platform tools that run entirely in your browser."
@@ -22,7 +22,7 @@ export function Lab({ id }: LabProps) {
           <li key={exp.id} data-reveal style={{ ['--reveal-delay' as string]: `${(i % 3) * 60}ms` }}>
             <a
               href={`/lab/${exp.id}`}
-              className="spotlight group flex h-full flex-col rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-bg)] p-6 transition-[border-color,transform] duration-300 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:border-[color-mix(in_oklab,var(--color-fg)_20%,var(--color-rule))] md:p-7"
+              className="spotlight group flex h-full flex-col rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-card)] transition-[border-color,transform] duration-300 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:border-[color-mix(in_oklab,var(--color-fg)_20%,var(--color-rule))] md:p-7"
             >
               <div className="flex items-center justify-between gap-4">
                 <span className="eyebrow">{exp.category}</span>

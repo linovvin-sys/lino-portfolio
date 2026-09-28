@@ -4,8 +4,7 @@ import { SelectedWork } from '@/components/sections/SelectedWork';
 import { Capabilities } from '@/components/sections/Capabilities';
 import { Workflow } from '@/components/sections/Workflow';
 import { Experience } from '@/components/sections/Experience';
-import { Research } from '@/components/sections/Research';
-import { OpenSource } from '@/components/sections/OpenSource';
+import { Roadmap } from '@/components/sections/Roadmap';
 import { Lab } from '@/components/sections/Lab';
 import { Testimonials } from '@/components/sections/Testimonials';
 import { About } from '@/components/sections/About';
@@ -34,8 +33,7 @@ export default function Home() {
         <Capabilities id="capabilities" />
         <Workflow id="workflow" />
         <Experience id="experience" />
-        <Research id="research" />
-        <OpenSource id="oss" />
+        <Roadmap id="roadmap" />
         <Lab id="lab" />
         <Testimonials id="testimonials" />
         <About id="about" />
@@ -43,7 +41,7 @@ export default function Home() {
         <Contact id="contact" />
       </main>
 
-      <Footer />
+      <Footer bordered />
     </>
   );
 }

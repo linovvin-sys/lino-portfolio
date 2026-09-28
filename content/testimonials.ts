@@ -1,29 +1,39 @@
 import { testimonialsSchema } from './schemas';
 
-/* PLACEHOLDER: names/companies are illustrative until real references are collected */
+/*
+ * PLACEHOLDER: ask your friends/classmates for a short quote, then fill in
+ * their name, what they do, and a link to their portfolio (`url`).
+ * The card links to `url` with a "View portfolio" button when it's set.
+ */
 const data = [
   {
-    id: 'head-of-infra',
-    quote: 'Lino turned our network from the thing everyone was afraid to touch into something we change several times a day. Every change is reviewed, tested and reversible, and outages from changes basically stopped.',
-    author: 'Maria Santos',
-    role: 'Head of Infrastructure',
-    company: 'CloudBridge Systems',
+    id: 'friend-1',
+    quote: 'Lino is the teammate who actually reads the error message. On our projects he set up the database, kept everyone on Git branches, and still found time to help the rest of us debug.',
+    author: '[Friend’s Name]',
+    role: 'IT Student',
+    company: 'National College of Science and Technology',
+    relationship: 'Classmate',
+    url: 'https://example.com',
     featured: true,
   },
   {
-    id: 'sre-lead',
-    quote: 'The observability work was a turning point. We went from finding out about incidents from customers to seeing them coming on a dashboard, with alerts that actually meant something.',
-    author: 'Daniel Reyes',
-    role: 'SRE Lead',
-    company: 'NetCore Solutions',
+    id: 'friend-2',
+    quote: 'Working with Lino on our capstone has been easy. He explains networking and backend concepts clearly, and he’s always excited to try the next tool, whether that’s Docker, AR or a new framework.',
+    author: '[Friend’s Name]',
+    role: 'Frontend Developer',
+    company: 'Capstone teammate',
+    relationship: 'Teammate',
+    url: 'https://example.com',
     featured: true,
   },
   {
-    id: 'platform-manager',
-    quote: 'Rare mix of deep networking knowledge and real software engineering discipline. The platform Lino built lets our developers ship on their own without ever opening a network ticket.',
-    author: 'Angela Cruz',
-    role: 'Platform Engineering Manager',
-    company: 'Pacific Telecom',
+    id: 'friend-3',
+    quote: 'Whenever our labs broke in Packet Tracer, Lino was the one tracing the problem hop by hop. He’s patient, curious, and genuinely likes figuring out how things work.',
+    author: '[Friend’s Name]',
+    role: 'Aspiring Network Engineer',
+    company: 'National College of Science and Technology',
+    relationship: 'Lab partner',
+    url: 'https://example.com',
     featured: true,
   },
 ];

@@ -18,42 +18,42 @@ const STAGES: Stage[] = [
   {
     id: 'plan',
     title: 'Plan',
-    summary: 'Model the change',
-    detail: 'Every change starts in the source of truth. I update NetBox (new interfaces, IPs, BGP peers) and open a merge request, so intent is reviewed before anything is rendered.',
-    command: 'git switch -c change/add-spine-03',
-    output: [{ text: 'netbox: +1 device  +6 interfaces  +6 prefixes', tone: 'muted' }, { text: 'merge request !482 opened for review', tone: 'ok' }],
+    summary: 'Break it down',
+    detail: 'I start from the requirements, sketch the database schema, and split the work into small GitHub issues so every change has a clear goal.',
+    command: 'gh issue create -t "Room booking module"',
+    output: [{ text: 'schema: rooms, guests, reservations', tone: 'muted' }, { text: 'issue #12 created', tone: 'ok' }],
   },
   {
     id: 'build',
     title: 'Build',
-    summary: 'Render configs',
-    detail: 'Templates turn source-of-truth data into full device configs. The pipeline renders every affected device and posts a line-by-line diff on the merge request.',
-    command: 'nornir render --changed --site mnl1',
-    output: [{ text: 'rendered 7 configs (spine-03, leaf-01..04, edge-01..02)', tone: 'muted' }, { text: 'diff: +42 −3 lines posted to !482', tone: 'ok' }],
+    summary: 'Code on a branch',
+    detail: 'Each feature gets its own Git branch. I commit in small steps and open a pull request, so main always stays working.',
+    command: 'git switch -c feature/room-booking',
+    output: [{ text: 'modified: booking.php  rooms.sql', tone: 'muted' }, { text: 'pull request #13 opened', tone: 'ok' }],
   },
   {
-    id: 'validate',
-    title: 'Validate',
-    summary: 'Prove it is safe',
-    detail: 'Linting, policy checks and Batfish analysis run against the candidate configs, catching routing loops, ACL mistakes and unreachable prefixes before a device is touched.',
-    command: 'batfish verify --reachability --bgp-sessions',
-    output: [{ text: 'reachability: 1,284/1,284 flows ok', tone: 'muted' }, { text: '✓ 0 loops · 0 blackholes · 8/8 BGP sessions', tone: 'ok' }],
+    id: 'test',
+    title: 'Test',
+    summary: 'CI checks every push',
+    detail: 'A GitHub Actions pipeline builds the app and runs linting and tests on every push. If anything fails, the pull request can’t be merged.',
+    command: 'github actions › ci.yml',
+    output: [{ text: 'install ✓  lint ✓  build ✓  tests ✓', tone: 'muted' }, { text: '✓ all checks passed', tone: 'ok' }],
   },
   {
     id: 'deploy',
     title: 'Deploy',
-    summary: 'Roll out in waves',
-    detail: 'A canary first, then waves of 10%, each wrapped in pre- and post-checks. If a check fails, that wave rolls back automatically and the pipeline stops.',
-    command: 'ansible-playbook deploy.yml --limit wave_1',
-    output: [{ text: 'canary spine-03 ✓  wave_1 (4 hosts) ✓', tone: 'muted' }, { text: 'PLAY RECAP ok=96 changed=7 failed=0', tone: 'ok' }],
+    summary: 'Ship in a container',
+    detail: 'The app and its database run in Docker containers, so it behaves the same on my laptop, a classmate’s laptop and the server.',
+    command: 'docker compose up -d --build',
+    output: [{ text: 'container hotel-db   Started', tone: 'muted' }, { text: 'container hotel-app  Started', tone: 'ok' }],
   },
   {
-    id: 'observe',
-    title: 'Observe',
-    summary: 'Confirm with data',
-    detail: 'Streaming telemetry and SLO dashboards confirm the change did what it should. Alerts watch error budgets for the next hour before the change is closed.',
-    command: 'promql: sum(bgp_session_up{fabric="mnl1"})',
-    output: [{ text: '14 → 16 sessions up · p95 latency 0.42 ms (−3%)', tone: 'muted' }, { text: '✓ SLO healthy · change !482 closed', tone: 'ok' }],
+    id: 'verify',
+    title: 'Verify',
+    summary: 'Check it’s healthy',
+    detail: 'After a deploy I check that the app responds and read the logs. This is the habit I want to grow into real monitoring as a Network DevOps engineer.',
+    command: 'curl -I http://localhost:8080',
+    output: [{ text: 'HTTP/1.1 200 OK', tone: 'muted' }, { text: '✓ deploy healthy', tone: 'ok' }],
   },
 ];
 
@@ -99,8 +99,8 @@ export function Workflow({ id }: WorkflowProps) {
       <SectionHeader
         index={3}
         eyebrow="Workflow"
-        title="How a network change ships."
-        subtitle="The same pipeline I build for teams: every change is modelled, rendered, validated, rolled out in waves and verified with data."
+        title="How I build and ship."
+        subtitle="The workflow I use on my projects: plan, branch, let CI check it, ship it in Docker and verify it works."
         action={
           <button
             type="button"

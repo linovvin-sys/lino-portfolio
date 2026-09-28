@@ -1,31 +1,31 @@
 import { profileSchema } from './schemas';
 
-/* PLACEHOLDER: social URLs, email and calendar link are unverified — swap for real links before launch */
+/* PLACEHOLDER: GitHub, LinkedIn, X and calendar links are unverified — swap for real links before launch */
 const data = {
   name: 'Lino Vincent G. Dela Cruz',
-  title: 'Network DevOps Engineer',
+  title: 'Aspiring Network DevOps Engineer',
   location: 'Cavite, Philippines',
   timezone: 'Asia/Manila',
-  tagline: 'Network DevOps Engineer automating networks and the infrastructure that runs on them.',
-  bio: 'I treat networks like software. From automating configuration across thousands of devices to building CI/CD pipelines for infrastructure, I turn fragile manual changes into versioned, tested and observable deployments. My approach is grounded in automation, reliability engineering and a deep understanding of how packets actually move.',
+  tagline: '3rd-year IT student and aspiring Network DevOps engineer who builds full-stack systems and is learning to automate the networks they run on.',
+  bio: 'I’m a third-year IT student who likes understanding how things work end to end. I’ve built web, desktop and AR projects with PHP, Java, Python, React and Next.js, and I ship them with Git, Docker and CI/CD pipelines. Now I’m going deeper into networking fundamentals and Linux. My goal is to become a Network DevOps engineer who treats networks like software: automated, versioned and reliable.',
   availability: {
     status: 'available',
-    message: 'Open to Network DevOps and platform roles',
+    message: 'Open to OJT and internship opportunities',
   },
   links: {
     github: 'https://github.com/placeholder',
     linkedin: 'https://linkedin.com/in/placeholder',
     x: 'https://x.com/placeholder',
-    email: 'hello@placeholder.dev',
+    email: 'linovincentdelacruz@gmail.com',
     resume: '/resume',
     calendar: 'https://cal.com/placeholder',
   },
   principles: [
-    { title: 'Automate the second time', description: 'Do it by hand once to understand it; the second time, write the playbook.' },
-    { title: 'Everything as code', description: 'Configs, topology and policy live in Git, reviewed like any other change.' },
-    { title: 'Test before you touch prod', description: 'Every change is linted, validated and dry-run in CI before it reaches a device.' },
-    { title: 'Know the blast radius', description: 'Roll out in small batches with an automatic rollback path.' },
-    { title: 'If it is not observed, it is not done', description: 'Telemetry, alerts and dashboards ship with the change, not after the incident.' },
+    { title: 'Learn by building', description: 'Every concept sticks better once I’ve used it in a real project.' },
+    { title: 'Fundamentals first', description: 'Packets before platforms: understand how the network works before automating it.' },
+    { title: 'Automate the boring parts', description: 'If I do something twice by hand, I look for a way to script it.' },
+    { title: 'Document as I go', description: 'Clear READMEs and notes make my projects easy to run, review and improve.' },
+    { title: 'Stay curious', description: 'Ask questions, read the docs, and share what I learn with classmates.' },
   ],
 };
 
