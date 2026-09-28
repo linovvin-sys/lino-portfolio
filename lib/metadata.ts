@@ -6,7 +6,7 @@ import type { Metadata, Viewport } from "next";
 import { profile } from "@/content/profile";
 
 const SITE_URL =
-  process.env["NEXT_PUBLIC_SITE_URL"] ?? "https://example.com";
+  process.env["NEXT_PUBLIC_SITE_URL"] || "https://example.com";
 
 const SITE_NAME = profile.name;
 const SITE_TITLE = `${SITE_NAME} — ${profile.title}`;
