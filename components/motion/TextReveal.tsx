@@ -71,7 +71,7 @@ export function TextReveal({
           opacity: 1,
           duration: DURATION.base,
           ease: EASE.out,
-          stagger: STAGGER.fast,
+          stagger: STAGGER.line,
           delay: delay,
           scrollTrigger:
             trigger === "scroll"

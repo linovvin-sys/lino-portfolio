@@ -41,15 +41,15 @@ export function Preloader({ onComplete = () => {} }: PreloaderProps) {
           opacity: 1,
           duration: DURATION.base,
           ease: EASE.out,
-          stagger: STAGGER.fast,
+          stagger: STAGGER.char,
         }
       )
       .to('.char', {
         y: -50,
         opacity: 0,
         duration: DURATION.fast,
-        ease: EASE.in,
-        stagger: STAGGER.fast,
+        ease: EASE.inQuart,
+        stagger: STAGGER.char,
       }, '+=0.8')
       .to(container.current, {
         clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 0)',
