@@ -260,7 +260,10 @@ export function IdBadge() {
                     fill
                     sizes="272px"
                     draggable={false}
-                    onLoad={() => setPhotoLoaded(true)}
+                    // next/image also calls onLoad for images that failed (they're "complete"
+                    // too), so only count it as loaded if it actually has pixels
+                    onLoad={(e) => setPhotoLoaded(e.currentTarget.naturalWidth > 0)}
+                    onError={() => setPhotoLoaded(false)}
                     className={cn(
                       'pointer-events-none object-cover transition-opacity duration-500',
                       photoLoaded ? 'visible opacity-100' : 'invisible opacity-0',

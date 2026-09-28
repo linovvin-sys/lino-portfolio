@@ -1,6 +1,5 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { AvailabilityDot } from '@/components/ui/AvailabilityDot';
@@ -8,25 +7,14 @@ import { ArrowRight } from '@/components/ui/Icons';
 import { Magnetic } from '@/components/motion/Magnetic';
 import { AnimatedNumber } from '@/components/motion/AnimatedNumber';
 import { TechMarquee } from '@/components/motion/TechMarquee';
-import { NetworkTopology, type TopologyEvent } from '@/components/network/NetworkTopology';
-import { Terminal, type TerminalLine } from '@/components/network/Terminal';
+import { IdBadge } from '@/components/about/IdBadge';
 import { useLocalTime } from '@/hooks/useLocalTime';
 import { profile } from '@/content/profile';
 import { metricsStrip } from '@/content/metrics';
-import { cn } from '@/lib/utils';
 
 interface HeroProps {
   id?: string;
 }
-
-/** Plays once on load: a deploy run, a health check, then a hint to interact. */
-const BOOT: Omit<TerminalLine, 'id'>[] = [
-  { text: 'ping -c 3 10.42.1.10', tone: 'command' },
-  { text: '3 packets transmitted, 3 received, 0% packet loss', tone: 'ok' },
-  { text: 'show ip interface brief | include up', tone: 'command' },
-  { text: '8 interfaces up/up · network healthy', tone: 'ok' },
-  { text: '# hover the map · click a spine or edge to fail it · click a server to ping', tone: 'muted' },
-];
 
 const STACK = [
   'Bootstrap',
@@ -58,29 +46,6 @@ const delay = (ms: number) => ({ ['--delay' as string]: `${ms}ms` });
 
 export function Hero({ id }: HeroProps) {
   const time = useLocalTime(profile.timezone);
-  const nextId = useRef(BOOT.length);
-  const [lines, setLines] = useState<TerminalLine[]>(() => BOOT.map((l, i) => ({ ...l, id: i })));
-  const [health, setHealth] = useState({ up: 0, total: 0 });
-
-  // Replay the boot sequence line by line (the server HTML already holds the final text)
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    setLines([]);
-    let at = 1000;
-    const timers = BOOT.map((line, i) => {
-      const timer = setTimeout(() => setLines((prev) => [...prev, { ...line, id: i }]), at);
-      // commands type at ~22ms/char (see Terminal); give output a beat after that
-      at += line.tone === 'command' ? line.text.length * 22 + 450 : 700;
-      return timer;
-    });
-    return () => timers.forEach(clearTimeout);
-  }, []);
-
-  const onEvent = useCallback((event: TopologyEvent) => {
-    setLines((prev) => [...prev.slice(-20), { id: nextId.current++, text: event.text, tone: event.tone }]);
-  }, []);
-  const onHealthChange = useCallback((up: number, total: number) => setHealth({ up, total }), []);
-  const degraded = health.total > 0 && health.up < health.total;
 
   return (
     <section id={id} className="relative w-full pt-[calc(var(--nav-height)+56px)] md:pt-[calc(var(--nav-height)+88px)]">
@@ -140,31 +105,26 @@ export function Hero({ id }: HeroProps) {
             </dl>
           </div>
 
-          <figure style={delay(300)} className="animate-rise-in col-span-12 lg:col-span-5">
-            <div className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-surface)] shadow-[var(--shadow-card)]">
-              <div className="flex items-center justify-between border-b border-[var(--color-rule)] px-5 py-3">
-                <span className="eyebrow">Fig. 01 — Network lab</span>
-                <span
-                  className={cn(
-                    'inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors duration-300',
-                    degraded
-                      ? 'bg-[color-mix(in_oklab,var(--color-accent)_12%,transparent)] text-[var(--color-accent)]'
-                      : 'bg-[color-mix(in_oklab,#10b981_12%,transparent)] text-emerald-700 dark:text-emerald-400',
-                  )}
-                >
-                  <span className={cn('h-1.5 w-1.5 rounded-full', degraded ? 'bg-[var(--color-accent)]' : 'bg-emerald-500')} />
-                  <span className="font-tabular">
-                    {health.total ? `${health.up}/${health.total} links up` : 'all links up'}
-                  </span>
-                </span>
-              </div>
-              <NetworkTopology className="aspect-[480/330] w-full px-2 pt-2" onEvent={onEvent} onHealthChange={onHealthChange} />
-              <Terminal lines={lines} rows={5} />
+          {/* ID badge, nudged up a little so it hangs level with the intro */}
+          <aside style={delay(300)} className="animate-rise-in col-span-12 lg:col-span-5 lg:-mt-12">
+            <IdBadge />
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm">
+              {[
+                { label: 'GitHub', href: profile.links.github },
+                { label: 'LinkedIn', href: profile.links.linkedin },
+                { label: 'X', href: profile.links.x },
+              ]
+                .filter((l): l is { label: string; href: string } => Boolean(l.href))
+                .map((l) => (
+                  <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className="link-underline text-[var(--color-fg)]">
+                    {l.label}
+                  </a>
+                ))}
+              <a href={`mailto:${profile.links.email}`} className="link-underline text-[var(--color-fg)]">
+                Email
+              </a>
             </div>
-            <figcaption className="mt-3 text-[13px] text-[var(--color-muted)]">
-              A small data-center network like the ones I’m learning to build. Break something and watch it route around the failure.
-            </figcaption>
-          </figure>
+          </aside>
         </div>
 
         <dl

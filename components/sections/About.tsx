@@ -1,28 +1,20 @@
 import { profile } from '@/content/profile';
 import { Section } from '@/components/ui/Section';
 import { SectionHeader } from '@/components/ui/SectionHeader';
-import { AvailabilityDot } from '@/components/ui/AvailabilityDot';
 import { formatIndex } from '@/lib/utils';
-import { IdBadge } from '@/components/about/IdBadge';
+import { NetworkLab } from '@/components/network/NetworkLab';
 
 interface AboutProps {
   id?: string;
 }
 
 export function About({ id }: AboutProps) {
-  const facts = [
-    { label: 'Currently', value: '3rd-year B.S. Information Technology' },
-    { label: 'Aiming for', value: profile.title.replace('Aspiring ', '') },
-    { label: 'Based in', value: profile.location },
-    { label: 'Focus', value: 'Networking, DevOps and full-stack development' },
-  ];
-
   return (
     <Section id={id} tone="surface">
       <SectionHeader index={1} eyebrow="About" title="Curious about how it all connects." />
 
       <div className="mt-14 grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-14 md:mt-20">
-        <div className="col-span-12 lg:col-span-7">
+        <div className="col-span-12 lg:col-span-6">
           <p data-reveal className="font-display text-[1.75rem] leading-[1.3] text-[var(--color-fg)] md:text-[2.125rem]">
             {profile.bio}
           </p>
@@ -48,35 +40,9 @@ export function About({ id }: AboutProps) {
           </div>
         </div>
 
-        <aside data-reveal className="order-first col-span-12 lg:order-none lg:col-span-4 lg:col-start-9">
+        <aside data-reveal className="col-span-12 lg:col-span-5 lg:col-start-8">
           <div className="lg:sticky lg:top-[calc(var(--nav-height)+40px)]">
-            <IdBadge />
-            {/* Same facts as the back of the badge, for anyone who doesn't flip it */}
-            <dl className="sr-only">
-              {facts.map((fact) => (
-                <div key={fact.label}>
-                  <dt>{fact.label}</dt>
-                  <dd>{fact.value}</dd>
-                </div>
-              ))}
-            </dl>
-            <div className="mt-8 flex items-center justify-center gap-2 text-sm text-[var(--color-muted)]">
-              <AvailabilityDot status={profile.availability.status} />
-              {profile.availability.message}
-            </div>
-            <div className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm">
-              {[
-                { label: 'GitHub', href: profile.links.github },
-                { label: 'LinkedIn', href: profile.links.linkedin },
-                { label: 'X', href: profile.links.x },
-              ]
-                .filter((l): l is { label: string; href: string } => Boolean(l.href))
-                .map((l) => (
-                  <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className="link-underline text-[var(--color-fg)]">
-                    {l.label}
-                  </a>
-                ))}
-            </div>
+            <NetworkLab />
           </div>
         </aside>
       </div>
