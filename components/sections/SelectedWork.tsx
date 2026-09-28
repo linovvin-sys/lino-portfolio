@@ -16,7 +16,7 @@ export function SelectedWork({ id }: SelectedWorkProps) {
         index={1}
         eyebrow="Projects"
         title="Things I’ve built."
-        subtitle="From my AR + AI capstone to full-stack school systems in PHP, Java, Python and Next.js. Each one taught me something new."
+        subtitle="From my first C++ program to my AR + AI capstone, with web and desktop systems in PHP, Java and Python along the way. Each one taught me something new."
       />
 
       <ul className="group/list mt-14 border-t border-[var(--color-rule)] md:mt-20">

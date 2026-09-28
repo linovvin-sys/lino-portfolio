@@ -13,7 +13,7 @@ const data = [
     category: 'Capstone · AR + AI',
     year: '2026',
     thumbnail: { src: '/placeholder-project-1.webp', alt: 'Lampara AR navigation', width: 1600, height: 1200 },
-    stack: ['Augmented Reality', 'Conversational AI', 'Python', 'MySQL'],
+    stack: ['Augmented Reality', 'Conversational AI', 'PHP', 'MySQL'],
     metrics: [
       { label: 'Type', value: 'AR app' },
       { label: 'Status', value: 'In progress' },
@@ -28,7 +28,7 @@ const data = [
     category: 'Web application',
     year: '2025',
     thumbnail: { src: '/placeholder-project-2.webp', alt: 'Enrollment system dashboard', width: 1600, height: 1200 },
-    stack: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'MySQL'],
+    stack: ['PHP', 'Bootstrap', 'JavaScript', 'MySQL'],
     metrics: [
       { label: 'Type', value: 'Web app' },
       { label: 'Users', value: '3 roles' },
@@ -79,6 +79,21 @@ const data = [
       { label: 'Language', value: 'Python' },
     ],
     summary: 'Tracks products and stock levels, records stock in and out, warns when items run low, and generates simple inventory reports.',
+  },
+  {
+    slug: 'car-rental-system',
+    index: 6,
+    title: 'Car Rental System',
+    subtitle: 'My first-year project: renting, returning and billing cars from a C++ console app',
+    category: 'Console application',
+    year: '2024',
+    thumbnail: { src: '/placeholder-project-6.webp', alt: 'Car rental console menu', width: 1600, height: 1200 },
+    stack: ['C++', 'OOP', 'File handling'],
+    metrics: [
+      { label: 'Type', value: 'Console app' },
+      { label: 'Language', value: 'C++' },
+    ],
+    summary: 'A menu-driven C++ program for listing available cars, renting and returning them, and computing the rental fee, with records saved to files.',
   },
 ];
 

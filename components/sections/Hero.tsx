@@ -37,6 +37,7 @@ const STACK = [
   'PHP',
   'Java',
   'Python',
+  'C++',
   'MySQL',
   'Docker',
   'GitHub Actions',
@@ -176,11 +177,15 @@ export function Hero({ id }: HeroProps) {
               <dt className="eyebrow">{metric.label}</dt>
               <dd className="font-display font-tabular text-[length:var(--text-3xl)] leading-none text-[var(--color-fg)] md:text-[3.25rem]">
                 {metric.numericValue !== undefined ? <AnimatedNumber value={metric.numericValue} /> : metric.value}
-                {metric.suffix && (
-                  <span className="ml-1 font-body text-base tracking-normal text-[var(--color-muted)] md:text-lg">
-                    {metric.suffix}
-                  </span>
-                )}
+                {metric.suffix &&
+                  (metric.suffix.length > 4 ? (
+                    // longer notes (e.g. a list of languages) sit on their own line
+                    <span className="mt-3 block font-body text-[13px] leading-snug tracking-normal text-[var(--color-muted)]">
+                      {metric.suffix}
+                    </span>
+                  ) : (
+                    <span className="ml-1 font-body text-base tracking-normal text-[var(--color-muted)] md:text-lg">{metric.suffix}</span>
+                  ))}
               </dd>
             </div>
           ))}

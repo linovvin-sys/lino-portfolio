@@ -11,6 +11,7 @@ const data = [
       { name: 'PHP', done: true },
       { name: 'Java', done: true },
       { name: 'Python', done: true },
+      { name: 'C++', done: true },
       { name: 'SQL & MySQL', done: true },
     ],
   },

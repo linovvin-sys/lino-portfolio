@@ -14,7 +14,7 @@ const data = [
       { metric: 'AR navigation', description: 'Directions overlaid on the real world through the phone camera.' },
       { metric: 'AI navigator', description: 'Answers “where is…” questions in plain language and points the way.' },
     ],
-    stack: ['Augmented Reality', 'Conversational AI', 'Python', 'MySQL'],
+    stack: ['Augmented Reality', 'Conversational AI', 'PHP', 'MySQL'],
   },
   {
     id: 'networking-devops-self-study',
@@ -40,10 +40,10 @@ const data = [
     period: { start: '2024', end: 'Present' },
     description: 'Third-year IT student. Coursework has covered programming, databases, web development and computer networking.',
     impacts: [
-      { metric: '4 systems built', description: 'Hotel, inventory, parking and enrollment/LMS systems for coursework.' },
+      { metric: '5 systems built', description: 'Car rental (C++), hotel, inventory, parking and enrollment/LMS systems for coursework.' },
       { metric: 'Networking coursework', description: 'Data communications, network fundamentals and system administration.' },
     ],
-    stack: ['PHP', 'Java', 'Python', 'MySQL', 'React', 'Next.js'],
+    stack: ['C++', 'PHP', 'Java', 'Python', 'MySQL', 'Bootstrap', 'JavaScript'],
   },
 ];
 
