@@ -20,8 +20,12 @@ const envSchema = z.object({
   ),
 
   // AI (optional — the "Ask AI" chat only appears when a key is set)
-  GEMINI_API_KEY: z.preprocess(emptyToUndefined, z.string().min(1).optional()),
-  GEMINI_MODEL: z.preprocess(emptyToUndefined, z.string().min(1).default("gemini-2.5-flash")),
+  GEMINI_API_KEY: z.preprocess(emptyToUndefined, z.string().trim().min(1).optional()),
+  // Also accepted: the name Google's own SDKs use
+  GOOGLE_GENERATIVE_AI_API_KEY: z.preprocess(emptyToUndefined, z.string().trim().min(1).optional()),
+  // "gemini-flash-latest" always points at Google's current Flash model, so it
+  // keeps working when older model versions are retired
+  GEMINI_MODEL: z.preprocess(emptyToUndefined, z.string().trim().min(1).default("gemini-flash-latest")),
 
   // Email (optional — contact form degrades gracefully)
   RESEND_API_KEY: z.preprocess(emptyToUndefined, z.string().min(1).optional()),
@@ -58,3 +62,6 @@ function validateEnv(): Env {
 }
 
 export const env = validateEnv();
+
+/** The Gemini key under either accepted name, if configured. */
+export const geminiApiKey = env.GEMINI_API_KEY ?? env.GOOGLE_GENERATIVE_AI_API_KEY;

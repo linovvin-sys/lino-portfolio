@@ -1,5 +1,5 @@
 import { Nav } from '@/components/sections/Nav';
-import { env } from '@/lib/env';
+import { geminiApiKey } from '@/lib/env';
 import { Hero } from '@/components/sections/Hero';
 import { SelectedWork } from '@/components/sections/SelectedWork';
 import { Capabilities } from '@/components/sections/Capabilities';
@@ -19,7 +19,7 @@ import { SmoothScroll } from '@/components/motion/SmoothScroll';
 import { ScrollProgress } from '@/components/motion/ScrollProgress';
 
 export default function Home() {
-  const chatEnabled = Boolean(env.GEMINI_API_KEY);
+  const chatEnabled = Boolean(geminiApiKey);
   return (
     <>
       <SkipLink />

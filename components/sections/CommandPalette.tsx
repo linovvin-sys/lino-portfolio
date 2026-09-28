@@ -17,6 +17,19 @@ const SUGGESTED_PROMPTS = [
   'What are you learning right now?',
 ];
 
+/** Errors arrive either as the server's JSON body (`{"error": "..."}`) or as a plain message from the stream. */
+function describeChatError(error: Error): string {
+  const raw = error.message?.trim();
+  if (!raw) return 'Something went wrong. Please try again.';
+  try {
+    const parsed = JSON.parse(raw) as { error?: unknown };
+    if (typeof parsed.error === 'string') return parsed.error;
+  } catch {
+    /* not JSON: a message from the model stream */
+  }
+  return raw;
+}
+
 export function CommandPalette() {
   const [isOpen, setIsOpen] = useState(false);
   const [sources, setSources] = useState<Source[]>([]);
@@ -179,7 +192,7 @@ export function CommandPalette() {
           {isLoading && <div className="animate-pulse px-1 text-sm text-[var(--color-muted)]">Thinking…</div>}
           {error && (
             <div className="px-1 text-sm text-[var(--color-accent)]">
-              {isRateLimited ? "You've hit the rate limit — try again in a minute." : 'Something went wrong. Please try again.'}
+              {isRateLimited ? "You've hit the rate limit — try again in a minute." : describeChatError(error)}
             </div>
           )}
         </div>

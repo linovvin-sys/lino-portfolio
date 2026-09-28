@@ -1,10 +1,10 @@
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
-import { streamText } from 'ai';
+import { APICallError, streamText } from 'ai';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { searchPortfolio } from '@/lib/rag';
 import { profile } from '@/content/profile';
-import { env } from '@/lib/env';
+import { env, geminiApiKey } from '@/lib/env';
 
 export const runtime = 'nodejs';
 
@@ -42,8 +42,37 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
+/**
+ * Turn a Gemini failure into a message a visitor (and the site owner) can act on.
+ * Google's error text never contains the key itself, so it's safe to surface.
+ */
+function describeError(error: unknown): string {
+  const status = APICallError.isInstance(error) ? error.statusCode : undefined;
+  const message = error instanceof Error ? error.message : String(error);
+  const text = message.toLowerCase();
+
+  if (text.includes('api key not valid') || text.includes('api_key_invalid')) {
+    return 'The Gemini API key was rejected. Check GEMINI_API_KEY in Vercel, then redeploy.';
+  }
+  if (status === 404 || text.includes('not found') || text.includes('is not supported')) {
+    return `The Gemini model "${env.GEMINI_MODEL}" isn't available for this key. Set GEMINI_MODEL in Vercel (for example gemini-flash-latest), then redeploy.`;
+  }
+  if (status === 429 || text.includes('quota') || text.includes('resource_exhausted')) {
+    return "Gemini's rate limit or free quota was reached. Try again in a minute.";
+  }
+  if (status === 403 || text.includes('permission')) {
+    return "This key doesn't have access to the Gemini API. Make sure it was created in Google AI Studio.";
+  }
+  return `Gemini returned an error${status ? ` (${status})` : ''}: ${message.slice(0, 180)}`;
+}
+
+/** GET /api/chat: whether the chat is configured and which model it uses (never the key). */
+export function GET() {
+  return NextResponse.json({ configured: Boolean(geminiApiKey), model: env.GEMINI_MODEL });
+}
+
 export async function POST(req: NextRequest) {
-  if (!env.GEMINI_API_KEY) {
+  if (!geminiApiKey) {
     return NextResponse.json({ error: 'AI service not configured.' }, { status: 503 });
   }
 
@@ -72,15 +101,17 @@ Context:
 ${contextBlock}`;
 
   try {
-    const google = createGoogleGenerativeAI({ apiKey: env.GEMINI_API_KEY });
+    const google = createGoogleGenerativeAI({ apiKey: geminiApiKey });
     const result = streamText({
       model: google(env.GEMINI_MODEL),
       system: systemPrompt,
       messages,
       maxTokens: 500,
+      // Shows up in Vercel → Logs, with the full error from Google
+      onError: ({ error }) => console.error('[chat] Gemini request failed:', error),
     });
 
-    const response = result.toDataStreamResponse();
+    const response = result.toDataStreamResponse({ getErrorMessage: describeError });
     // Header values must be ASCII: escape anything else (e.g. curly quotes) as \uXXXX, which JSON.parse restores
     const sourcesJson = JSON.stringify(sources.map((s) => ({ title: s.title, url: s.url }))).replace(
       /[^\x20-\x7e]/g,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Nav } from '@/components/sections/Nav';
-import { env } from '@/lib/env';
+import { geminiApiKey } from '@/lib/env';
 import { Footer } from '@/components/sections/Footer';
 import { CommandPalette } from '@/components/sections/CommandPalette';
 import { SkipLink } from '@/components/ui/SkipLink';
@@ -17,7 +17,7 @@ interface PageShellProps {
 
 /** Shared chrome for secondary pages: same nav, back link, container and footer as the home page. */
 export function PageShell({ children, back, size = 'default' }: PageShellProps) {
-  const chatEnabled = Boolean(env.GEMINI_API_KEY);
+  const chatEnabled = Boolean(geminiApiKey);
   return (
     <>
       <SkipLink />
