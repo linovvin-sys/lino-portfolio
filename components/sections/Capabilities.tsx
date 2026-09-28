@@ -1,111 +1,51 @@
-'use client';
-import { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { capabilities } from '@/content/capabilities';
+import { Section } from '@/components/ui/Section';
 import { SectionHeader } from '@/components/ui/SectionHeader';
-
-gsap.registerPlugin(ScrollTrigger);
+import { formatIndex } from '@/lib/utils';
 
 interface CapabilitiesProps {
   id?: string;
 }
 
 export function Capabilities({ id }: CapabilitiesProps) {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const prefersReducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    if (prefersReducedMotion || !capabilities || capabilities.length === 0) return;
-
-    const ctx = gsap.context(() => {
-      const groups = gsap.utils.toArray<HTMLElement>('.capability-group');
-      
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: `+=${groups.length * 100}%`,
-          pin: true,
-          scrub: 1,
-          onUpdate: (self) => {
-            const progress = self.progress;
-            const index = Math.min(
-              Math.floor(progress * groups.length),
-              groups.length - 1
-            );
-            setActiveIndex(index);
-          }
-        }
-      });
-
-      // Basic scrub animation logic for groups
-      groups.forEach((group, i) => {
-        if (i > 0) {
-          tl.fromTo(group, 
-            { opacity: 0, y: 50 },
-            { opacity: 1, y: 0, duration: 1 },
-            i * 1
-          );
-        }
-        if (i < groups.length - 1) {
-          tl.to(group, {
-            opacity: 0,
-            y: -50,
-            scale: 0.95,
-            duration: 1
-          }, (i * 1) + 0.8);
-        }
-      });
-
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, [prefersReducedMotion]);
-
   return (
-    <section id={id} ref={sectionRef} className="py-24 px-6 min-h-screen flex flex-col bg-[var(--color-bg)]">
-      <div className="max-w-7xl mx-auto w-full flex-grow flex flex-col">
-        <SectionHeader index={2} title="Capabilities" />
-        
-        <div className="flex items-center justify-between font-mono text-xs text-[var(--color-muted)] mt-12 mb-24 border-b border-[var(--color-rule)] pb-4">
-          <span>Areas of Expertise</span>
-          <span>{activeIndex + 1} / {capabilities.length}</span>
-        </div>
-        
-        <div className="relative flex-grow">
-          {capabilities.map((group, index) => (
-            <div 
-              key={group.title} 
-              className={`capability-group absolute inset-0 flex flex-col md:flex-row gap-12 ${prefersReducedMotion ? 'relative opacity-100 mb-24' : ''}`}
-              style={{ opacity: prefersReducedMotion ? 1 : index === 0 ? 1 : 0 }}
-            >
-              <div className="md:w-1/2">
-                <h3 className="font-display text-4xl md:text-6xl text-[var(--color-fg)]">
-                  {group.title}
-                </h3>
-                <p className="mt-6 font-mono text-sm text-[var(--color-muted)] max-w-sm">
-                  {group.description}
-                </p>
-              </div>
-              <div className="md:w-1/2">
-                <ul className="space-y-6">
-                  {group.items?.map(item => (
-                    <li key={item.name} className="border-b border-[var(--color-rule)] pb-6 last:border-0">
-                      <div className="font-body text-xl text-[var(--color-fg)]">{item.name}</div>
-                      {item.detail && (
-                        <div className="mt-2 font-mono text-xs text-[var(--color-muted)]">{item.detail}</div>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+    <Section id={id} tone="surface">
+      <SectionHeader
+        index={2}
+        eyebrow="Capabilities"
+        title="The full stack of applied AI."
+        subtitle="From adapting models to shipping the interface people actually use."
+      />
+
+      <div className="mt-14 border-t border-[var(--color-rule)] md:mt-20">
+        {capabilities.map((group) => (
+          <div
+            key={group.id}
+            data-reveal
+            className="grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-6 border-b border-[var(--color-rule)] py-10 md:py-12"
+          >
+            <div className="col-span-12 md:col-span-5 lg:col-span-4">
+              <p className="font-mono font-tabular text-xs text-[var(--color-accent)]">{formatIndex(group.index)}</p>
+              <h3 className="font-display mt-3 text-[length:var(--text-2xl)] leading-[1.1] text-[var(--color-fg)]">
+                {group.title}
+              </h3>
+              <p className="mt-3 max-w-sm text-[15px] leading-relaxed text-[var(--color-muted)]">{group.description}</p>
             </div>
-          ))}
-        </div>
+
+            <ul className="col-span-12 grid grid-cols-1 gap-x-[var(--grid-gap)] sm:grid-cols-2 md:col-span-7 lg:col-span-7 lg:col-start-6">
+              {group.items.map((item) => (
+                <li
+                  key={item.name}
+                  className="border-t border-dashed border-[var(--color-rule)] py-3.5 first:border-t-0 first:pt-0 sm:[&:nth-child(2)]:border-t-0 sm:[&:nth-child(2)]:pt-0"
+                >
+                  <p className="text-[15px] font-medium text-[var(--color-fg)]">{item.name}</p>
+                  {item.detail && <p className="mt-0.5 text-[13px] text-[var(--color-muted)]">{item.detail}</p>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
-    </section>
+    </Section>
   );
 }

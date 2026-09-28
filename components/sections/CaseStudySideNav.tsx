@@ -36,21 +36,28 @@ export function CaseStudySideNav({ toc }: CaseStudySideNavProps) {
   if (toc.length === 0) return null;
 
   return (
-    <nav aria-label="Case study sections" className="sticky top-32 hidden lg:block">
-      <ul className="space-y-3 border-l border-[var(--color-rule)] pl-4">
-        {toc.map((entry) => (
-          <li key={entry.id}>
-            <a
-              href={`#${entry.id}`}
-              className={cn(
-                'font-mono text-xs uppercase tracking-wider transition-colors',
-                activeId === entry.id ? 'text-[var(--color-accent)]' : 'text-[var(--color-muted)] hover:text-[var(--color-fg)]',
-              )}
-            >
-              {entry.text}
-            </a>
-          </li>
-        ))}
+    <nav aria-label="Case study sections" className="hidden lg:block">
+      <h2 className="eyebrow">On this page</h2>
+      <ul className="mt-4 space-y-0.5 border-l border-[var(--color-rule)]">
+        {toc.map((entry) => {
+          const active = activeId === entry.id;
+          return (
+            <li key={entry.id}>
+              <a
+                href={`#${entry.id}`}
+                aria-current={active ? 'location' : undefined}
+                className={cn(
+                  '-ml-px block border-l py-1.5 pl-4 text-sm transition-colors duration-200',
+                  active
+                    ? 'border-[var(--color-fg)] text-[var(--color-fg)]'
+                    : 'border-transparent text-[var(--color-muted)] hover:text-[var(--color-fg)]',
+                )}
+              >
+                {entry.text}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );

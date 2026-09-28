@@ -2,29 +2,43 @@
 
 import { useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
-import { Container } from '@/components/ui/Container';
+import { Section } from '@/components/ui/Section';
 import { Button } from '@/components/ui/Button';
 import { CopyButton } from '@/components/ui/CopyButton';
-import { MagneticWrap } from '@/components/ui/MagneticWrap';
-import { Grid } from '@/components/ui/Grid';
+import { ArrowRight, ArrowUpRight, Check } from '@/components/ui/Icons';
 import { submitContact } from '@/app/actions/contact';
 import { profile } from '@/content/profile';
+import { formatIndex } from '@/lib/utils';
 
 interface ContactProps {
   id?: string;
 }
 
+const fieldClass =
+  'mt-2 block w-full rounded-[var(--radius-md)] border border-[var(--color-rule)] bg-[var(--color-surface)] px-4 py-3 text-[15px] text-[var(--color-fg)] ' +
+  'placeholder:text-[color-mix(in_oklab,var(--color-muted)_70%,transparent)] transition-[border-color,box-shadow] duration-[var(--dur-fast)] ' +
+  'focus:border-[var(--color-fg)] focus:outline-none focus:ring-4 focus:ring-[color-mix(in_oklab,var(--color-fg)_8%,transparent)] ' +
+  'aria-[invalid=true]:border-[var(--color-accent)]';
+
 function SubmitButton() {
   const { pending } = useFormStatus();
-  
+
   return (
-    <Button 
-      type="submit" 
-      disabled={pending}
-      className="w-full md:w-auto"
-    >
-      {pending ? 'Sending...' : 'Send Message'}
+    <Button type="submit" size="lg" disabled={pending} className="w-full sm:w-auto">
+      {pending ? 'Sending…' : 'Send message'}
+      {!pending && (
+        <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-[var(--ease-out)] group-hover/button:translate-x-0.5" />
+      )}
     </Button>
+  );
+}
+
+function FieldError({ id, errors }: { id: string; errors?: string[] }) {
+  if (!errors?.length) return null;
+  return (
+    <p id={id} className="mt-2 text-[13px] text-[var(--color-accent)]">
+      {errors[0]}
+    </p>
   );
 }
 
@@ -35,124 +49,139 @@ export function Contact({ id }: ContactProps) {
   });
 
   return (
-    <section id={id} className="py-24 md:py-32 bg-[var(--color-bg)] text-[var(--color-fg)] border-t border-[var(--color-rule)]">
-      <Container>
-        <Grid className="gap-16">
-          {/* Left Column: CTA & Info */}
-          <div className="col-span-12 md:col-span-6 lg:col-span-5 flex flex-col justify-between">
-            <div>
-              <h2 className="font-display text-5xl md:text-7xl leading-none mb-8">
-                Let&apos;s build<br />something.
-              </h2>
+    <Section id={id} tone="surface">
+      <div className="grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-14">
+        <div data-reveal className="col-span-12 flex flex-col lg:col-span-5">
+          <p className="eyebrow flex items-center gap-3">
+            <span className="text-[var(--color-accent)]">{formatIndex(10)}</span>
+            <span aria-hidden="true" className="h-px w-6 bg-[var(--color-rule)]" />
+            <span>Contact</span>
+          </p>
+          <h2 className="font-display mt-5 text-[clamp(2.75rem,2rem+3vw,4.5rem)] leading-[1] text-[var(--color-fg)]">
+            Let&apos;s build something that ships.
+          </h2>
+          <p className="mt-6 max-w-md text-[length:var(--text-md)] leading-relaxed text-[var(--color-muted)]">
+            Tell me about the problem, the constraints and the timeline. I usually reply within 24 hours.
+          </p>
 
-              <div className="flex flex-col items-start gap-4 mb-12">
-                <MagneticWrap>
-                  <div className="flex items-center gap-4 group">
-                    <span className="font-mono text-lg group-hover:text-[var(--color-accent)] transition-colors">{profile.links.email}</span>
-                    <CopyButton textToCopy={profile.links.email} />
-                  </div>
-                </MagneticWrap>
-
-                {profile.links.calendar && (
-                  <MagneticWrap>
-                    <a
-                      href={profile.links.calendar}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-mono text-lg hover:text-[var(--color-accent)] transition-colors border-b border-[var(--color-rule)] hover:border-[var(--color-accent)] pb-1"
-                    >
-                      Schedule a call →
-                    </a>
-                  </MagneticWrap>
-                )}
-              </div>
+          <div className="mt-10 flex flex-col gap-4 border-t border-[var(--color-rule)] pt-8">
+            <div className="flex flex-wrap items-center gap-3">
+              <a
+                href={`mailto:${profile.links.email}`}
+                className="link-underline text-[length:var(--text-lg)] text-[var(--color-fg)]"
+              >
+                {profile.links.email}
+              </a>
+              <CopyButton textToCopy={profile.links.email} />
             </div>
-
-            <div className="font-mono text-xs text-[var(--color-muted)] flex flex-col gap-2 border-t border-[var(--color-rule)] pt-6 mt-8 md:mt-0">
-              <div className="flex justify-between">
-                <span>Timezone:</span>
-                <span>{profile.timezone}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Typical response:</span>
-                <span>Within 24 hours</span>
-              </div>
-            </div>
+            {profile.links.calendar && (
+              <a
+                href={profile.links.calendar}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex w-fit items-center gap-1.5 text-[15px] text-[var(--color-muted)] transition-colors hover:text-[var(--color-fg)]"
+              >
+                Or book a 30-minute call
+                <ArrowUpRight className="h-4 w-4 transition-transform duration-300 ease-[var(--ease-out)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </a>
+            )}
           </div>
-          
-          {/* Right Column: Form */}
-          <div className="col-span-12 md:col-span-6 lg:col-span-6 lg:col-start-7 bg-[var(--color-surface)] p-8 md:p-12 border border-[var(--color-rule)]">
-            <h3 className="font-mono text-sm uppercase tracking-widest mb-8">Direct Message</h3>
-            
+        </div>
+
+        <div
+          data-reveal
+          style={{ ['--reveal-delay' as string]: '80ms' }}
+          className="col-span-12 lg:col-span-6 lg:col-start-7"
+        >
+          <div className="rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-bg)] p-6 shadow-[var(--shadow-card)] sm:p-8">
             {state.success ? (
-              <div className="h-full min-h-[300px] flex flex-col items-center justify-center text-center">
-                <div className="w-16 h-16 rounded-full bg-[var(--color-code-bg)] flex items-center justify-center mb-6">
-                  <span className="text-2xl">✓</span>
-                </div>
-                <p className="font-mono text-lg">{state.message}</p>
+              <div className="flex min-h-[380px] flex-col items-center justify-center text-center" role="status">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-fg)] text-[var(--color-bg)]">
+                  <Check className="h-5 w-5" />
+                </span>
+                <p className="mt-6 max-w-xs text-[length:var(--text-md)] text-[var(--color-fg)]">{state.message}</p>
               </div>
             ) : (
-              <form action={formAction} className="space-y-6">
-                {/* Honeypot */}
-                <input 
-                  type="text" 
-                  name="honeypot" 
-                  className="hidden" 
-                  tabIndex={-1} 
-                  autoComplete="off" 
+              <form action={formAction} className="flex flex-col gap-5">
+                <input
+                  type="text"
+                  name="honeypot"
+                  className="hidden"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
                 />
-                
-                <div className="space-y-2">
-                  <label htmlFor="name" className="font-mono text-sm block text-[var(--color-muted)]">Name</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    name="name" 
-                    required 
-                    className="w-full bg-transparent border-b border-[var(--color-rule)] px-0 py-3 font-body focus:outline-none focus:border-[var(--color-fg)] transition-colors rounded-none"
-                    placeholder="Jane Doe"
-                  />
-                  {state.errors?.name && <p className="font-mono text-xs text-[var(--color-accent)] mt-1">{state.errors.name[0]}</p>}
+
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="name" className="text-sm font-medium text-[var(--color-fg)]">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      required
+                      autoComplete="name"
+                      placeholder="Jane Doe"
+                      aria-invalid={Boolean(state.errors?.name)}
+                      aria-describedby={state.errors?.name ? 'name-error' : undefined}
+                      className={fieldClass}
+                    />
+                    <FieldError id="name-error" errors={state.errors?.name} />
+                  </div>
+
+                  <div>
+                    <label htmlFor="email" className="text-sm font-medium text-[var(--color-fg)]">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      autoComplete="email"
+                      placeholder="jane@company.com"
+                      aria-invalid={Boolean(state.errors?.email)}
+                      aria-describedby={state.errors?.email ? 'email-error' : undefined}
+                      className={fieldClass}
+                    />
+                    <FieldError id="email-error" errors={state.errors?.email} />
+                  </div>
                 </div>
-                
-                <div className="space-y-2">
-                  <label htmlFor="email" className="font-mono text-sm block text-[var(--color-muted)]">Email</label>
-                  <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    required 
-                    className="w-full bg-transparent border-b border-[var(--color-rule)] px-0 py-3 font-body focus:outline-none focus:border-[var(--color-fg)] transition-colors rounded-none"
-                    placeholder="jane@example.com"
+
+                <div>
+                  <label htmlFor="message" className="text-sm font-medium text-[var(--color-fg)]">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows={6}
+                    placeholder="What are you building, and where could I help?"
+                    aria-invalid={Boolean(state.errors?.message)}
+                    aria-describedby={state.errors?.message ? 'message-error' : undefined}
+                    className={`${fieldClass} resize-none`}
                   />
-                  {state.errors?.email && <p className="font-mono text-xs text-[var(--color-accent)] mt-1">{state.errors.email[0]}</p>}
+                  <FieldError id="message-error" errors={state.errors?.message} />
                 </div>
-                
-                <div className="space-y-2">
-                  <label htmlFor="message" className="font-mono text-sm block text-[var(--color-muted)]">Message</label>
-                  <textarea 
-                    id="message" 
-                    name="message" 
-                    required 
-                    rows={4}
-                    className="w-full bg-transparent border-b border-[var(--color-rule)] px-0 py-3 font-body focus:outline-none focus:border-[var(--color-fg)] transition-colors resize-none rounded-none"
-                    placeholder="How can we work together?"
-                  />
-                  {state.errors?.message && <p className="font-mono text-xs text-[var(--color-accent)] mt-1">{state.errors.message[0]}</p>}
-                </div>
-                
+
                 {state.message && !state.success && (
-                  <p className="font-mono text-xs text-[var(--color-accent)]">{state.message}</p>
+                  <p role="alert" className="rounded-[var(--radius-md)] border border-[color-mix(in_oklab,var(--color-accent)_35%,transparent)] bg-[color-mix(in_oklab,var(--color-accent)_7%,transparent)] px-4 py-3 text-sm text-[var(--color-fg)]">
+                    {state.message}
+                  </p>
                 )}
-                
-                <div className="pt-4 flex justify-end">
+
+                <div className="flex flex-col-reverse items-stretch justify-between gap-4 pt-1 sm:flex-row sm:items-center">
+                  <p className="text-[13px] text-[var(--color-muted)]">No spam, no newsletter. Just a reply.</p>
                   <SubmitButton />
                 </div>
               </form>
             )}
           </div>
-        </Grid>
-      </Container>
-    </section>
+        </div>
+      </div>
+    </Section>
   );
 }

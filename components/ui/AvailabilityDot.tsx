@@ -7,23 +7,12 @@ interface AvailabilityDotProps {
 }
 
 export function AvailabilityDot({ status = "available", className }: AvailabilityDotProps) {
-  const colors: Record<NonNullable<AvailabilityDotProps["status"]>, string> = {
-    available: "bg-[var(--color-accent)]",
-    limited: "bg-[var(--color-muted)]",
-    unavailable: "bg-[var(--color-muted)]",
-  };
+  const color = status === "available" ? "bg-emerald-500" : status === "limited" ? "bg-amber-500" : "bg-[var(--color-muted)]";
 
   return (
-    <span className={cn("relative flex h-2 w-2", className)}>
-      {status === "available" && (
-        <span
-          className={cn(
-            "absolute inline-flex h-full w-full animate-ping rounded-full opacity-75",
-            colors[status],
-          )}
-        />
-      )}
-      <span className={cn("relative inline-flex h-2 w-2 rounded-full", colors[status])} />
+    <span className={cn("relative inline-flex h-2 w-2 shrink-0", className)} aria-hidden="true">
+      {status === "available" && <span className={cn("animate-pulse-ring absolute inset-0 rounded-full", color)} />}
+      <span className={cn("relative inline-flex h-2 w-2 rounded-full", color)} />
     </span>
   );
 }

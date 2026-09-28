@@ -1,65 +1,88 @@
-'use client';
-
-import { Container } from '@/components/ui/Container';
-import { SectionHeader } from '@/components/ui/SectionHeader';
-import { Grid } from '@/components/ui/Grid';
-import { ParallaxImage } from '@/components/motion/ParallaxImage';
-import { ClipReveal } from '@/components/motion/ClipReveal';
-import { ScrollFill } from '@/components/motion/ScrollFill';
 import { profile } from '@/content/profile';
+import { capabilities } from '@/content/capabilities';
+import { Section } from '@/components/ui/Section';
+import { SectionHeader } from '@/components/ui/SectionHeader';
+import { AvailabilityDot } from '@/components/ui/AvailabilityDot';
+import { formatIndex } from '@/lib/utils';
 
 interface AboutProps {
   id?: string;
 }
 
 export function About({ id }: AboutProps) {
+  const facts = [
+    { label: 'Role', value: profile.title },
+    { label: 'Based in', value: profile.location },
+    { label: 'Focus', value: capabilities.slice(0, 3).map((c) => c.title).join(', ') },
+  ];
+
   return (
-    <section id={id} className="py-24 md:py-32 bg-[var(--color-bg)] text-[var(--color-fg)]">
-      <Container>
-        <SectionHeader index={8} title="Background" />
+    <Section id={id} tone="surface">
+      <SectionHeader index={8} eyebrow="About" title="Research rigor, product instincts." />
 
-        <Grid className="mt-16 md:mt-24 gap-12 md:gap-8 items-start">
-          <div className="col-span-12 md:col-span-6 lg:col-span-5 order-2 md:order-1">
-            <ScrollFill className="font-body text-lg md:text-xl leading-relaxed mb-16">
-              {profile.bio}
-            </ScrollFill>
+      <div className="mt-14 grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-14 md:mt-20">
+        <div className="col-span-12 lg:col-span-7">
+          <p data-reveal className="font-display text-[1.75rem] leading-[1.3] text-[var(--color-fg)] md:text-[2.125rem]">
+            {profile.bio}
+          </p>
 
-            <ClipReveal delay={0.3}>
-              <div>
-                <h3 className="font-mono text-sm uppercase tracking-widest text-[var(--color-fg)] mb-6 border-b border-[var(--color-rule)] pb-4">Operating Principles</h3>
-                <ul className="space-y-4">
-                  {profile.principles.map((principle, i) => (
-                    <li key={principle.title} className="flex gap-4 font-mono text-sm">
-                      <span className="text-[var(--color-accent)]">0{i + 1}</span>
-                      <span className="text-[var(--color-muted)]">
-                        <span className="text-[var(--color-fg)]">{principle.title}.</span> {principle.description}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </ClipReveal>
+          <div data-reveal className="mt-14">
+            <h3 className="eyebrow">Operating principles</h3>
+            <ol className="mt-5 border-t border-[var(--color-rule)]">
+              {profile.principles.map((principle, i) => (
+                <li
+                  key={principle.title}
+                  className="grid grid-cols-[2.5rem_1fr] gap-x-2 border-b border-[var(--color-rule)] py-5"
+                >
+                  <span className="font-mono font-tabular pt-0.5 text-xs text-[var(--color-accent)]">
+                    {formatIndex(i + 1)}
+                  </span>
+                  <div>
+                    <p className="text-[15px] font-medium text-[var(--color-fg)]">{principle.title}</p>
+                    <p className="mt-1 text-[15px] leading-relaxed text-[var(--color-muted)]">{principle.description}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
           </div>
+        </div>
 
-          <div className="col-span-12 md:col-span-6 lg:col-span-6 lg:col-start-7 order-1 md:order-2">
-            <div className="relative aspect-[3/4] w-full max-w-md mx-auto md:ml-auto md:mr-0 group">
-              <div className="absolute inset-0 bg-[var(--color-surface)] translate-x-4 translate-y-4 border border-[var(--color-rule)] z-0" />
-
-              <div className="absolute inset-0 z-10 overflow-hidden bg-[var(--color-surface)]">
-                <ParallaxImage
-                  src="/images/portrait.jpg"
-                  alt={profile.name}
-                  width={800}
-                  height={1067}
-                  className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-[var(--dur-slow)]"
-                />
-              </div>
-
-              <div className="absolute inset-0 z-20 pointer-events-none opacity-20 mix-blend-overlay bg-[url('/noise.png')]" />
+        <aside data-reveal className="col-span-12 lg:col-span-4 lg:col-start-9">
+          <div className="rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-bg)] p-6 md:p-7 lg:sticky lg:top-[calc(var(--nav-height)+32px)]">
+            <div className="flex items-center gap-2.5 text-sm text-[var(--color-fg)]">
+              <AvailabilityDot status={profile.availability.status} />
+              {profile.availability.message}
+            </div>
+            <dl className="mt-6 border-t border-[var(--color-rule)]">
+              {facts.map((fact) => (
+                <div key={fact.label} className="border-b border-[var(--color-rule)] py-4">
+                  <dt className="eyebrow">{fact.label}</dt>
+                  <dd className="mt-1.5 text-[15px] text-[var(--color-fg)]">{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+              {[
+                { label: 'GitHub', href: profile.links.github },
+                { label: 'LinkedIn', href: profile.links.linkedin },
+                { label: 'X', href: profile.links.x },
+              ]
+                .filter((l): l is { label: string; href: string } => Boolean(l.href))
+                .map((l) => (
+                  <a
+                    key={l.label}
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-underline text-[var(--color-fg)]"
+                  >
+                    {l.label}
+                  </a>
+                ))}
             </div>
           </div>
-        </Grid>
-      </Container>
-    </section>
+        </aside>
+      </div>
+    </Section>
   );
 }

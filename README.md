@@ -60,13 +60,15 @@ All portfolio content lives in `/content` as typed TypeScript files, each valida
 
 To add a new case study: add a project to `content/projects.ts` and an MDX file to `content/case-studies/` with a matching `slug`. `app/work/[slug]/page.tsx` reads both — the project entry for the index-page card, the MDX file for the detail page (problem, constraints, architecture, outcome, and a scroll-spy side nav generated from its `##` headings).
 
-## Motion system
+## Design system
 
-Everything animated goes through one shared config: `/lib/motion.ts` exports `DURATION`, `EASE`, `STAGGER`, `SCROLL_DEFAULTS`, and Framer Motion `VARIANTS`/`MOTION_EASE` — no component should hard-code a duration or easing curve. Reusable animation primitives live in `/components/motion` (`ClipReveal`, `TextReveal`, `ScrollFill`, `ParallaxImage`, `DrawLine`, `HorizontalScroll`, `StackingCards`, `CountUp`, `Marquee`, `MorphTransition`), and typed hooks in `/hooks` (`useGsap`, `useScrollScene`, `useMagnetic`, `useSplitReveal`) wrap `gsap.context()` so every GSAP effect cleans up its triggers on unmount.
+- **Tokens** live in `styles/tokens.css`: palette (light + dark), type scale, grid (1200px max width, 12 columns), radii, elevation and easing curves. Change a value there and it applies everywhere.
+- **Layout primitives** in `components/ui`: `Section` (consistent vertical rhythm, optional tinted `surface` tone), `Container`, `SectionHeader` (numbered eyebrow + serif heading + optional action), `Button`, `Tag`, `Icons`, and `PageShell` for secondary pages (case studies, lab, résumé).
+- **Typography**: Instrument Serif for display headings, Geist for body text, Geist Mono for small labels (`eyebrow` utility).
+- **Motion** is deliberately restrained: short ease-out transitions on hover/press (buttons scale to 0.97 when pressed), and a one-time fade-up on scroll driven by `components/ui/RevealObserver.tsx`. Add `data-reveal` to any element (and optionally a `--reveal-delay`) to opt in. Content is only hidden while JS runs, and `prefers-reduced-motion` disables it entirely.
+- All base styles in `app/globals.css` live in `@layer base` so Tailwind utilities always win. Don't add unlayered element resets there: they override every spacing utility.
 
-Scroll is smoothed by Lenis (`hooks/useLenis.ts`), wired into GSAP's own ticker so both share one `requestAnimationFrame` loop — see `LenisProvider` in that file, mounted once in `app/page.tsx`.
-
-`prefers-reduced-motion` is checked by every motion component individually (`useReducedMotion()` / a direct `matchMedia` check) and disables pins, scrub, parallax, and the custom cursor, falling back to a static, fully readable layout. The theme toggle (`hooks/useTheme.ts`) does a circular `clip-path` wipe from the toggle button's click position, skipped in favor of an instant swap under reduced motion.
+The heavier GSAP primitives in `/components/motion` and `/hooks` are still in the repo but are no longer mounted on the home page.
 
 ## Deploy
 

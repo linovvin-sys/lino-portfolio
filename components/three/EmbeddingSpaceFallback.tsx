@@ -20,7 +20,10 @@ function project(position: readonly [number, number, number]): { cx: number; cy:
   const depth = (z + 1.5) / 3; // roughly 0..1
   const r = 1.6 + depth * 1.4;
   const opacity = 0.35 + depth * 0.4;
-  return { cx, cy, r, opacity };
+  // Rounded so server- and client-rendered markup match exactly (raw floats
+  // differ in the last digit between engines and cause hydration errors).
+  const round = (n: number) => Math.round(n * 100) / 100;
+  return { cx: round(cx), cy: round(cy), r: round(r), opacity: round(opacity) };
 }
 
 export function EmbeddingSpaceFallback() {

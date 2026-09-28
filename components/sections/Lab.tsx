@@ -1,10 +1,7 @@
-'use client';
-
-import { Container } from '@/components/ui/Container';
-import { SectionHeader } from '@/components/ui/SectionHeader';
-import { ClipReveal } from '@/components/motion/ClipReveal';
-import { cn } from '@/lib/utils';
 import { lab } from '@/content/lab';
+import { Section } from '@/components/ui/Section';
+import { SectionHeader } from '@/components/ui/SectionHeader';
+import { ArrowRight } from '@/components/ui/Icons';
 
 interface LabProps {
   id?: string;
@@ -12,43 +9,43 @@ interface LabProps {
 
 export function Lab({ id }: LabProps) {
   return (
-    <section id={id} className="py-24 md:py-32 bg-[var(--color-surface)] text-[var(--color-fg)]">
-      <Container>
-        <SectionHeader index={6} title="Lab" subtitle="Functional client-side experiments — no server round-trip, no model calls." />
+    <Section id={id} tone="surface">
+      <SectionHeader
+        index={6}
+        eyebrow="Lab"
+        title="Small, interactive experiments."
+        subtitle="Everything runs in your browser: no server round-trips and no model calls."
+      />
 
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[250px]">
-          {lab.map((exp, i) => (
-            <div
-              key={exp.id}
-              className={cn(
-                'relative group overflow-hidden border border-[var(--color-rule)] p-6 bg-[var(--color-bg)] flex flex-col hover:bg-[var(--color-surface)] transition-colors',
-                i === 0 ? 'md:col-span-2 md:row-span-2 p-10' : 'md:col-span-1 md:row-span-1',
-              )}
+      <ul className="mt-14 grid grid-cols-1 gap-[var(--grid-gap)] md:mt-20 md:grid-cols-2 lg:grid-cols-3">
+        {lab.map((exp, i) => (
+          <li key={exp.id} data-reveal style={{ ['--reveal-delay' as string]: `${(i % 3) * 60}ms` }}>
+            <a
+              href={`/lab/${exp.id}`}
+              className="group flex h-full flex-col rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-bg)] p-6 transition-[border-color,transform] duration-300 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:border-[color-mix(in_oklab,var(--color-fg)_20%,var(--color-rule))] md:p-7"
             >
-              <ClipReveal delay={i * 0.1} className="h-full flex flex-col">
-                <a href={`/lab/${exp.id}`} className="absolute inset-0 z-10 block" aria-label={`Open ${exp.title}`} />
-
-                <div className="flex justify-between items-start mb-4 relative z-20">
-                  <span className="font-mono text-xs uppercase tracking-wider text-[var(--color-accent)]">{exp.category}</span>
-                  <span className="font-mono text-xs px-2 py-1 bg-[var(--color-code-bg)]">{exp.status}</span>
+              <div className="flex items-center justify-between gap-4">
+                <span className="eyebrow">{exp.category}</span>
+                <span className="inline-flex items-center gap-1.5 text-[12px] text-[var(--color-muted)]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
+                  {exp.status}
+                </span>
+              </div>
+              <h3 className="font-display mt-8 text-[1.625rem] leading-[1.15] text-[var(--color-fg)]">{exp.title}</h3>
+              <p className="mt-3 text-[15px] leading-relaxed text-[var(--color-muted)]">{exp.description}</p>
+              <div className="mt-auto pt-8">
+                <div className="flex items-center justify-between gap-4 border-t border-[var(--color-rule)] pt-5 text-[13px]">
+                  <span className="text-[var(--color-muted)]">{exp.techStack.join(' · ')}</span>
+                  <span className="inline-flex shrink-0 items-center gap-1.5 font-medium text-[var(--color-fg)]">
+                    Open
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 ease-[var(--ease-out)] group-hover:translate-x-0.5" />
+                  </span>
                 </div>
-
-                <h3 className={cn('font-display mb-2 mt-auto', i === 0 ? 'text-4xl' : 'text-xl')}>
-                  {exp.title}
-                </h3>
-
-                <p className={cn('font-body text-[var(--color-muted)]', i === 0 ? 'text-lg mb-8' : 'text-sm mb-4 line-clamp-2')}>
-                  {exp.description}
-                </p>
-
-                <div className="font-mono text-xs text-[var(--color-muted)] mt-auto pt-4 border-t border-[var(--color-rule)]">
-                  {exp.techStack.join(' · ')}
-                </div>
-              </ClipReveal>
-            </div>
-          ))}
-        </div>
-      </Container>
-    </section>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </Section>
   );
 }

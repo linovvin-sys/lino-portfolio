@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
 import type { Metadata } from 'next';
 import { lab } from '@/content/lab';
 import { labComponents } from '@/components/lab/registry';
+import { PageShell } from '@/components/ui/PageShell';
+import { TagList } from '@/components/ui/Tag';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -34,42 +35,29 @@ export default async function LabExperimentPage({ params }: PageProps) {
   const Component = labComponents[experiment.id];
 
   return (
-    <main className="min-h-screen px-6 pt-32 pb-24">
-      <div className="max-w-4xl mx-auto">
-        <Link
-          href="/#lab"
-          className="inline-block mb-8 font-mono text-sm text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors"
-        >
-          &larr; Back to Lab
-        </Link>
+    <PageShell back={{ href: '/#lab', label: 'All experiments' }}>
+      <header className="max-w-3xl">
+        <p className="eyebrow flex items-center gap-3">
+          <span className="text-[var(--color-accent)]">Lab</span>
+          <span aria-hidden="true" className="h-px w-6 bg-[var(--color-rule)]" />
+          <span>{experiment.category}</span>
+        </p>
+        <h1 className="font-display mt-5 text-[clamp(2.5rem,1.8rem+3vw,4.25rem)] leading-[1.02] text-[var(--color-fg)]">
+          {experiment.title}
+        </h1>
+        <p className="mt-6 max-w-2xl text-[length:var(--text-lg)] leading-relaxed text-[var(--color-muted)]">
+          {experiment.description}
+        </p>
+        <TagList items={experiment.techStack} className="mt-6" />
+      </header>
 
-        <header className="mb-12 border-b border-[var(--color-rule)] pb-12">
-          <div className="flex gap-4 font-mono text-xs uppercase tracking-widest text-[var(--color-accent)] mb-4">
-            <span>{experiment.category}</span>
-            <span className="text-[var(--color-muted)]">{experiment.status}</span>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-display mb-6 leading-tight">{experiment.title}</h1>
-          <p className="text-lg md:text-xl text-[var(--color-muted)] max-w-2xl">{experiment.description}</p>
-
-          <ul className="mt-8 flex flex-wrap gap-2 font-mono text-xs">
-            {experiment.techStack.map((tech) => (
-              <li key={tech} className="px-2 py-1 border border-[var(--color-rule)] text-[var(--color-fg)]">
-                {tech}
-              </li>
-            ))}
-          </ul>
-        </header>
-
-        <section>
-          {Component ? (
-            <Component />
-          ) : (
-            <p className="font-mono text-sm text-[var(--color-muted)]">
-              This experiment doesn&apos;t have an implementation registered yet.
-            </p>
-          )}
-        </section>
-      </div>
-    </main>
+      <section className="mt-12 rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-surface)] p-5 shadow-[var(--shadow-card)] sm:p-8">
+        {Component ? (
+          <Component />
+        ) : (
+          <p className="text-sm text-[var(--color-muted)]">This experiment doesn&apos;t have an implementation registered yet.</p>
+        )}
+      </section>
+    </PageShell>
   );
 }

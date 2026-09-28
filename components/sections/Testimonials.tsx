@@ -1,42 +1,49 @@
-'use client';
-
-import { Container } from '@/components/ui/Container';
-import { SectionHeader } from '@/components/ui/SectionHeader';
-import { StackingCards } from '@/components/motion/StackingCards';
 import { testimonials } from '@/content/testimonials';
+import { Section } from '@/components/ui/Section';
+import { SectionHeader } from '@/components/ui/SectionHeader';
 
 interface TestimonialsProps {
   id?: string;
 }
 
+function initials(name: string) {
+  return name
+    .split(' ')
+    .map((p) => p[0])
+    .slice(0, 2)
+    .join('');
+}
+
 export function Testimonials({ id }: TestimonialsProps) {
   return (
-    <section id={id} className="py-24 md:py-32 bg-[var(--color-bg)] text-[var(--color-fg)]">
-      <Container>
-        <SectionHeader index={7} title="Select Endorsements" />
-      </Container>
+    <Section id={id}>
+      <SectionHeader index={7} eyebrow="Endorsements" title="What collaborators say." />
 
-      <div className="mt-16">
-        <StackingCards>
-          {testimonials.map((testimonial) => (
-            <div
-              key={testimonial.id}
-              className="w-full min-h-[60vh] bg-[var(--color-surface)] border-y border-[var(--color-rule)] flex flex-col justify-center px-6 md:px-[var(--space-16)] py-20"
-            >
-              <div className="max-w-5xl mx-auto w-full">
-                <blockquote className="font-display text-3xl md:text-5xl lg:text-6xl leading-tight mb-12">
-                  &ldquo;{testimonial.quote}&rdquo;
-                </blockquote>
-
-                <div className="flex flex-col font-mono text-sm uppercase tracking-wide">
-                  <span className="font-bold text-[var(--color-fg)] mb-1">{testimonial.author}</span>
-                  <span className="text-[var(--color-muted)]">{testimonial.role}, {testimonial.company}</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </StackingCards>
-      </div>
-    </section>
+      <ul className="mt-14 grid grid-cols-1 gap-[var(--grid-gap)] md:mt-20 lg:grid-cols-3">
+        {testimonials.map((t, i) => (
+          <li key={t.id} data-reveal style={{ ['--reveal-delay' as string]: `${i * 60}ms` }}>
+            <figure className="flex h-full flex-col rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-surface)] p-7 shadow-[var(--shadow-card)] md:p-8">
+              <span aria-hidden="true" className="font-display h-6 text-5xl leading-none text-[var(--color-accent)]">
+                &ldquo;
+              </span>
+              <blockquote className="mt-4 text-[length:var(--text-md)] leading-relaxed text-[var(--color-fg)]">
+                {t.quote}
+              </blockquote>
+              <figcaption className="mt-auto flex items-center gap-3 pt-8">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-subtle)] text-[13px] font-medium text-[var(--color-fg)]">
+                  {initials(t.author)}
+                </span>
+                <span>
+                  <span className="block text-sm font-medium text-[var(--color-fg)]">{t.author}</span>
+                  <span className="block text-[13px] text-[var(--color-muted)]">
+                    {t.role}, {t.company}
+                  </span>
+                </span>
+              </figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </Section>
   );
 }

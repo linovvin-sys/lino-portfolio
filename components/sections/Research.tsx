@@ -1,67 +1,76 @@
-'use client';
-
-import { useRef } from 'react';
-import { Container } from '@/components/ui/Container';
-import { SectionHeader } from '@/components/ui/SectionHeader';
-import { Label } from '@/components/ui/Label';
-import { HorizontalScroll } from '@/components/motion/HorizontalScroll';
-import { cn } from '@/lib/utils';
 import { writing } from '@/content/writing';
+import { Section } from '@/components/ui/Section';
+import { SectionHeader } from '@/components/ui/SectionHeader';
+import { ArrowUpRight } from '@/components/ui/Icons';
+import { cn } from '@/lib/utils';
 import type { Writing } from '@/content/schemas';
 
 interface ResearchProps {
   id?: string;
 }
 
+const TYPE_LABEL: Record<Writing['type'], string> = {
+  blog: 'Essay',
+  talk: 'Talk',
+  workshop: 'Workshop',
+  paper: 'Paper',
+  podcast: 'Podcast',
+};
+
+function formatDate(date: string) {
+  const d = new Date(`${date}T00:00:00Z`);
+  if (Number.isNaN(d.getTime())) return date;
+  return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+}
+
 export function Research({ id }: ResearchProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
   return (
-    <section id={id} ref={containerRef} className="py-24 md:py-32 bg-[var(--color-bg)] text-[var(--color-fg)] overflow-hidden">
-      <Container>
-        <SectionHeader index={4} title="Research, Writing & Talks" />
-      </Container>
+    <Section id={id} tone="surface">
+      <SectionHeader
+        index={4}
+        eyebrow="Research, writing & talks"
+        title="Notes from the field."
+        subtitle="Essays, talks and papers on retrieval, evaluation and serving models at scale."
+      />
 
-      <div className="mt-16 hidden md:block">
-        <HorizontalScroll>
-          <div className="flex gap-8 px-[var(--space-16)] h-[50vh] items-center">
-            {writing.map((item) => (
-              <ResearchCard key={item.id} item={item} />
-            ))}
-          </div>
-        </HorizontalScroll>
-      </div>
-
-      <div className="mt-16 flex flex-col gap-8 px-6 md:hidden">
-        {writing.map((item) => (
-          <ResearchCard key={item.id} item={item} />
+      <ul className="mt-14 grid grid-cols-1 gap-[var(--grid-gap)] md:mt-20 md:grid-cols-2 lg:grid-cols-3">
+        {writing.map((item, i) => (
+          <li key={item.id} data-reveal style={{ ['--reveal-delay' as string]: `${(i % 3) * 60}ms` }}>
+            <WritingCard item={item} />
+          </li>
         ))}
-      </div>
-    </section>
+      </ul>
+    </Section>
   );
 }
 
-function ResearchCard({ item }: { item: Writing }) {
+function WritingCard({ item }: { item: Writing }) {
+  const href = item.url && item.url !== '#' ? item.url : undefined;
+  const Tag = href ? 'a' : 'div';
+
   return (
-    <div
+    <Tag
+      {...(href ? { href, target: '_blank', rel: 'noopener noreferrer' } : {})}
       className={cn(
-        'flex flex-col justify-between shrink-0 bg-[var(--color-surface)] border border-[var(--color-rule)] p-8 h-full min-h-[300px]',
-        item.featured ? 'w-[80vw] md:w-[600px]' : 'w-[80vw] md:w-[400px]',
+        'group flex h-full flex-col rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-bg)] p-6 md:p-7',
+        href &&
+          'transition-[border-color,transform] duration-300 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:border-[color-mix(in_oklab,var(--color-fg)_20%,var(--color-rule))]',
       )}
     >
-      <div className="flex justify-between items-start mb-8">
-        <Label className="uppercase text-[var(--color-accent)]">{item.type}</Label>
-        <span className="font-mono text-sm text-[var(--color-muted)]">{item.date}</span>
+      <div className="flex items-center justify-between gap-4">
+        <span className="eyebrow text-[var(--color-accent)]">{TYPE_LABEL[item.type]}</span>
+        <span className="font-tabular text-[13px] text-[var(--color-muted)]">{formatDate(item.date)}</span>
       </div>
-      <div>
-        <h3 className="font-display text-2xl md:text-3xl mb-4">{item.title}</h3>
-        <p className="font-body text-[var(--color-muted)] mb-6">{item.description}</p>
-        {item.venue && (
-          <div className="font-mono text-sm bg-[var(--color-code-bg)] inline-block px-3 py-1 rounded-sm">
-            {item.venue}
-          </div>
+      <h3 className="font-display mt-8 text-[1.625rem] leading-[1.15] text-[var(--color-fg)]">{item.title}</h3>
+      <p className="mt-3 text-[15px] leading-relaxed text-[var(--color-muted)]">{item.description}</p>
+      <div className="mt-auto pt-8">
+        <div className="flex items-center justify-between gap-4 border-t border-[var(--color-rule)] pt-5">
+        <span className="text-[13px] text-[var(--color-fg)]">{item.venue}</span>
+        {href && (
+          <ArrowUpRight className="h-4 w-4 text-[var(--color-muted)] transition-[color,transform] duration-300 ease-[var(--ease-out)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--color-fg)]" />
         )}
+        </div>
       </div>
-    </div>
+    </Tag>
   );
 }
