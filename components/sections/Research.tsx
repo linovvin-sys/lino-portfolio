@@ -27,10 +27,10 @@ export function Research({ id }: ResearchProps) {
   return (
     <Section id={id} tone="surface">
       <SectionHeader
-        index={4}
-        eyebrow="Research, writing & talks"
-        title="Notes from the field."
-        subtitle="Essays, talks and papers on retrieval, evaluation and serving models at scale."
+        index={5}
+        eyebrow="Writing & talks"
+        title="Notes from the network."
+        subtitle="Posts, talks and workshops on network automation, observability and reliability."
       />
 
       <ul className="mt-14 grid grid-cols-1 gap-[var(--grid-gap)] md:mt-20 md:grid-cols-2 lg:grid-cols-3">

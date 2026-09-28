@@ -20,8 +20,31 @@ function tokenizeForDiff(text: string): string[] {
 }
 
 export function diffWords(before: string, after: string): DiffSegment[] {
-  const a = tokenizeForDiff(before);
-  const b = tokenizeForDiff(after);
+  return diffTokens(tokenizeForDiff(before), tokenizeForDiff(after), true);
+}
+
+export interface LineDiff {
+  op: DiffOp;
+  value: string;
+  /** 1-based line number in the "before" text (delete/equal) */
+  oldLine?: number;
+  /** 1-based line number in the "after" text (insert/equal) */
+  newLine?: number;
+}
+
+/** Line-level diff, one entry per line, like `git diff` / `show | compare`. */
+export function diffLines(before: string, after: string): LineDiff[] {
+  const segments = diffTokens(before.split('\n'), after.split('\n'), false);
+  let oldLine = 0;
+  let newLine = 0;
+  return segments.map((s) => {
+    if (s.op === 'equal') return { ...s, oldLine: ++oldLine, newLine: ++newLine };
+    if (s.op === 'delete') return { ...s, oldLine: ++oldLine };
+    return { ...s, newLine: ++newLine };
+  });
+}
+
+function diffTokens(a: string[], b: string[], merge: boolean): DiffSegment[] {
   const n = a.length;
   const m = b.length;
 
@@ -47,7 +70,7 @@ export function diffWords(before: string, after: string): DiffSegment[] {
 
   const pushOrMerge = (op: DiffOp, value: string) => {
     const last = segments[segments.length - 1];
-    if (last && last.op === op) {
+    if (merge && last && last.op === op) {
       last.value += value;
     } else {
       segments.push({ op, value });

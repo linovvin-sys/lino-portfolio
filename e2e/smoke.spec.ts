@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test.describe("Navigation", () => {
   test("should load the home page", async ({ page }) => {
     await page.goto("/");
-    await expect(page).toHaveTitle(/Senior Generative AI Engineer/);
+    await expect(page).toHaveTitle(/Network DevOps Engineer/);
   });
 
   test("should navigate to work page", async ({ page }) => {
@@ -53,8 +53,10 @@ test.describe("Contact Form", () => {
       await submitButton.click();
 
       // Should show success or error state
+      // Success renders role="status"; a server-side failure renders role="alert".
+      const contact = page.locator("#contact");
       await expect(
-        page.locator("text=Thank you").or(page.locator("text=error")),
+        contact.getByRole("status").or(contact.getByRole("alert")),
       ).toBeVisible({ timeout: 5000 });
     }
   });

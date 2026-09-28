@@ -1,0 +1,83 @@
+---
+slug: "infrastructure-as-code"
+title: "Multi-Cloud Infrastructure as Code"
+subtitle: "Terraform modules and policy-as-code provisioning three clouds from a single pipeline"
+category: "Infrastructure as Code"
+year: "2024"
+client: "[CLIENT NAME]"
+role: "Network DevOps Engineer"
+duration: "5 months"
+team: "4 engineers"
+stack:
+  - "Terraform"
+  - "Terragrunt"
+  - "AWS"
+  - "Azure"
+  - "GCP"
+  - "OPA"
+  - "GitHub Actions"
+problem: "Cloud networks had been built by hand in three different consoles. No two environments matched, a new environment took two weeks of tickets, and nobody could say with confidence which firewall rules were still needed."
+constraints:
+  - "AWS, Azure and GCP all in production"
+  - "Existing resources had to be imported, not recreated"
+  - "Security team required policy checks before any apply"
+  - "Hub-and-spoke topology with centralised egress inspection"
+  - "Plans must be readable by reviewers who don't write Terraform"
+outcome: "Every network resource across three clouds is now defined in Terraform. New environments spin up in 12 minutes from a pull request, drift is detected nightly, and the firewall rule base shrank by 40% once every rule had an owner in code."
+metrics:
+  - label: "Environment spin-up"
+    value: "12 min"
+  - label: "Resources managed"
+    value: "3,400+"
+  - label: "Config drift"
+    value: "0"
+  - label: "Firewall rules"
+    value: "−40%"
+published: true
+---
+
+{/* PLACEHOLDER — All content below is realistic but illustrative. Replace with your real project details. */}
+
+## Module design
+
+I built a small set of composable modules, one per network building block, and a Terragrunt layout that keeps each environment to a few lines of input.
+
+```hcl
+module "spoke_vpc" {
+  source          = "git::https://git.example.com/tf/network//spoke-vpc?ref=v2.4.0"
+  name            = "payments-prod"
+  cidr            = "10.42.0.0/16"
+  azs             = ["ap-southeast-1a", "ap-southeast-1b", "ap-southeast-1c"]
+  transit_gateway = dependency.hub.outputs.tgw_id
+  egress          = "centralised"
+}
+```
+
+### Importing what already existed
+
+Rather than recreating live networks, we imported existing resources in batches, compared plans to zero diff, and only then handed each environment over to the pipeline.
+
+## Guardrails
+
+### Policy as code
+
+OPA policies run against every plan: no public subnets without an approved exception, no `0.0.0.0/0` ingress, mandatory tags, and CIDRs that must come from the IPAM allocation.
+
+| Check | Tool | Blocks merge |
+|-------|------|--------------|
+| Formatting and validation | terraform fmt / validate | Yes |
+| Security misconfigurations | Checkov | Yes |
+| Organisation policy | OPA / Conftest | Yes |
+| Cost estimate | Infracost | No (comment only) |
+
+### Drift detection
+
+A nightly job runs `terraform plan` for every environment and opens an issue when it finds differences, so console changes are caught within a day.
+
+## Key decisions and trade-offs
+
+1. **Terragrunt over workspaces**: Explicit directories per environment made plans easier to review and state files smaller and safer.
+
+2. **Versioned modules**: Environments pin module versions, so a module change never silently alters production. Upgrades are their own reviewed pull requests.
+
+3. **Plan output in pull requests**: Reviewers see a summarised plan as a comment, which made security and network reviewers comfortable approving changes without reading HCL.

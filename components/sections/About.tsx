@@ -4,6 +4,7 @@ import { Section } from '@/components/ui/Section';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { AvailabilityDot } from '@/components/ui/AvailabilityDot';
 import { formatIndex } from '@/lib/utils';
+import { UptimeBars } from '@/components/network/UptimeBars';
 
 interface AboutProps {
   id?: string;
@@ -18,7 +19,7 @@ export function About({ id }: AboutProps) {
 
   return (
     <Section id={id} tone="surface">
-      <SectionHeader index={8} eyebrow="About" title="Research rigor, product instincts." />
+      <SectionHeader index={9} eyebrow="About" title="Network fundamentals, software discipline." />
 
       <div className="mt-14 grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-14 md:mt-20">
         <div className="col-span-12 lg:col-span-7">
@@ -61,7 +62,8 @@ export function About({ id }: AboutProps) {
                 </div>
               ))}
             </dl>
-            <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+            <UptimeBars className="mt-6" />
+            <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 border-t border-[var(--color-rule)] pt-5 text-sm">
               {[
                 { label: 'GitHub', href: profile.links.github },
                 { label: 'LinkedIn', href: profile.links.linkedin },

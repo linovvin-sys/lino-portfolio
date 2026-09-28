@@ -1,27 +1,32 @@
 'use client';
 
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { AvailabilityDot } from '@/components/ui/AvailabilityDot';
 import { ArrowRight } from '@/components/ui/Icons';
 import { Magnetic } from '@/components/motion/Magnetic';
-import { TokenStream } from '@/components/motion/TokenStream';
 import { AnimatedNumber } from '@/components/motion/AnimatedNumber';
 import { TechMarquee } from '@/components/motion/TechMarquee';
-import { EmbeddingSpaceScene } from '@/components/three/EmbeddingSpaceScene';
+import { NetworkTopology, type TopologyEvent } from '@/components/network/NetworkTopology';
+import { Terminal, type TerminalLine } from '@/components/network/Terminal';
 import { useLocalTime } from '@/hooks/useLocalTime';
 import { profile } from '@/content/profile';
 import { metricsStrip } from '@/content/metrics';
 import { projects } from '@/content/projects';
+import { cn } from '@/lib/utils';
 
 interface HeroProps {
   id?: string;
 }
 
-const STREAM = [
-  { p: 0.94, text: 'Building intelligent systems.' },
-  { p: 0.88, text: 'Bridging models and interfaces.' },
-  { p: 0.99, text: 'Shipping them to production.' },
+/** Plays once on load: a deploy run, a health check, then a hint to interact. */
+const BOOT: Omit<TerminalLine, 'id'>[] = [
+  { text: 'ansible-playbook fabric.yml --limit spine,leaf', tone: 'command' },
+  { text: 'PLAY RECAP  spine-01..leaf-04  ok=84  changed=6  failed=0', tone: 'ok' },
+  { text: 'show bgp evpn summary | count Established', tone: 'command' },
+  { text: '8/8 sessions Established · fabric healthy', tone: 'ok' },
+  { text: '# hover the map · click a spine or edge to fail it · click a server to ping', tone: 'muted' },
 ];
 
 const STACK = Array.from(new Set(projects.flatMap((p) => p.stack)));
@@ -37,6 +42,29 @@ const delay = (ms: number) => ({ ['--delay' as string]: `${ms}ms` });
 
 export function Hero({ id }: HeroProps) {
   const time = useLocalTime(profile.timezone);
+  const nextId = useRef(BOOT.length);
+  const [lines, setLines] = useState<TerminalLine[]>(() => BOOT.map((l, i) => ({ ...l, id: i })));
+  const [health, setHealth] = useState({ up: 0, total: 0 });
+
+  // Replay the boot sequence line by line (the server HTML already holds the final text)
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    setLines([]);
+    let at = 1000;
+    const timers = BOOT.map((line, i) => {
+      const timer = setTimeout(() => setLines((prev) => [...prev, { ...line, id: i }]), at);
+      // commands type at ~22ms/char (see Terminal); give output a beat after that
+      at += line.tone === 'command' ? line.text.length * 22 + 450 : 700;
+      return timer;
+    });
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  const onEvent = useCallback((event: TopologyEvent) => {
+    setLines((prev) => [...prev.slice(-20), { id: nextId.current++, text: event.text, tone: event.tone }]);
+  }, []);
+  const onHealthChange = useCallback((up: number, total: number) => setHealth({ up, total }), []);
+  const degraded = health.total > 0 && health.up < health.total;
 
   return (
     <section id={id} className="relative w-full pt-[calc(var(--nav-height)+56px)] md:pt-[calc(var(--nav-height)+88px)]">
@@ -99,23 +127,26 @@ export function Hero({ id }: HeroProps) {
           <figure style={delay(300)} className="animate-rise-in col-span-12 lg:col-span-5">
             <div className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-surface)] shadow-[var(--shadow-card)]">
               <div className="flex items-center justify-between border-b border-[var(--color-rule)] px-5 py-3">
-                <span className="eyebrow">Fig. 01 — Embedding space</span>
-                <span className="flex gap-1.5" aria-hidden="true">
-                  <span className="h-2 w-2 rounded-full bg-[var(--color-rule)]" />
-                  <span className="h-2 w-2 rounded-full bg-[var(--color-rule)]" />
-                  <span className="h-2 w-2 rounded-full bg-[var(--color-accent)]" />
+                <span className="eyebrow">Fig. 01 — Live fabric</span>
+                <span
+                  className={cn(
+                    'inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors duration-300',
+                    degraded
+                      ? 'bg-[color-mix(in_oklab,var(--color-accent)_12%,transparent)] text-[var(--color-accent)]'
+                      : 'bg-[color-mix(in_oklab,#10b981_12%,transparent)] text-emerald-700 dark:text-emerald-400',
+                  )}
+                >
+                  <span className={cn('h-1.5 w-1.5 rounded-full', degraded ? 'bg-[var(--color-accent)]' : 'bg-emerald-500')} />
+                  <span className="font-tabular">
+                    {health.total ? `${health.up}/${health.total} links up` : 'all links up'}
+                  </span>
                 </span>
               </div>
-              <div className="relative aspect-[4/3] w-full">
-                <EmbeddingSpaceScene />
-              </div>
-              <div className="border-t border-[var(--color-rule)] px-5 py-4">
-                <p className="eyebrow mb-2.5">Sampled output</p>
-                <TokenStream lines={STREAM} startDelay={1100} />
-              </div>
+              <NetworkTopology className="aspect-[480/330] w-full px-2 pt-2" onEvent={onEvent} onHealthChange={onHealthChange} />
+              <Terminal lines={lines} rows={5} />
             </div>
             <figcaption className="mt-3 text-[13px] text-[var(--color-muted)]">
-              Four concept clusters I work across. Move your cursor over the field.
+              A spine-leaf fabric like the ones I automate. Break something. The network routes around it.
             </figcaption>
           </figure>
         </div>

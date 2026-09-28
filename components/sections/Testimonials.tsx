@@ -17,7 +17,7 @@ function initials(name: string) {
 export function Testimonials({ id }: TestimonialsProps) {
   return (
     <Section id={id}>
-      <SectionHeader index={7} eyebrow="Endorsements" title="What collaborators say." />
+      <SectionHeader index={8} eyebrow="Endorsements" title="What collaborators say." />
 
       <ul className="mt-14 grid grid-cols-1 gap-[var(--grid-gap)] md:mt-20 lg:grid-cols-3">
         {testimonials.map((t, i) => (

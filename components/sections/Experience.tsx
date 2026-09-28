@@ -5,6 +5,7 @@ import { TagList } from '@/components/ui/Tag';
 import { Button } from '@/components/ui/Button';
 import { ArrowUpRight } from '@/components/ui/Icons';
 import { profile } from '@/content/profile';
+import { TimelineProgress } from '@/components/motion/TimelineProgress';
 
 interface ExperienceProps {
   id?: string;
@@ -14,9 +15,9 @@ export function Experience({ id }: ExperienceProps) {
   return (
     <Section id={id}>
       <SectionHeader
-        index={3}
+        index={4}
         eyebrow="Experience"
-        title="From the research lab to production AI."
+        title="From the NOC to Network DevOps."
         action={
           profile.links.resume ? (
             <Button href={profile.links.resume} variant="secondary">
@@ -31,8 +32,9 @@ export function Experience({ id }: ExperienceProps) {
         {experience.map((role) => (
           <li
             key={role.id}
+            data-timeline-item
             data-reveal
-            className="grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-4 border-b border-[var(--color-rule)] py-10 md:py-12"
+            className="group/role grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-4 border-b border-[var(--color-rule)] py-10 md:border-b-0 md:py-12"
           >
             <div className="col-span-12 md:col-span-3">
               <p className="font-tabular text-sm text-[var(--color-fg)]">
@@ -41,7 +43,18 @@ export function Experience({ id }: ExperienceProps) {
               <p className="mt-1 text-[13px] text-[var(--color-muted)]">{role.location}</p>
             </div>
 
-            <div className="col-span-12 md:col-span-9 lg:col-span-8">
+            <div className="relative col-span-12 md:col-span-9 md:pl-12 lg:col-span-8">
+              {/* scroll-linked timeline rail */}
+              <span aria-hidden="true" className="absolute -bottom-12 -top-12 left-0 hidden w-px bg-[var(--color-rule)] md:block" />
+              <span
+                aria-hidden="true"
+                className="absolute -bottom-12 -top-12 left-0 hidden w-px origin-top bg-[var(--color-accent)] md:block"
+                style={{ transform: 'scaleY(var(--p, 0))' }}
+              />
+              <span
+                aria-hidden="true"
+                className="absolute left-[-5px] top-2.5 hidden h-[11px] w-[11px] rounded-full border-2 border-[var(--color-rule)] bg-[var(--color-bg)] transition-[border-color,background-color,transform] duration-500 ease-[var(--ease-out)] group-data-[active]/role:scale-110 group-data-[active]/role:border-[var(--color-accent)] group-data-[active]/role:bg-[var(--color-accent)] md:block"
+              />
               <h3 className="font-display text-[length:var(--text-2xl)] leading-[1.1] text-[var(--color-fg)]">
                 {role.role}
                 <span className="text-[var(--color-muted)]"> · {role.company}</span>
@@ -65,6 +78,7 @@ export function Experience({ id }: ExperienceProps) {
           </li>
         ))}
       </ol>
+      <TimelineProgress scope="#experience" />
     </Section>
   );
 }

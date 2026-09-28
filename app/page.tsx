@@ -2,6 +2,7 @@ import { Nav } from '@/components/sections/Nav';
 import { Hero } from '@/components/sections/Hero';
 import { SelectedWork } from '@/components/sections/SelectedWork';
 import { Capabilities } from '@/components/sections/Capabilities';
+import { Workflow } from '@/components/sections/Workflow';
 import { Experience } from '@/components/sections/Experience';
 import { Research } from '@/components/sections/Research';
 import { OpenSource } from '@/components/sections/OpenSource';
@@ -31,6 +32,7 @@ export default function Home() {
         <Hero id="hero" />
         <SelectedWork id="work" />
         <Capabilities id="capabilities" />
+        <Workflow id="workflow" />
         <Experience id="experience" />
         <Research id="research" />
         <OpenSource id="oss" />

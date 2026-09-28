@@ -20,11 +20,13 @@ export const siteMetadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   keywords: [
-    "Generative AI",
-    "LLM",
-    "Machine Learning",
-    "RAG",
-    "AI Engineer",
+    "Network DevOps",
+    "Network Automation",
+    "Infrastructure as Code",
+    "Ansible",
+    "Terraform",
+    "Kubernetes",
+    "Site Reliability",
     "Portfolio",
   ],
   authors: [{ name: SITE_NAME }],
@@ -70,8 +72,8 @@ export const siteMetadata: Metadata = {
 
 export const siteViewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#EDEAE3" },
-    { media: "(prefers-color-scheme: dark)", color: "#0E0E0C" },
+    { media: "(prefers-color-scheme: light)", color: "#F5F3EE" },
+    { media: "(prefers-color-scheme: dark)", color: "#0F0F0E" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -97,11 +99,12 @@ export function getPersonJsonLd(): Record<string, unknown> {
     email: profile.links.email,
     sameAs,
     knowsAbout: [
-      "Large Language Models",
-      "Retrieval-Augmented Generation",
-      "LLM Evaluation",
-      "Inference Optimization",
-      "Multi-Agent Systems",
+      "Network Automation",
+      "Infrastructure as Code",
+      "CI/CD",
+      "Kubernetes",
+      "Network Observability",
+      "Site Reliability Engineering",
     ],
   };
 }

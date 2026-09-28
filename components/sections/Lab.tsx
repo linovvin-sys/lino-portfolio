@@ -11,10 +11,10 @@ export function Lab({ id }: LabProps) {
   return (
     <Section id={id} tone="surface">
       <SectionHeader
-        index={6}
+        index={7}
         eyebrow="Lab"
-        title="Small, interactive experiments."
-        subtitle="Everything runs in your browser: no server round-trips and no model calls."
+        title="Tools you can play with."
+        subtitle="Interactive networking and platform tools that run entirely in your browser."
       />
 
       <ul className="mt-14 grid grid-cols-1 gap-[var(--grid-gap)] md:mt-20 md:grid-cols-2 lg:grid-cols-3">

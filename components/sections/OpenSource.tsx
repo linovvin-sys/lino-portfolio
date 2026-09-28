@@ -13,6 +13,7 @@ const LANGUAGE_COLOR: Record<string, string> = {
   TypeScript: '#3178C6',
   Rust: '#DEA584',
   Go: '#00ADD8',
+  HCL: '#844FBA',
 };
 
 export function OpenSource({ id }: OpenSourceProps) {
@@ -20,7 +21,7 @@ export function OpenSource({ id }: OpenSourceProps) {
 
   return (
     <Section id={id}>
-      <SectionHeader index={5} eyebrow="Open source" title="Tools I maintain in the open." />
+      <SectionHeader index={6} eyebrow="Open source" title="Tools I maintain in the open." />
 
       <ul className="mt-14 grid grid-cols-1 gap-[var(--grid-gap)] md:mt-20 md:grid-cols-2 lg:grid-cols-6">
         {oss.map((repo, i) => (

@@ -1,6 +1,6 @@
 # lino-portfolio
 
-Portfolio for a Senior Generative AI Engineer — Next.js App Router, TypeScript strict mode, Tailwind v4, GSAP/Lenis-driven scroll scenes, and a small RAG-grounded "Ask me" agent.
+Portfolio for a Network DevOps Engineer — Next.js App Router, TypeScript strict mode, Tailwind v4, Lenis smooth scrolling, an interactive live network topology in the hero, browser-based networking lab tools, and a small RAG-grounded "Ask me" agent.
 
 ## Setup
 
@@ -48,15 +48,19 @@ All portfolio content lives in `/content` as typed TypeScript files, each valida
 | `content/profile.ts` | Name, title, bio, links, availability, operating principles |
 | `content/projects.ts` | Selected Work index — slugs here must match a file in `content/case-studies/` |
 | `content/case-studies/*.mdx` | The long-form case study write-ups (frontmatter validated by `caseStudyFrontmatterSchema`, body is MDX) |
-| `content/capabilities.ts` | The five pinned capability groups |
+| `content/capabilities.ts` | The five capability groups |
 | `content/experience.ts` | Timeline roles, each with 2–4 metric-backed impact bullets |
-| `content/writing.ts` | Research, Writing & Talks horizontal scroller |
+| `content/writing.ts` | Writing & talks cards |
 | `content/oss.ts` | Open Source repo cards |
-| `content/testimonials.ts` | Stacking-card pull quotes |
+| `content/testimonials.ts` | Endorsement cards |
 | `content/lab.ts` | Lab experiment index — `id` must match a route under `app/lab/[slug]` and a `component` registered in `components/lab/registry.ts` |
 | `content/education.ts` | Degrees and certifications |
-| `content/metrics.ts` | The count-up metrics strip between Hero and Capabilities |
+| `content/metrics.ts` | The count-up metrics strip under the hero |
 | `content/navigation.ts` | Nav/footer sitemap links |
+
+The hero's interactive topology lives in `components/network/` (`topology.ts` holds node positions and links; `NetworkTopology.tsx` runs the packet simulation; `Terminal.tsx` is the log pane). The Workflow section's pipeline stages are defined at the top of `components/sections/Workflow.tsx`.
+
+Everything marked `PLACEHOLDER` in `/content` is illustrative and should be replaced with your real details.
 
 To add a new case study: add a project to `content/projects.ts` and an MDX file to `content/case-studies/` with a matching `slug`. `app/work/[slug]/page.tsx` reads both — the project entry for the index-page card, the MDX file for the detail page (problem, constraints, architecture, outcome, and a scroll-spy side nav generated from its `##` headings).
 

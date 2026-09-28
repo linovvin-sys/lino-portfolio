@@ -13,8 +13,8 @@ export function Capabilities({ id }: CapabilitiesProps) {
       <SectionHeader
         index={2}
         eyebrow="Capabilities"
-        title="The full stack of applied AI."
-        subtitle="From adapting models to shipping the interface people actually use."
+        title="From packets to pipelines."
+        subtitle="Deep networking fundamentals, plus the software practices to automate them."
       />
 
       <div className="mt-14 border-t border-[var(--color-rule)] md:mt-20">

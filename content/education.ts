@@ -1,40 +1,40 @@
 import { educationListSchema, certificationsSchema } from './schemas';
 
+/* PLACEHOLDER: replace the institution, years and certifications with your real ones */
 const degreeData = [
   {
-    id: 'stanford-ms',
-    institution: 'Stanford University',
-    degree: 'M.S. Computer Science',
-    field: 'Artificial Intelligence',
-    period: { start: '2017', end: '2019' },
-  },
-  {
-    id: 'umich-bs',
-    institution: 'University of Michigan',
-    degree: 'B.S. Computer Science',
-    field: 'Computer Science',
+    id: 'bs-computer-engineering',
+    institution: '[Your University]',
+    degree: 'B.S. Computer Engineering',
+    field: 'Computer Networks',
     period: { start: '2013', end: '2017' },
   },
 ];
 
 const certificationData = [
   {
-    id: 'aws-ml-specialty',
-    name: 'AWS Certified Machine Learning – Specialty',
-    issuer: 'Amazon Web Services',
+    id: 'ccnp-enterprise',
+    name: 'Cisco Certified Network Professional (CCNP) Enterprise',
+    issuer: 'Cisco',
     date: '2022',
-  },
-  {
-    id: 'dlai-genai-llm',
-    name: 'Generative AI with Large Language Models',
-    issuer: 'DeepLearning.AI',
-    date: '2023',
   },
   {
     id: 'cka',
     name: 'Certified Kubernetes Administrator (CKA)',
     issuer: 'Cloud Native Computing Foundation',
-    date: '2021',
+    date: '2023',
+  },
+  {
+    id: 'aws-advanced-networking',
+    name: 'AWS Certified Advanced Networking – Specialty',
+    issuer: 'Amazon Web Services',
+    date: '2023',
+  },
+  {
+    id: 'terraform-associate',
+    name: 'HashiCorp Certified: Terraform Associate',
+    issuer: 'HashiCorp',
+    date: '2024',
   },
 ];
 

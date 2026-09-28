@@ -9,7 +9,7 @@ interface EducationProps {
 export function Education({ id }: EducationProps) {
   return (
     <Section id={id}>
-      <SectionHeader index={9} eyebrow="Education" title="Degrees & certifications." />
+      <SectionHeader index={10} eyebrow="Education" title="Degrees & certifications." />
 
       <div className="mt-14 grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-14 md:mt-20">
         <div data-reveal className="col-span-12 md:col-span-6">

@@ -53,7 +53,7 @@ export function Contact({ id }: ContactProps) {
       <div className="grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-14">
         <div data-reveal className="col-span-12 flex flex-col lg:col-span-5">
           <p className="eyebrow flex items-center gap-3">
-            <span className="text-[var(--color-accent)]">{formatIndex(10)}</span>
+            <span className="text-[var(--color-accent)]">{formatIndex(11)}</span>
             <span aria-hidden="true" className="h-px w-6 bg-[var(--color-rule)]" />
             <span>Contact</span>
           </p>

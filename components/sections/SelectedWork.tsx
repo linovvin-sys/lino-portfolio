@@ -15,8 +15,8 @@ export function SelectedWork({ id }: SelectedWorkProps) {
       <SectionHeader
         index={1}
         eyebrow="Selected work"
-        title="Production systems, measured by outcomes."
-        subtitle="Four case studies covering retrieval, evaluation, agents and inference, each with the constraints and numbers behind it."
+        title="Infrastructure that ships, measured by outcomes."
+        subtitle="Four case studies across network automation, infrastructure as code, observability and platform delivery, each with the constraints and numbers behind it."
       />
 
       <ul className="group/list mt-14 border-t border-[var(--color-rule)] md:mt-20">

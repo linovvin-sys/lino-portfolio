@@ -11,7 +11,11 @@ interface Source {
   url: string;
 }
 
-const SUGGESTED_PROMPTS = ['What is your tech stack?', 'Tell me about your AI projects.', 'Where did you work previously?'];
+const SUGGESTED_PROMPTS = [
+  'What is your automation stack?',
+  'How do you roll out network changes safely?',
+  'Where did you work previously?',
+];
 
 export function CommandPalette() {
   const [isOpen, setIsOpen] = useState(false);
