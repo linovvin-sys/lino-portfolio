@@ -1,4 +1,4 @@
-# genai-portfolio
+# lino-portfolio
 
 Portfolio for a Senior Generative AI Engineer — Next.js App Router, TypeScript strict mode, Tailwind v4, GSAP/Lenis-driven scroll scenes, and a small RAG-grounded "Ask me" agent.
 
