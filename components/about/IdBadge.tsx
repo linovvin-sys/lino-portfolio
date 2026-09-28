@@ -1,20 +1,25 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { profile } from '@/content/profile';
 import { roadmap } from '@/content/roadmap';
 
 /*
- * A lanyard ID badge you can grab and fling. The strap + card hang from a
- * pivot and swing on a damped spring; hovering tilts the card in 3D with a
- * glare; clicking flips it to show quick facts on the back.
+ * A lanyard ID badge you can grab and drag anywhere. The strap is a flexible
+ * ribbon that stretches and bends; let go and the badge springs back with a
+ * bouncy, underdamped wobble. Hovering tilts the card in 3D; clicking flips
+ * it to show quick facts on the back.
  */
 
-const STIFFNESS = 38; // spring pull back to vertical
-const DAMPING = 2.6; // how quickly the swing dies out
-const MAX_ANGLE = 65;
+const STRAP = 112; // resting strap length (px)
+const PIVOT_X = 136; // strap hangs from the top center of the 272px-wide badge
+const STIFFNESS = 170; // spring pull back to rest: higher = snappier
+const DAMPING = 9; // side-to-side: lower = more bounce before it settles
+const DAMPING_Y = 15; // up-and-down settles faster, like a weight on a strap
+const MIN_Y = -STRAP * 0.55; // it can bounce up, but never above its own hook
+const MAX_REACH = STRAP * 2.6; // how far it can be pulled before it resists
 const CLICK_SLOP = 6; // px of movement before a press counts as a drag
 
 function initials(name: string) {
@@ -34,20 +39,42 @@ function barcode(seed: string) {
   });
 }
 
+const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
+
 export function IdBadge() {
-  const pendulumRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const strapRef = useRef<SVGPathElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const [flipped, setFlipped] = useState(false);
   const [photoLoaded, setPhotoLoaded] = useState(false);
   const photoRef = useRef<HTMLImageElement>(null);
   const [grabbing, setGrabbing] = useState(false);
+  const strapId = useId().replace(/:/g, '');
 
-  const sim = useRef({ angle: 0, velocity: 0, dragging: false, frame: 0, last: 0, reduced: false });
-  const press = useRef({ x: 0, y: 0, moved: false, lastAngle: 0, lastTime: 0 });
+  // (x, y) = how far the strap's end has been pulled from where it rests
+  const sim = useRef({ x: 0, y: 0, vx: 0, vy: 0, dragging: false, frame: 0, last: 0, reduced: false });
+  const press = useRef({ x: 0, y: 0, grabX: 0, grabY: 0, moved: false, lastX: 0, lastY: 0, lastTime: 0 });
 
   const render = () => {
-    if (pendulumRef.current) pendulumRef.current.style.transform = `rotate(${sim.current.angle.toFixed(2)}deg)`;
+    const { x, y, vx, vy } = sim.current;
+    const endX = PIVOT_X + x;
+    const endY = STRAP + y;
+
+    // The badge hangs along the strap, plus a little extra lean from its speed
+    const lean = clamp(-vx * 0.025, -22, 22);
+    const angle = (-Math.atan2(x, Math.max(20, endY)) * 180) / Math.PI + lean;
+    if (badgeRef.current) {
+      badgeRef.current.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${angle.toFixed(2)}deg)`;
+    }
+
+    // Ribbon: trails behind the motion, and bows out when it has slack
+    const length = Math.hypot(endX - PIVOT_X, endY);
+    const slack = Math.max(0, STRAP - length);
+    const bow = slack * 0.9 * (x >= 0 ? -1 : 1);
+    const cx = (PIVOT_X + endX) / 2 + clamp(-vx * 0.06, -60, 60) + bow;
+    const cy = endY / 2 + clamp(-vy * 0.04, -40, 40);
+    strapRef.current?.setAttribute('d', `M${PIVOT_X} 0 Q${cx.toFixed(1)} ${cy.toFixed(1)} ${endX.toFixed(1)} ${endY.toFixed(1)}`);
   };
 
   const step = (now: number) => {
@@ -55,25 +82,31 @@ export function IdBadge() {
     const dt = Math.min(0.032, (now - s.last) / 1000 || 0.016);
     s.last = now;
     if (!s.dragging) {
-      const accel = -STIFFNESS * s.angle - DAMPING * s.velocity;
-      s.velocity += accel * dt;
-      s.angle += s.velocity * dt;
+      // Underdamped spring back to rest: overshoots and wobbles, then settles
+      s.vx += (-STIFFNESS * s.x - DAMPING * s.vx) * dt;
+      s.vy += (-STIFFNESS * s.y - DAMPING_Y * s.vy) * dt;
+      s.x += s.vx * dt;
+      s.y += s.vy * dt;
+      if (s.y < MIN_Y) {
+        s.y = MIN_Y;
+        s.vy = Math.abs(s.vy) * 0.3; // soft bounce off the top
+      }
     }
     render();
-    if (s.dragging || Math.abs(s.angle) > 0.05 || Math.abs(s.velocity) > 0.05) {
+    const moving = Math.abs(s.x) + Math.abs(s.y) > 0.1 || Math.abs(s.vx) + Math.abs(s.vy) > 0.5;
+    if (s.dragging || moving) {
       s.frame = requestAnimationFrame(step);
     } else {
-      s.angle = 0;
-      s.velocity = 0;
-      s.frame = 0;
+      Object.assign(s, { x: 0, y: 0, vx: 0, vy: 0, frame: 0 });
       render();
     }
   };
 
-  const kick = (velocity: number) => {
+  const kick = (vx: number, vy = 0) => {
     const s = sim.current;
     if (s.reduced) return;
-    s.velocity += velocity;
+    s.vx += vx;
+    s.vy += vy;
     if (!s.frame) {
       s.last = performance.now();
       s.frame = requestAnimationFrame(step);
@@ -86,7 +119,7 @@ export function IdBadge() {
     if (img?.complete && img.naturalWidth > 0) setPhotoLoaded(true);
   }, []);
 
-  // Drop-in swing the first time the badge scrolls into view
+  // Drop in with a bounce the first time the badge scrolls into view
   useEffect(() => {
     sim.current.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const el = rootRef.current;
@@ -95,38 +128,43 @@ export function IdBadge() {
       ([entry]) => {
         if (entry?.isIntersecting) {
           io.disconnect();
-          sim.current.angle = 14;
+          sim.current.x = 36;
+          sim.current.y = -70;
           kick(0);
         }
       },
       { threshold: 0.5 },
     );
     io.observe(el);
-    const frame = sim.current;
+    const state = sim.current;
     return () => {
       io.disconnect();
-      cancelAnimationFrame(frame.frame);
+      cancelAnimationFrame(state.frame);
     };
     // kick/step only touch refs
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const angleFromPointer = (clientX: number, clientY: number) => {
-    const root = rootRef.current!.getBoundingClientRect();
-    const pivotX = root.left + root.width / 2;
-    const pivotY = root.top;
-    const deg = (-Math.atan2(clientX - pivotX, Math.max(40, clientY - pivotY)) * 180) / Math.PI;
-    return Math.max(-MAX_ANGLE, Math.min(MAX_ANGLE, deg));
-  };
-
   const onPointerDown = (e: React.PointerEvent) => {
     if (e.button !== 0) return;
     e.currentTarget.setPointerCapture(e.pointerId);
-    press.current = { x: e.clientX, y: e.clientY, moved: false, lastAngle: sim.current.angle, lastTime: performance.now() };
+    const root = rootRef.current!.getBoundingClientRect();
+    const s = sim.current;
+    press.current = {
+      x: e.clientX,
+      y: e.clientY,
+      // where on the badge it was grabbed, relative to the strap's end
+      grabX: e.clientX - (root.left + PIVOT_X + s.x),
+      grabY: e.clientY - (root.top + STRAP + s.y),
+      moved: false,
+      lastX: s.x,
+      lastY: s.y,
+      lastTime: performance.now(),
+    };
   };
 
   const onPointerMove = (e: React.PointerEvent) => {
-    // 3D tilt + glare follow the pointer while hovering
+    // 3D tilt + sheen follow the pointer while hovering
     const card = cardRef.current;
     if (card && !sim.current.dragging) {
       const r = card.getBoundingClientRect();
@@ -141,32 +179,52 @@ export function IdBadge() {
     if (!e.currentTarget.hasPointerCapture(e.pointerId) || sim.current.reduced) return;
     const p = press.current;
     if (!p.moved && Math.hypot(e.clientX - p.x, e.clientY - p.y) < CLICK_SLOP) return;
+    const s = sim.current;
     if (!p.moved) {
       p.moved = true;
-      sim.current.dragging = true;
+      s.dragging = true;
       setGrabbing(true);
+      card?.style.setProperty('--rx', '0deg');
+      card?.style.setProperty('--ry', '0deg');
       kick(0);
     }
+
+    const root = rootRef.current!.getBoundingClientRect();
+    let x = e.clientX - p.grabX - root.left - PIVOT_X;
+    let y = e.clientY - p.grabY - root.top - STRAP;
+    // Rubber-band: past MAX_REACH from the pivot, the strap resists
+    const reach = Math.hypot(x, STRAP + y);
+    if (reach > MAX_REACH) {
+      const eased = MAX_REACH + (reach - MAX_REACH) * 0.25;
+      x *= eased / reach;
+      y = (STRAP + y) * (eased / reach) - STRAP;
+    }
+
     const now = performance.now();
-    const angle = angleFromPointer(e.clientX, e.clientY);
     const dt = Math.max(0.008, (now - p.lastTime) / 1000);
-    sim.current.velocity = (angle - p.lastAngle) / dt;
-    sim.current.angle = angle;
-    p.lastAngle = angle;
+    // smoothed velocity so the release fling feels natural
+    s.vx = s.vx * 0.5 + ((x - p.lastX) / dt) * 0.5;
+    s.vy = s.vy * 0.5 + ((y - p.lastY) / dt) * 0.5;
+    s.x = x;
+    s.y = y;
+    p.lastX = x;
+    p.lastY = y;
     p.lastTime = now;
   };
 
   const release = (e: React.PointerEvent) => {
     if (!e.currentTarget.hasPointerCapture(e.pointerId)) return;
     e.currentTarget.releasePointerCapture(e.pointerId);
+    const s = sim.current;
     if (press.current.moved) {
-      sim.current.dragging = false;
-      sim.current.velocity = Math.max(-600, Math.min(600, sim.current.velocity));
+      s.dragging = false;
+      s.vx = clamp(s.vx, -2600, 2600);
+      s.vy = clamp(s.vy, -2600, 2600);
       setGrabbing(false);
       kick(0);
     } else {
       setFlipped((f) => !f);
-      kick(flipped ? -40 : 40);
+      kick(flipped ? -120 : 120, -160);
     }
   };
 
@@ -181,9 +239,13 @@ export function IdBadge() {
       e.preventDefault();
       setFlipped((f) => !f);
     } else if (e.key === 'ArrowLeft') {
-      kick(120);
+      kick(-700);
     } else if (e.key === 'ArrowRight') {
-      kick(-120);
+      kick(700);
+    } else if (e.key === 'ArrowUp') {
+      kick(0, -700);
+    } else if (e.key === 'ArrowDown') {
+      kick(0, 700);
     }
   };
 
@@ -198,13 +260,24 @@ export function IdBadge() {
       {/* ceiling hook */}
       <span aria-hidden="true" className="absolute -top-1.5 left-1/2 z-20 h-3 w-10 -translate-x-1/2 rounded-full bg-[var(--color-rule)]" />
 
-      <div ref={pendulumRef} className="origin-top will-change-transform" style={{ transform: 'rotate(0deg)' }}>
-        {/* lanyard strap */}
-        <div aria-hidden="true" className="mx-auto flex h-28 w-6 justify-center overflow-hidden bg-[var(--color-accent)]">
-          <span className="whitespace-nowrap pt-2 font-mono text-[8.5px] tracking-[0.25em] text-white/85 [writing-mode:vertical-rl]">
+      {/* flexible lanyard strap, redrawn every frame */}
+      <svg aria-hidden="true" className="pointer-events-none absolute left-0 top-0 z-0 overflow-visible" width={272} height={STRAP}>
+        <path
+          id={strapId}
+          ref={strapRef}
+          d={`M${PIVOT_X} 0 Q${PIVOT_X} ${STRAP / 2} ${PIVOT_X} ${STRAP}`}
+          fill="none"
+          strokeWidth={22}
+          className="stroke-[var(--color-accent)]"
+        />
+        <text dy={3} className="fill-white/85 font-mono" fontSize={8.5} letterSpacing="2.2">
+          <textPath href={`#${strapId}`} startOffset="10">
             NCST · NETDEVOPS · NCST
-          </span>
-        </div>
+          </textPath>
+        </text>
+      </svg>
+
+      <div ref={badgeRef} className="relative z-10 will-change-transform" style={{ marginTop: STRAP, transformOrigin: `${PIVOT_X}px 0px` }}>
         {/* metal clip */}
         <div aria-hidden="true" className="mx-auto -mt-px h-5 w-9 rounded-b-md border-2 border-t-0 border-[var(--color-muted)] bg-[var(--color-subtle)]" />
 
@@ -212,7 +285,7 @@ export function IdBadge() {
           role="button"
           tabIndex={0}
           aria-pressed={flipped}
-          aria-label={`ID badge for ${profile.name}. Drag to swing it, press Enter to flip it${flipped ? ' back' : ''}.`}
+          aria-label={`ID badge for ${profile.name}. Drag it around, arrow keys bounce it, Enter flips it${flipped ? ' back' : ''}.`}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={release}
@@ -336,7 +409,7 @@ export function IdBadge() {
         <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" className="fill-none stroke-current" strokeWidth="1.4">
           <path d="M6 8.5V3.5a1 1 0 012 0V8m0-1.5a1 1 0 012 0V8.5m0-1a1 1 0 012 0v3c0 2.2-1.8 4-4 4H8.6a4 4 0 01-3-1.4L3.3 10.6a1.1 1.1 0 011.6-1.5L6 10.2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        Drag to swing · click to flip
+        Drag it anywhere · click to flip
       </p>
     </div>
   );
