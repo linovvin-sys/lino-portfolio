@@ -6,7 +6,8 @@ import { SectionHeader } from '@/components/ui/SectionHeader';
 import { Label } from '@/components/ui/Label';
 import { HorizontalScroll } from '@/components/motion/HorizontalScroll';
 import { cn } from '@/lib/utils';
-import { writing, type Writing } from '@/content/writing';
+import { writing } from '@/content/writing';
+import type { Writing } from '@/content/schemas';
 
 interface ResearchProps {
   id?: string;

@@ -10,7 +10,7 @@ import { z } from "zod";
 
 /* ── Primitives ──────────────────────────────────── */
 
-const linkSchema = z.object({
+export const linkSchema = z.object({
   label: z.string(),
   url: z.string().url(),
   icon: z.enum(["github", "linkedin", "x", "email", "web", "pdf", "calendar"]).optional(),

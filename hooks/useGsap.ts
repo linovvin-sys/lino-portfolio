@@ -17,7 +17,7 @@ export function useGsap<T extends HTMLElement = HTMLDivElement>(
     }, containerRef);
     
     return () => ctx.revert();
-  }, deps); // eslint-disable-line react-hooks/exhaustive-deps
+  }, deps);
   
   return containerRef;
 }

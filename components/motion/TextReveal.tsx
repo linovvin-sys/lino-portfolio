@@ -89,11 +89,9 @@ export function TextReveal({
     return () => ctx.revert();
   }, [type, trigger, delay]);
 
-  const Tag = Component as React.ElementType;
-
-  return (
-    <Tag ref={containerRef} className={cn("", className)}>
-      {children}
-    </Tag>
+  return React.createElement(
+    Component,
+    { ref: containerRef, className: cn("", className) },
+    children
   );
 }

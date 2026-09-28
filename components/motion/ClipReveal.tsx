@@ -13,12 +13,14 @@ if (typeof window !== "undefined") {
 interface ClipRevealProps {
   children: React.ReactNode;
   direction?: "up" | "down" | "left" | "right";
+  delay?: number;
   className?: string;
 }
 
 export function ClipReveal({
   children,
   direction = "up",
+  delay = 0,
   className,
 }: ClipRevealProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -64,6 +66,7 @@ export function ClipReveal({
         clipPath: "inset(0% 0% 0% 0%)",
         duration: DURATION.slow,
         ease: EASE.out,
+        delay,
       }).to(
         innerRef.current,
         {
@@ -76,7 +79,7 @@ export function ClipReveal({
     }, containerRef);
 
     return () => ctx.revert();
-  }, [direction]);
+  }, [direction, delay]);
 
   return (
     <div ref={containerRef} className={cn("overflow-hidden", className)}>

@@ -14,7 +14,7 @@ export function useLocalTime(timeZone: string = 'UTC') {
           hour12: true,
         });
         setTime(formatter.format(new Date()));
-      } catch (e) {
+      } catch {
         setTime('');
       }
     };

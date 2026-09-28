@@ -33,7 +33,8 @@ export function MetricsStrip({ metrics, className }: MetricsStripProps) {
     numbersRef.current.forEach((el, index) => {
       if (!el) return;
       const metric = metrics[index];
-      
+      if (!metric) return;
+
       gsap.fromTo(
         el,
         { innerHTML: 0 },

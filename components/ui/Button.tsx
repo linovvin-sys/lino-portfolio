@@ -5,7 +5,7 @@ import { MagneticWrap } from "./MagneticWrap";
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "ghost";
   size?: "sm" | "md" | "lg";
-  as?: React.ElementType;
+  as?: keyof React.JSX.IntrinsicElements;
   href?: string;
   magnetic?: boolean;
 }
@@ -28,9 +28,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const classes = cn(baseClasses, variants[variant], sizes[size], className);
 
-    const button = (
-      <Component ref={ref} className={classes} {...props} />
-    );
+    const button = React.createElement(Component, { ref, className: classes, ...props });
 
     if (magnetic) {
       return <MagneticWrap>{button}</MagneticWrap>;

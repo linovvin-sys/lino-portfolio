@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 interface ContainerProps {
   children: React.ReactNode;
   className?: string;
-  as?: React.ElementType;
+  as?: keyof React.JSX.IntrinsicElements;
   wide?: boolean;
 }
 
@@ -14,15 +14,15 @@ export function Container({
   as: Component = "div",
   wide = false,
 }: ContainerProps) {
-  return (
-    <Component
-      className={cn(
+  return React.createElement(
+    Component,
+    {
+      className: cn(
         "mx-auto px-[var(--grid-margin)] w-full",
         !wide && "max-w-[var(--grid-max-width)]",
         className
-      )}
-    >
-      {children}
-    </Component>
+      ),
+    },
+    children
   );
 }
