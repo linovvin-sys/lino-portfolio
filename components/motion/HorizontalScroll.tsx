@@ -43,7 +43,7 @@ export function HorizontalScroll({
       const scrollWidth =
         scrollWrapperRef.current!.scrollWidth - window.innerWidth;
 
-      const tl = gsap.to(scrollWrapperRef.current, {
+      gsap.to(scrollWrapperRef.current, {
         x: -scrollWidth,
         ease: "none",
         scrollTrigger: {

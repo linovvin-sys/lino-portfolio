@@ -7,7 +7,7 @@ export default function NotFound() {
         404
       </h1>
       <p className="text-xl md:text-2xl font-mono text-[var(--color-muted)] mb-8">
-        Hallucination detected: this page doesn't exist in the latent space.
+        Hallucination detected: this page doesn&apos;t exist in the latent space.
       </p>
       <Link 
         href="/" 

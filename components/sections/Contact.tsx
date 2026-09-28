@@ -9,7 +9,6 @@ import { MagneticWrap } from '@/components/ui/MagneticWrap';
 import { Grid } from '@/components/ui/Grid';
 import { submitContact } from '@/app/actions/contact';
 import { profile } from '@/content/profile';
-import { cn } from '@/lib/utils';
 
 interface ContactProps {
   id?: string;
@@ -43,7 +42,7 @@ export function Contact({ id }: ContactProps) {
           <div className="col-span-12 md:col-span-6 lg:col-span-5 flex flex-col justify-between">
             <div>
               <h2 className="font-display text-5xl md:text-7xl leading-none mb-8">
-                Let's build<br />something.
+                Let&apos;s build<br />something.
               </h2>
 
               <div className="flex flex-col items-start gap-4 mb-12">
