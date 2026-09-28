@@ -1,0 +1,91 @@
+---
+slug: "inference-optimization"
+title: "Inference Optimization Platform"
+subtitle: "3.2× throughput improvement with 60% cost reduction through quantization and batching"
+category: "Infra & Serving"
+year: "2023"
+client: "[CLIENT NAME]"
+role: "AI Infrastructure Engineer"
+duration: "5 months"
+team: "3 engineers"
+stack:
+  - "Python"
+  - "vLLM"
+  - "TensorRT-LLM"
+  - "CUDA"
+  - "Kubernetes"
+  - "Prometheus"
+  - "Grafana"
+  - "Terraform"
+problem: "Serving costs for the company's LLM-powered features had grown to $180K/month on A100 GPUs, with 40% utilization during off-peak hours. The existing serving infrastructure (naive single-request inference) couldn't handle traffic spikes, leading to p99 latencies above 8 seconds during peak."
+constraints:
+  - "Maximum 5% quality degradation from baseline (measured by eval suite)"
+  - "p99 latency must stay under 3 seconds"
+  - "Must support multiple model sizes (7B, 13B, 70B) on the same infrastructure"
+  - "Zero-downtime deployment for model updates"
+  - "GPU budget capped at $80K/month"
+outcome: "Reduced serving costs from $180K to $72K/month (60% reduction). Improved throughput by 3.2× with continuous batching. p99 latency dropped from 8.2s to 2.1s. Quality degradation from INT8 quantization: 1.2% (within budget)."
+metrics:
+  - label: "Cost Reduction"
+    value: "60%"
+    numericValue: 60
+  - label: "Throughput"
+    value: "3.2×"
+    numericValue: 3.2
+  - label: "p99 Latency"
+    value: "2.1s"
+    numericValue: 2.1
+  - label: "Quality Impact"
+    value: "-1.2%"
+    numericValue: 1.2
+published: true
+---
+
+{/* PLACEHOLDER — All content below is realistic but fictional */}
+
+## System Architecture
+
+Three-layer optimization: model-level (quantization), request-level (batching), and infrastructure-level (autoscaling).
+
+### Quantization Analysis
+
+Evaluated three quantization approaches on our 13B parameter model:
+
+| Method | Throughput | Quality (eval score) | Memory | Notes |
+|--------|-----------|---------------------|--------|-------|
+| FP16 (baseline) | 1.0× | 100% | 26 GB | Current production |
+| INT8 (GPTQ) | 1.8× | 98.8% | 14 GB | Best quality/perf ratio |
+| INT4 (AWQ) | 2.4× | 95.1% | 8 GB | Too much degradation |
+| FP8 (TensorRT) | 2.1× | 99.2% | 14 GB | Requires H100s |
+
+Chose **INT8 with GPTQ** for the 13B model. The 1.2% quality loss was within our 5% budget, and the 1.8× throughput improvement was significant. Combined with continuous batching, total throughput reached 3.2×.
+
+### Continuous Batching with vLLM
+
+Migrated from naive single-request serving to vLLM's PagedAttention and continuous batching. Key configuration decisions:
+
+```python
+# vLLM engine config
+engine_args = EngineArgs(
+    model="our-model-13b-gptq",
+    quantization="gptq",
+    max_num_batched_tokens=8192,
+    max_num_seqs=256,
+    gpu_memory_utilization=0.90,
+    enforce_eager=False,  # Use CUDA graphs
+)
+```
+
+### Key Decisions & Tradeoffs
+
+1. **vLLM over TensorRT-LLM**: TensorRT-LLM offered 15% better raw throughput but required model-specific compilation and had a much harder deployment story. vLLM's flexibility to serve multiple model sizes on the same codebase was decisive.
+
+2. **Autoscaling strategy**: Implemented predictive autoscaling based on historical traffic patterns (cron-based pre-scaling) combined with reactive scaling on queue depth. This reduced cold-start latency from 3 minutes to 0 during known traffic spikes.
+
+3. **Quality monitoring**: Deployed a shadow evaluation pipeline that continuously samples 1% of production traffic, runs it through the eval suite, and alerts if quality drops below threshold. This caught a tokenizer mismatch bug that would have degraded 7B model outputs.
+
+## Eval Methodology
+
+- **Offline eval**: Full eval suite (800 cases) run against quantized models before deployment
+- **A/B testing**: 5% canary traffic to new serving infrastructure, comparing latency, throughput, and response quality
+- **Production monitoring**: Real-time dashboards tracking tokens/second, queue depth, GPU utilization, and quality scores from shadow eval

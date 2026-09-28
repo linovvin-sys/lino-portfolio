@@ -1,0 +1,74 @@
+---
+slug: "agent-orchestration"
+title: "Multi-Agent Orchestration System"
+subtitle: "Coordinating 12 specialized agents to automate complex financial workflows"
+category: "Retrieval & Agents"
+year: "2023"
+client: "[CLIENT NAME]"
+role: "Senior AI Engineer"
+duration: "8 months"
+team: "5 engineers"
+stack:
+  - "Python"
+  - "LangGraph"
+  - "Anthropic Claude"
+  - "OpenAI GPT-4"
+  - "Redis"
+  - "PostgreSQL"
+  - "Temporal"
+  - "Kubernetes"
+problem: "Financial analysts spent 6-8 hours per company preparing investment research reports. The process involved pulling data from 15+ sources, running standardized analyses, cross-referencing findings, and formatting reports. Manual and error-prone — 12% of reports contained data inconsistencies."
+constraints:
+  - "Must produce auditable output — every claim traceable to source data"
+  - "Regulatory requirement: human-in-the-loop for final report approval"
+  - "Handle complex multi-step reasoning (DCF models, peer comparisons)"
+  - "Graceful degradation when individual data sources are unavailable"
+  - "Reports must match existing formatting standards exactly"
+outcome: "Reduced report preparation time from 6-8 hours to 45 minutes (with human review). Data inconsistencies dropped from 12% to 0.3%. Analysts now produce 4x more reports per week, focusing on insight generation rather than data gathering."
+metrics:
+  - label: "Time Saved"
+    value: "87%"
+    numericValue: 87
+  - label: "Data Errors"
+    value: "0.3%"
+    numericValue: 0.3
+  - label: "Reports/Week"
+    value: "4×"
+    numericValue: 4
+  - label: "Task Completion"
+    value: "96.2%"
+    numericValue: 96.2
+published: true
+---
+
+{/* PLACEHOLDER — All content below is realistic but fictional */}
+
+## System Architecture
+
+The system uses a supervisor-worker pattern with 12 specialized agents coordinated through a DAG-based workflow engine.
+
+### Agent Taxonomy
+
+| Agent | Responsibility | Model | Avg Latency |
+|-------|---------------|-------|-------------|
+| Supervisor | Task decomposition, routing | Claude 3.5 Sonnet | 2.1s |
+| Data Fetcher (×4) | Source-specific data retrieval | GPT-4 Turbo | 1.4s |
+| Analyst | Financial calculations, DCF | Claude 3.5 Sonnet | 4.2s |
+| Comparator | Peer comparison analysis | Claude 3.5 Sonnet | 3.8s |
+| Fact Checker | Cross-reference verification | GPT-4 Turbo | 2.6s |
+| Formatter | Report assembly, citations | Claude 3 Haiku | 1.1s |
+| Reviewer | Quality assurance, consistency | Claude 3.5 Sonnet | 3.2s |
+
+### Key Decisions & Tradeoffs
+
+1. **LangGraph over custom orchestration**: LangGraph's state machine abstraction mapped naturally to our workflow DAG. The tradeoff was vendor lock-in and debugging opacity — we built a custom visualization layer to make agent decisions inspectable.
+
+2. **Mixed model strategy**: Different agents use different models based on task requirements. The Supervisor and Analyst use Sonnet for reasoning depth; Data Fetchers use GPT-4 Turbo for function calling reliability; the Formatter uses Haiku for speed (reports have a strict format, requiring less reasoning).
+
+3. **Temporal for durability**: Financial workflows can take 15-20 minutes. Temporal provides workflow durability — if a pod crashes mid-report, the workflow resumes from the last checkpoint rather than restarting.
+
+## Eval Methodology
+
+- **Component evals**: Each agent evaluated independently on its specific task (e.g., Analyst accuracy on 200 known DCF calculations)
+- **End-to-end evals**: 50 complete report generations compared against analyst-produced reports by domain experts
+- **Regression monitoring**: Weekly automated runs against a fixed set of 20 companies, tracking report quality scores over time

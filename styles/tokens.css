@@ -1,0 +1,143 @@
+/* ============================================================
+   Design Tokens — genai-portfolio
+   Source of truth for palette, type, spacing, motion, and grid.
+   Import in globals.css via @import "./tokens.css";
+   ============================================================ */
+
+:root {
+  /* ── Palette: Light ──────────────────────────────── */
+  --color-bone: #edeae3;
+  --color-ink: #0e0e0c;
+  --color-accent: #e63312;
+  --color-accent-hover: #cc2c0f;
+  --color-muted: #8a8781;
+  --color-rule: #d4d1ca;
+  --color-surface: #f5f3ee;
+  --color-code-bg: #f0ede7;
+
+  /* Functional aliases */
+  --color-bg: var(--color-bone);
+  --color-fg: var(--color-ink);
+  --color-bg-elevated: var(--color-surface);
+  --color-border: var(--color-rule);
+  --color-text-secondary: var(--color-muted);
+
+  /* ── Type Scale (Major Third 1.25) ─────────────── */
+  --text-xs: 0.64rem;
+  --text-sm: 0.8rem;
+  --text-base: 1rem;
+  --text-md: 1.25rem;
+  --text-lg: 1.563rem;
+  --text-xl: 1.953rem;
+  --text-2xl: 2.441rem;
+  --text-3xl: 3.052rem;
+  --text-4xl: 3.815rem;
+  --text-5xl: 4.768rem;
+  --text-6xl: 5.96rem;
+  --text-hero: clamp(4rem, 8vw + 1rem, 7.5rem);
+
+  /* ── Font Families ─────────────────────────────── */
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-body: "General Sans", "Helvetica Neue", sans-serif;
+  --font-mono: "Geist Mono", "JetBrains Mono", monospace;
+
+  /* ── Font Weights ──────────────────────────────── */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  /* ── Tracking ──────────────────────────────────── */
+  --tracking-display: -0.03em;
+  --tracking-heading: -0.02em;
+  --tracking-body: -0.01em;
+  --tracking-mono: 0em;
+  --tracking-label: 0.08em;
+
+  /* ── Leading ───────────────────────────────────── */
+  --leading-tight: 1.05;
+  --leading-snug: 1.2;
+  --leading-body: 1.6;
+  --leading-relaxed: 1.8;
+
+  /* ── Spacing (4px base) ────────────────────────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+  --space-40: 160px;
+
+  /* ── Grid ──────────────────────────────────────── */
+  --grid-columns: 12;
+  --grid-max-width: 1440px;
+  --grid-gap: 24px;
+  --grid-margin: 48px;
+
+  /* ── Motion ────────────────────────────────────── */
+  --dur-fast: 0.4s;
+  --dur-base: 0.7s;
+  --dur-slow: 1.1s;
+
+  /* ── Radius ────────────────────────────────────── */
+  --radius-none: 0px;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-pill: 999px;
+
+  /* ── Z-Index ───────────────────────────────────── */
+  --z-base: 0;
+  --z-above: 10;
+  --z-nav: 100;
+  --z-overlay: 200;
+  --z-modal: 300;
+  --z-cursor: 400;
+  --z-preloader: 500;
+
+  /* ── Grain ─────────────────────────────────────── */
+  --grain-opacity: 0.035;
+  --grain-blend: multiply;
+}
+
+/* ── Dark Mode ─────────────────────────────────── */
+[data-theme="dark"] {
+  --color-bone: #0e0e0c;
+  --color-ink: #edeae3;
+  --color-accent: #ff4425;
+  --color-accent-hover: #ff5a3d;
+  --color-muted: #5a5854;
+  --color-rule: #1e1e1c;
+  --color-surface: #161614;
+  --color-code-bg: #1a1a18;
+
+  --color-bg: var(--color-bone);
+  --color-fg: var(--color-ink);
+  --color-bg-elevated: var(--color-surface);
+  --color-border: var(--color-rule);
+  --color-text-secondary: var(--color-muted);
+
+  --grain-opacity: 0.05;
+  --grain-blend: overlay;
+}
+
+/* ── Responsive Grid ─────────────────────────────── */
+@media (max-width: 1024px) {
+  :root {
+    --grid-gap: 16px;
+    --grid-margin: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --grid-gap: 12px;
+    --grid-margin: 16px;
+  }
+}

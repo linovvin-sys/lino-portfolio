@@ -1,0 +1,97 @@
+---
+slug: "rag-pipeline"
+title: "Enterprise RAG Pipeline"
+subtitle: "Sub-200ms retrieval over 2M+ documents with hybrid search and dynamic chunking"
+category: "Retrieval & Agents"
+year: "2024"
+client: "[CLIENT NAME]"
+role: "Lead AI Engineer"
+duration: "6 months"
+team: "4 engineers"
+stack:
+  - "Python"
+  - "LangChain"
+  - "pgvector"
+  - "Anthropic Claude"
+  - "FastAPI"
+  - "Redis"
+  - "Kubernetes"
+problem: "The client's support team was spending 40% of their time searching across fragmented knowledge bases — Confluence, Notion, internal wikis, and Slack threads. Existing keyword search returned irrelevant results for nuanced technical queries, and the 95th percentile response time exceeded 4 seconds."
+constraints:
+  - "Must support 2M+ documents across 5 source systems"
+  - "p95 latency under 200ms for retrieval, under 2s for full response"
+  - "SOC 2 compliant — no data leaves the VPC"
+  - "Must handle real-time document updates without full re-indexing"
+  - "Budget: $0.02 per query maximum"
+outcome: "Reduced average support resolution time by 34%. The system handles 50K+ queries daily with p95 retrieval latency of 142ms and p95 end-to-end response time of 1.8s. Cost per query: $0.008."
+metrics:
+  - label: "p95 Latency"
+    value: "142ms"
+    numericValue: 142
+  - label: "Daily Queries"
+    value: "50K+"
+    numericValue: 50000
+  - label: "Cost/Query"
+    value: "$0.008"
+    numericValue: 0.008
+  - label: "Resolution Time"
+    value: "-34%"
+    numericValue: 34
+published: true
+---
+
+{/* PLACEHOLDER — All content below is realistic but fictional */}
+
+## System Architecture
+
+{/* Architecture SVG would be rendered here as an animated diagram */}
+
+The pipeline consists of four stages: ingestion, indexing, retrieval, and generation. Each stage is independently scalable and instrumented.
+
+### Ingestion Layer
+
+Built a connector framework supporting five source systems. Each connector implements a common interface with `sync`, `diff`, and `watch` methods. The diff-based approach means only changed documents are re-processed, reducing indexing costs by 85% compared to full re-indexing.
+
+```python
+class SourceConnector(Protocol):
+    async def sync(self) -> AsyncIterator[Document]: ...
+    async def diff(self, since: datetime) -> AsyncIterator[DocumentDelta]: ...
+    async def watch(self) -> AsyncIterator[DocumentEvent]: ...
+```
+
+### Chunking Strategy
+
+Evaluated four chunking strategies: fixed-size, recursive, semantic, and a custom hybrid approach. The hybrid chunker uses sentence boundaries as primary splits, with a learned model to detect topic shifts within long documents.
+
+| Strategy | Retrieval Accuracy | Avg Chunk Size | Latency |
+|----------|-------------------|----------------|---------|
+| Fixed (512 tokens) | 72.3% | 512 | 45ms |
+| Recursive | 78.1% | 384 | 52ms |
+| Semantic | 83.7% | 298 | 180ms |
+| **Hybrid (ours)** | **86.2%** | **342** | **68ms** |
+
+### Retrieval: Hybrid Search
+
+Combined dense retrieval (pgvector with `text-embedding-3-large`) with sparse retrieval (BM25) using reciprocal rank fusion. The hybrid approach outperformed either method alone by 12% on our eval set.
+
+### Key Decisions & Tradeoffs
+
+1. **pgvector over Pinecone**: Chose pgvector to keep data within the VPC (SOC 2 requirement). Accepted the operational overhead of managing PostgreSQL + pgvector in exchange for data residency guarantees.
+
+2. **Chunking window overlap**: 15% overlap between chunks. Higher overlap improved retrieval by 4% but increased storage by 30%. 15% was the sweet spot.
+
+3. **Reranking with cross-encoder**: Added a cross-encoder reranking step that improved precision@5 by 8% at the cost of 40ms additional latency. Worth it given the 200ms budget.
+
+4. **Streaming generation**: Implemented token-level streaming to reduce perceived latency. Users see the first token within 200ms even though full generation takes 1.8s.
+
+## Eval Methodology
+
+Built a custom evaluation framework with three tiers:
+
+- **Automated**: 500 question-answer pairs with human-verified ground truth. Ran on every PR.
+- **LLM-as-judge**: Claude evaluates response quality on relevance, completeness, and accuracy (1-5 scale). Correlation with human judgment: 0.89.
+- **Human eval**: Weekly sample of 50 production queries reviewed by domain experts.
+
+### Results
+
+The system achieved 86.2% retrieval accuracy (hit@5) and 4.2/5.0 average response quality score from LLM-as-judge evaluation. Human evaluators rated 91% of responses as "helpful" or "very helpful."
