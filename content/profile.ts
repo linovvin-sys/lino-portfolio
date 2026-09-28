@@ -4,6 +4,13 @@ import { profileSchema } from './schemas';
 const data = {
   name: 'Lino Vincent G. Dela Cruz',
   title: 'Aspiring Network DevOps Engineer',
+  // The hero types these out one after another. Keep just the first line for the title only.
+  roles: [
+    'Aspiring Network DevOps Engineer',
+    '3rd-year IT Student',
+    'Full-stack Developer',
+    'Network Automation Learner',
+  ],
   location: 'Cavite, Philippines',
   timezone: 'Asia/Manila',
   // Drop your photo at public/images/portrait.jpg (square-ish, at least 800px wide)

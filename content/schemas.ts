@@ -46,6 +46,8 @@ export const profileSchema = z.object({
   timezone: z.string(),
   /** Path under /public, e.g. /images/portrait.jpg — the badge shows a monogram until it exists */
   photo: z.string().optional(),
+  /** Phrases the hero's typewriter cycles through (defaults to just the title) */
+  roles: z.array(z.string().min(1)).optional(),
   tagline: z.string().max(160),
   bio: z.string(),
   portrait: imageSchema.optional(),

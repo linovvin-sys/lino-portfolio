@@ -8,6 +8,7 @@ import { Magnetic } from '@/components/motion/Magnetic';
 import { AnimatedNumber } from '@/components/motion/AnimatedNumber';
 import { TechMarquee } from '@/components/motion/TechMarquee';
 import { IdBadge } from '@/components/about/IdBadge';
+import { Typewriter } from '@/components/motion/Typewriter';
 import { useLocalTime } from '@/hooks/useLocalTime';
 import { profile } from '@/content/profile';
 import { metricsStrip } from '@/content/metrics';
@@ -15,6 +16,9 @@ import { metricsStrip } from '@/content/metrics';
 interface HeroProps {
   id?: string;
 }
+
+/** Stable reference so the typewriter doesn't restart on every render */
+const ROLES = profile.roles?.length ? profile.roles : [profile.title];
 
 const STACK = [
   'Bootstrap',
@@ -71,11 +75,21 @@ export function Hero({ id }: HeroProps) {
               ))}
             </h1>
 
+            {/* Role line: types out, holds, deletes, types the next */}
+            <p
+              style={delay(380)}
+              className="animate-rise-in mt-6 flex h-[1.5em] items-center gap-2.5 leading-none text-[1.125rem] font-medium tracking-[-0.01em] text-[var(--color-fg)] sm:text-[length:var(--text-xl)] md:text-[1.75rem]"
+            >
+              <span aria-hidden="true" className="font-mono text-[0.8em] text-[var(--color-accent)]">
+                ❯
+              </span>
+              <Typewriter phrases={ROLES} />
+            </p>
+
             <p
               style={delay(420)}
-              className="animate-rise-in mt-8 max-w-xl text-[length:var(--text-lg)] leading-relaxed text-[var(--color-muted)]"
+              className="animate-rise-in mt-6 max-w-xl text-[length:var(--text-lg)] leading-relaxed text-[var(--color-muted)]"
             >
-              <span className="text-[var(--color-fg)]">{profile.title}.</span>{' '}
               {profile.bio.split('. ').slice(0, 2).join('. ')}.
             </p>
 
