@@ -13,7 +13,7 @@ const data = [
     category: 'Capstone · AR + AI',
     year: '2026',
     thumbnail: { src: '/placeholder-project-1.webp', alt: 'Lampara AR navigation', width: 1600, height: 1200 },
-    stack: ['Augmented Reality', 'Conversational AI', 'PHP', 'MySQL'],
+    stack: ['Augmented Reality', 'Conversational AI', 'PHP', 'Tailwind CSS', 'MySQL'],
     metrics: [
       { label: 'Type', value: 'AR app' },
       { label: 'Status', value: 'In progress' },

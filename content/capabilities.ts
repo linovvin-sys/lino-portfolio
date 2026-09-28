@@ -10,7 +10,7 @@ const data = [
     items: [
       { name: 'React & Next.js', detail: 'This portfolio' },
       { name: 'TypeScript', detail: 'This portfolio' },
-      { name: 'Tailwind CSS', detail: 'This portfolio' },
+      { name: 'Tailwind CSS', detail: 'Lampara and this portfolio' },
       { name: 'Bootstrap', detail: 'Hotel and enrollment systems' },
       { name: 'HTML, CSS & JavaScript', detail: 'The foundations' },
     ],

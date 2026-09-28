@@ -14,7 +14,7 @@ const data = [
       { metric: 'AR navigation', description: 'Directions overlaid on the real world through the phone camera.' },
       { metric: 'AI navigator', description: 'Answers “where is…” questions in plain language and points the way.' },
     ],
-    stack: ['Augmented Reality', 'Conversational AI', 'PHP', 'MySQL'],
+    stack: ['Augmented Reality', 'Conversational AI', 'PHP', 'Tailwind CSS', 'MySQL'],
   },
   {
     id: 'networking-devops-self-study',
