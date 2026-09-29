@@ -19,6 +19,7 @@ const data = [
       { label: 'Status', value: 'In progress' },
     ],
     summary: 'Point your phone around and Lampara overlays directions on the real world, while an AI assistant answers questions like “Where is the registrar?” in plain language.',
+    externalUrl: 'https://lampara.kesug.com/',
   },
   {
     slug: 'enrollment-lms',
@@ -34,6 +35,7 @@ const data = [
       { label: 'Status', value: 'In progress' },
     ],
     summary: 'Students enroll online, registrars approve and assign sections, and teachers post lessons and grades in the built-in LMS.',
+    repoUrl: 'https://github.com/linovvin-sys/SIAdrafts',
   },
   {
     slug: 'parking-monitoring-system',
@@ -64,6 +66,7 @@ const data = [
       { label: 'Language', value: 'Python' },
     ],
     summary: 'Tracks products and stock levels, records stock in and out, warns when items run low, and generates simple inventory reports.',
+    repoUrl: 'https://github.com/linovvin-sys/inventory-management-system',
   },
   {
     slug: 'hotel-management-system',
@@ -79,6 +82,7 @@ const data = [
       { label: 'Backend', value: 'Native PHP' },
     ],
     summary: 'A front-desk system for managing rooms, reservations, guest check-in and check-out, and billing, all backed by a MySQL database.',
+    externalUrl: 'https://vivere.kesug.com/',
   },
   {
     slug: 'car-rental-system',

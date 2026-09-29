@@ -10,6 +10,7 @@ import { caseStudyMdxComponents } from '@/components/sections/CaseStudyMdxCompon
 import { PageShell } from '@/components/ui/PageShell';
 import { TagList } from '@/components/ui/Tag';
 import { ArrowUpRight } from '@/components/ui/Icons';
+import { LiveSitePreview } from '@/components/ui/LiveSitePreview';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -52,7 +53,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
   ].filter((f): f is { label: string; value: string } => Boolean(f.value));
 
   return (
-    <PageShell back={{ href: '/#work', label: 'All work' }}>
+    <PageShell back={{ href: '/work', label: 'All work' }}>
       <header className="max-w-4xl">
         <p className="eyebrow flex items-center gap-3">
           <span className="text-[var(--color-accent)]">{frontmatter.category}</span>
@@ -66,6 +67,8 @@ export default async function CaseStudyPage({ params }: PageProps) {
           {frontmatter.subtitle}
         </p>
       </header>
+
+      {project?.externalUrl && <LiveSitePreview url={project.externalUrl} />}
 
       <dl className="mt-12 grid grid-cols-2 gap-x-[var(--grid-gap)] gap-y-6 border-y border-[var(--color-rule)] py-6 md:grid-cols-4">
         {facts.map((fact) => (
@@ -100,16 +103,31 @@ export default async function CaseStudyPage({ params }: PageProps) {
               <h2 className="eyebrow">Stack</h2>
               <TagList items={frontmatter.stack} className="mt-4" />
             </div>
-            {project?.externalUrl && (
-              <a
-                href={project.externalUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-1.5 text-sm font-medium text-[var(--color-fg)]"
-              >
-                View live
-                <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-              </a>
+            {(project?.externalUrl || project?.repoUrl) && (
+              <div className="flex flex-col items-start gap-3">
+                {project?.externalUrl && (
+                  <a
+                    href={project.externalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-1.5 text-sm font-medium text-[var(--color-fg)]"
+                  >
+                    View live
+                    <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </a>
+                )}
+                {project?.repoUrl && (
+                  <a
+                    href={project.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-1.5 text-sm font-medium text-[var(--color-muted)] hover:text-[var(--color-fg)]"
+                  >
+                    View source
+                    <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </a>
+                )}
+              </div>
             )}
           </div>
         </aside>

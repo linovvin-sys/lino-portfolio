@@ -87,6 +87,7 @@ export const projectSchema = z.object({
   metrics: z.array(metricSchema).optional(),
   summary: z.string(),
   externalUrl: z.string().url().optional(),
+  repoUrl: z.string().url().optional(),
 });
 
 export const projectsSchema = z.array(projectSchema).min(1);
