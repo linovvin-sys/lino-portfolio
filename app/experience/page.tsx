@@ -3,7 +3,7 @@ import { Experience } from '@/components/sections/Experience';
 import { profile } from '@/content/profile';
 
 export const metadata = {
-  title: `Journey | ${profile.name}`,
+  title: 'Journey',
   description: `${profile.name}'s experience timeline.`,
 };
 

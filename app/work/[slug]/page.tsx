@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!caseStudy) return { title: 'Not Found' };
 
   return {
-    title: `${caseStudy.frontmatter.title} | Case Study`,
+    title: caseStudy.frontmatter.title,
     description: caseStudy.frontmatter.subtitle,
   };
 }

@@ -3,7 +3,7 @@ import { Workflow } from '@/components/sections/Workflow';
 import { profile } from '@/content/profile';
 
 export const metadata = {
-  title: `Workflow | ${profile.name}`,
+  title: 'Workflow',
   description: `How ${profile.name} plans, builds, tests, deploys and verifies work.`,
 };
 

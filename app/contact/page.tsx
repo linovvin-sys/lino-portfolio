@@ -3,7 +3,7 @@ import { Contact } from '@/components/sections/Contact';
 import { profile } from '@/content/profile';
 
 export const metadata = {
-  title: `Contact | ${profile.name}`,
+  title: 'Contact',
   description: `Get in touch with ${profile.name}.`,
 };
 

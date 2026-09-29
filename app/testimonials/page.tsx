@@ -3,7 +3,7 @@ import { Testimonials } from '@/components/sections/Testimonials';
 import { profile } from '@/content/profile';
 
 export const metadata = {
-  title: `Friends & classmates | ${profile.name}`,
+  title: 'Friends & classmates',
   description: `What ${profile.name}'s friends and classmates have to say.`,
 };
 

@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!experiment) return { title: 'Not Found' };
 
   return {
-    title: `${experiment.title} | Lab`,
+    title: experiment.title,
     description: experiment.description,
   };
 }

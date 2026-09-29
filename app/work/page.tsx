@@ -3,7 +3,7 @@ import { SelectedWork } from '@/components/sections/SelectedWork';
 import { profile } from '@/content/profile';
 
 export const metadata = {
-  title: `Projects | ${profile.name}`,
+  title: 'Projects',
   description: `Selected projects built by ${profile.name}.`,
 };
 

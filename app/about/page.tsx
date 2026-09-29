@@ -3,7 +3,7 @@ import { About } from '@/components/sections/About';
 import { profile } from '@/content/profile';
 
 export const metadata = {
-  title: `About | ${profile.name}`,
+  title: 'About',
   description: `How ${profile.name} works, and how it all connects.`,
 };
 

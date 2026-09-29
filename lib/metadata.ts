@@ -9,6 +9,7 @@ const SITE_URL =
   process.env["NEXT_PUBLIC_SITE_URL"] || "https://example.com";
 
 const SITE_NAME = profile.name;
+const FIRST_NAME = profile.name.split(" ")[0];
 const SITE_TITLE = `${SITE_NAME} — ${profile.title}`;
 const SITE_DESCRIPTION = profile.tagline;
 
@@ -16,7 +17,7 @@ export const siteMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: SITE_TITLE,
-    template: `%s — ${SITE_NAME}`,
+    template: `${FIRST_NAME} - %s`,
   },
   description: SITE_DESCRIPTION,
   keywords: [
@@ -66,10 +67,6 @@ export const siteMetadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
-  },
-  icons: {
-    icon: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
   },
 };
 

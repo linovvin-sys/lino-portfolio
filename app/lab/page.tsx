@@ -3,7 +3,7 @@ import { Lab } from '@/components/sections/Lab';
 import { profile } from '@/content/profile';
 
 export const metadata = {
-  title: `Lab | ${profile.name}`,
+  title: 'Lab',
   description: `Interactive experiments built by ${profile.name}.`,
 };
 

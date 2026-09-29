@@ -3,7 +3,7 @@ import { Roadmap } from '@/components/sections/Roadmap';
 import { profile } from '@/content/profile';
 
 export const metadata = {
-  title: `Roadmap | ${profile.name}`,
+  title: 'Roadmap',
   description: `What ${profile.name} has checked off and what's next.`,
 };
 

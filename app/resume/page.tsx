@@ -4,7 +4,7 @@ import { education, certifications } from '@/content/education';
 import { PageShell } from '@/components/ui/PageShell';
 
 export const metadata = {
-  title: `Resume | ${profile.name}`,
+  title: 'Resume',
   description: `Professional experience and education for ${profile.name}, ${profile.title}.`,
 };
 

@@ -3,7 +3,7 @@ import { Education } from '@/components/sections/Education';
 import { profile } from '@/content/profile';
 
 export const metadata = {
-  title: `Education | ${profile.name}`,
+  title: 'Education',
   description: `${profile.name}'s education and certifications.`,
 };
 

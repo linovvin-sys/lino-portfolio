@@ -3,7 +3,7 @@ import { Capabilities } from '@/components/sections/Capabilities';
 import { profile } from '@/content/profile';
 
 export const metadata = {
-  title: `Stack | ${profile.name}`,
+  title: 'Stack',
   description: `The languages, frameworks and tools ${profile.name} works with.`,
 };
 
