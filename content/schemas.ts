@@ -124,6 +124,8 @@ export const capabilityGroupSchema = z.object({
   items: z.array(z.object({
     name: z.string(),
     detail: z.string().optional(),
+    /** Key into content/tech-icons.ts; omitted when the item has no real brand mark. */
+    icon: z.string().optional(),
   })).min(1),
 });
 

@@ -1,6 +1,7 @@
 import { capabilities } from '@/content/capabilities';
 import { Section } from '@/components/ui/Section';
 import { SectionHeader } from '@/components/ui/SectionHeader';
+import { TechIcon } from '@/components/ui/TechIcon';
 import { formatIndex } from '@/lib/utils';
 
 interface CapabilitiesProps {
@@ -38,7 +39,10 @@ export function Capabilities({ id }: CapabilitiesProps) {
                   key={item.name}
                   className="border-t border-dashed border-[var(--color-rule)] py-3.5 first:border-t-0 first:pt-0 sm:[&:nth-child(2)]:border-t-0 sm:[&:nth-child(2)]:pt-0"
                 >
-                  <p className="text-[15px] font-medium text-[var(--color-fg)]">{item.name}</p>
+                  <p className="flex items-center gap-2 text-[15px] font-medium text-[var(--color-fg)]">
+                    {item.icon && <TechIcon slug={item.icon} className="h-4 w-4 shrink-0 text-[var(--color-muted)]" />}
+                    {item.name}
+                  </p>
                   {item.detail && <p className="mt-0.5 text-[13px] text-[var(--color-muted)]">{item.detail}</p>}
                 </li>
               ))}
