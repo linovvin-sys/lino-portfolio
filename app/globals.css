@@ -332,35 +332,6 @@ html.lenis body {
   }
 }
 
-/* ── Dot field background ─────────────────────────── */
-/* Ambient dot texture: sits fixed behind the whole page, and doubles as an
-   overlay on tinted Section bands so it reads through the alternating
-   tones instead of disappearing behind them. */
-
-@utility dot-field {
-  background-image:
-    radial-gradient(circle, color-mix(in oklab, var(--color-fg) 26%, transparent) 1.6px, transparent 1.6px),
-    radial-gradient(circle, color-mix(in oklab, var(--color-fg) 14%, transparent) 1.6px, transparent 1.6px);
-  background-size: 24px 24px, 48px 48px;
-  background-position: 0 0, 12px 12px;
-}
-
-@keyframes dot-drift {
-  to {
-    background-position: 240px 120px, 252px -84px;
-  }
-}
-
-.animate-dot-drift {
-  animation: dot-drift 90s linear infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-dot-drift {
-    animation: none;
-  }
-}
-
 /* ── Heading mask reveal ─────────────────────────── */
 /* Wrap a heading's text in .mask > .mask-inner inside a [data-reveal]
    element; the text slides up from behind its own baseline. */

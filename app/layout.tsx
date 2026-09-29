@@ -3,6 +3,7 @@ import { siteMetadata, siteViewport, getPersonJsonLd } from "@/lib/metadata";
 import { fontVariables } from "@/lib/fonts";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { FloatingDots } from "@/components/ui/FloatingDots";
 import "./globals.css";
 
 export const metadata: Metadata = siteMetadata;
@@ -39,7 +40,7 @@ export default function RootLayout({
         />
       </head>
       <body className={fontVariables}>
-        <div aria-hidden="true" className="dot-field animate-dot-drift pointer-events-none fixed inset-0 -z-10" />
+        <FloatingDots />
         {children}
         <Analytics />
         <SpeedInsights />
