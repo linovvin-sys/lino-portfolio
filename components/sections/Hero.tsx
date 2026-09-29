@@ -7,8 +7,8 @@ import { ArrowRight } from '@/components/ui/Icons';
 import { Magnetic } from '@/components/motion/Magnetic';
 import { AnimatedNumber } from '@/components/motion/AnimatedNumber';
 import { TechMarquee } from '@/components/motion/TechMarquee';
-import { IdBadge } from '@/components/about/IdBadge';
 import { Typewriter } from '@/components/motion/Typewriter';
+import Image from 'next/image';
 import { useLocalTime } from '@/hooks/useLocalTime';
 import { profile } from '@/content/profile';
 import { metricsStrip } from '@/content/metrics';
@@ -119,9 +119,22 @@ export function Hero({ id }: HeroProps) {
             </dl>
           </div>
 
-          {/* ID badge, nudged up a little so it hangs level with the intro */}
+          {/* Portrait, nudged up a little so it hangs level with the intro */}
           <aside style={delay(300)} className="animate-rise-in col-span-12 lg:col-span-5 lg:-mt-12">
-            <IdBadge />
+            <div className="relative mx-auto aspect-[900/978] w-full max-w-[360px] overflow-hidden border border-[var(--color-rule)] bg-[var(--color-surface)]">
+              {profile.photo && (
+                <Image
+                  src={profile.photo}
+                  alt={`Photo of ${profile.name}`}
+                  fill
+                  sizes="360px"
+                  priority
+                  draggable={false}
+                  unoptimized
+                  className="object-cover"
+                />
+              )}
+            </div>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm">
               {[
                 { label: 'GitHub', href: profile.links.github },
