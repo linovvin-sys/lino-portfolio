@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/workflow',
     '/experience',
     '/roadmap',
+    '/resources',
     '/lab',
     '/testimonials',
     '/education',

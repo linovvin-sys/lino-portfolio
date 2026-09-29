@@ -229,6 +229,23 @@ export const roadmapStageSchema = z.object({
 
 export const roadmapSchema = z.array(roadmapStageSchema).min(1);
 
+/* ── Resources ─────────────────────────────────────── */
+
+export const resourceGroupSchema = z.object({
+  id: z.string(),
+  index: z.number().int().min(1),
+  title: z.string(),
+  description: z.string(),
+  items: z.array(z.object({
+    name: z.string(),
+    url: z.string().url(),
+    description: z.string(),
+    cost: z.enum(["free", "freemium"]),
+  })).min(1),
+});
+
+export const resourcesSchema = z.array(resourceGroupSchema).min(1);
+
 /* ── Education ───────────────────────────────────── */
 
 export const educationSchema = z.object({
@@ -280,6 +297,7 @@ export type Testimonial = z.infer<typeof testimonialSchema>;
 export type LabExperiment = z.infer<typeof labExperimentSchema>;
 export type Education = z.infer<typeof educationSchema>;
 export type RoadmapStage = z.infer<typeof roadmapStageSchema>;
+export type ResourceGroup = z.infer<typeof resourceGroupSchema>;
 export type Certification = z.infer<typeof certificationSchema>;
 export type Metric = z.infer<typeof metricSchema>;
 export type NavItem = z.infer<typeof navItemSchema>;

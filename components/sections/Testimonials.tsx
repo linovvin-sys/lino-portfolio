@@ -22,7 +22,7 @@ export function Testimonials({ id }: TestimonialsProps) {
   return (
     <Section id={id} tone="surface">
       <SectionHeader
-        index={8}
+        index={9}
         eyebrow="Friends & classmates"
         title="What my friends say."
         subtitle="People I’ve built projects and survived lab exams with. Check out their work too."

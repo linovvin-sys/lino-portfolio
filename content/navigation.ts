@@ -7,10 +7,11 @@ const data = [
   { index: '04', label: 'Workflow', href: '/workflow' },
   { index: '05', label: 'Journey', href: '/experience' },
   { index: '06', label: 'Roadmap', href: '/roadmap' },
-  { index: '07', label: 'Lab', href: '/lab' },
-  { index: '08', label: 'Friends & classmates', href: '/testimonials' },
-  { index: '09', label: 'Education', href: '/education' },
-  { index: '10', label: 'Contact', href: '/contact' },
+  { index: '07', label: 'Resources', href: '/resources' },
+  { index: '08', label: 'Lab', href: '/lab' },
+  { index: '09', label: 'Friends & classmates', href: '/testimonials' },
+  { index: '10', label: 'Education', href: '/education' },
+  { index: '11', label: 'Contact', href: '/contact' },
 ];
 
 export const navigation = navigationSchema.parse(data);
