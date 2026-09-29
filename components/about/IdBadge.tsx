@@ -317,8 +317,15 @@ export function IdBadge() {
               </div>
 
               <div className="relative mt-3 aspect-[5/4.4] overflow-hidden rounded-[12px] bg-[var(--color-fg)]">
-                {/* Monogram is always underneath; the photo fades in over it only once it has loaded */}
-                <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_30%_20%,color-mix(in_oklab,var(--color-accent)_55%,transparent),transparent_60%)]">
+                {/* Monogram is the fallback while there's no photo (or it hasn't loaded yet);
+                    it fades out once the photo is up so it doesn't show through any
+                    transparent background in the photo itself. */}
+                <div
+                  className={cn(
+                    'absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_30%_20%,color-mix(in_oklab,var(--color-accent)_55%,transparent),transparent_60%)] transition-opacity duration-500',
+                    photoLoaded ? 'opacity-0' : 'opacity-100',
+                  )}
+                >
                   <div
                     aria-hidden="true"
                     className="absolute inset-0 opacity-[0.12] [background-image:linear-gradient(var(--color-bg)_1px,transparent_1px),linear-gradient(90deg,var(--color-bg)_1px,transparent_1px)] [background-size:18px_18px]"
