@@ -12,7 +12,7 @@ const data = [
     subtitle: 'AR navigation with an AI conversational navigator that guides people to where they need to go',
     category: 'Web application · AR + AI',
     year: '2026',
-    thumbnail: { src: '/placeholder-project-1.webp', alt: 'Lampara AR navigation', width: 1600, height: 1200 },
+    thumbnail: { src: '/images/project-lampara.webp', alt: 'Lampara landing page', width: 1280, height: 800 },
     stack: ['Augmented Reality', 'Conversational AI', 'PHP', 'Tailwind CSS', 'MySQL'],
     metrics: [
       { label: 'Type', value: 'Web app' },
@@ -75,7 +75,7 @@ const data = [
     subtitle: 'Room booking, check-in/check-out and billing, built with native PHP and Bootstrap',
     category: 'Web application',
     year: '2025',
-    thumbnail: { src: '/placeholder-project-3.webp', alt: 'Hotel management dashboard', width: 1600, height: 1200 },
+    thumbnail: { src: '/images/project-hotel.webp', alt: 'Vivere hotel booking landing page', width: 1280, height: 800 },
     stack: ['PHP', 'Bootstrap', 'MySQL', 'JavaScript'],
     metrics: [
       { label: 'Type', value: 'Web app' },

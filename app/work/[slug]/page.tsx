@@ -68,7 +68,9 @@ export default async function CaseStudyPage({ params }: PageProps) {
         </p>
       </header>
 
-      {project?.externalUrl && <LiveSitePreview url={project.externalUrl} />}
+      {project?.externalUrl && (
+        <LiveSitePreview url={project.externalUrl} screenshot={project.thumbnail} />
+      )}
 
       <dl className="mt-12 grid grid-cols-2 gap-x-[var(--grid-gap)] gap-y-6 border-y border-[var(--color-rule)] py-6 md:grid-cols-4">
         {facts.map((fact) => (
