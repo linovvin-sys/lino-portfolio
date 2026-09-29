@@ -39,6 +39,7 @@ export default function RootLayout({
         />
       </head>
       <body className={fontVariables}>
+        <div aria-hidden="true" className="dot-field animate-dot-drift pointer-events-none fixed inset-0 -z-10" />
         {children}
         <Analytics />
         <SpeedInsights />

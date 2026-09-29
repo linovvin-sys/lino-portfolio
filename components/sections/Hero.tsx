@@ -12,6 +12,7 @@ import Image from 'next/image';
 import { useLocalTime } from '@/hooks/useLocalTime';
 import { profile } from '@/content/profile';
 import { metricsStrip } from '@/content/metrics';
+import { formatIndex } from '@/lib/utils';
 
 interface HeroProps {
   id?: string;
@@ -159,13 +160,18 @@ export function Hero({ id }: HeroProps) {
 
         <dl
           data-reveal
-          className="mt-20 grid grid-cols-2 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-rule)] md:mt-28 md:grid-cols-4"
-          style={{ gap: '1px' }}
+          className="mt-20 grid grid-cols-2 gap-x-[var(--grid-gap)] gap-y-10 border-t border-[var(--color-rule)] pt-10 md:mt-28 md:grid-cols-4 md:pt-12"
         >
-          {metricsStrip.map((metric) => (
-            <div key={metric.label} className="flex flex-col justify-between gap-6 bg-[var(--color-bg)] p-6 md:p-8">
-              <dt className="eyebrow">{metric.label}</dt>
-              <dd className="font-display font-tabular text-[length:var(--text-3xl)] leading-none text-[var(--color-fg)] md:text-[3.25rem]">
+          {metricsStrip.map((metric, i) => (
+            <div
+              key={metric.label}
+              className="relative md:border-l md:border-[var(--color-rule)] md:pl-8 md:first:border-l-0 md:first:pl-0"
+            >
+              <dt className="flex items-baseline gap-2.5">
+                <span className="font-mono text-[13px] text-[var(--color-accent)]">{formatIndex(i + 1)}</span>
+                <span className="eyebrow">{metric.label}</span>
+              </dt>
+              <dd className="font-display font-tabular mt-4 text-[length:var(--text-3xl)] leading-none text-[var(--color-fg)] md:text-[3.25rem]">
                 {metric.numericValue !== undefined ? <AnimatedNumber value={metric.numericValue} /> : metric.value}
                 {metric.suffix &&
                   (metric.suffix.length > 4 ? (

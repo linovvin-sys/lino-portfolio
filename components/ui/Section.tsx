@@ -20,8 +20,8 @@ export function Section({ id, children, className, tone = "default" }: SectionPr
       data-theme={tone === "inverse" ? "dark" : undefined}
       className={cn(
         "w-full py-20 md:py-28",
-        tone === "surface" && "border-y border-[var(--color-rule)] bg-[var(--color-surface)]",
-        tone === "inverse" && "border-y border-[var(--color-rule)] bg-[var(--color-bg)] text-[var(--color-fg)]",
+        tone === "surface" && "dot-field border-y border-[var(--color-rule)] bg-[var(--color-surface)]",
+        tone === "inverse" && "dot-field border-y border-[var(--color-rule)] bg-[var(--color-bg)] text-[var(--color-fg)]",
         className,
       )}
     >
