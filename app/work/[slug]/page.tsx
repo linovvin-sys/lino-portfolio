@@ -11,6 +11,7 @@ import { PageShell } from '@/components/ui/PageShell';
 import { TagList } from '@/components/ui/Tag';
 import { ArrowUpRight } from '@/components/ui/Icons';
 import { LiveSitePreview } from '@/components/ui/LiveSitePreview';
+import { formatIndex } from '@/lib/utils';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -82,14 +83,17 @@ export default async function CaseStudyPage({ params }: PageProps) {
       </dl>
 
       {frontmatter.metrics.length > 0 && (
-        <dl
-          className="mt-10 grid grid-cols-2 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-rule)] md:grid-cols-4"
-          style={{ gap: '1px' }}
-        >
-          {frontmatter.metrics.map((m) => (
-            <div key={m.label} className="flex flex-col justify-between gap-6 bg-[var(--color-surface)] p-6">
-              <dt className="eyebrow">{m.label}</dt>
-              <dd className="font-display font-tabular text-[length:var(--text-3xl)] leading-none text-[var(--color-fg)]">
+        <dl className="mt-10 grid grid-cols-2 gap-x-[var(--grid-gap)] gap-y-8 border-t border-[var(--color-rule)] pt-8 md:grid-cols-4">
+          {frontmatter.metrics.map((m, i) => (
+            <div
+              key={m.label}
+              className="relative md:border-l md:border-[var(--color-rule)] md:pl-8 md:first:border-l-0 md:first:pl-0"
+            >
+              <dt className="flex items-baseline gap-2.5">
+                <span className="font-mono text-[13px] text-[var(--color-accent)]">{formatIndex(i + 1)}</span>
+                <span className="eyebrow">{m.label}</span>
+              </dt>
+              <dd className="font-display font-tabular mt-3 text-[length:var(--text-2xl)] leading-none text-[var(--color-fg)] md:text-[2.5rem]">
                 {m.value}
               </dd>
             </div>
