@@ -15,7 +15,7 @@ export function Resources({ id }: ResourcesProps) {
         index={7}
         eyebrow="Resources"
         title="What I keep coming back to."
-        subtitle="A hand-picked list of the resources I keep coming back to — for learning to build software, getting into AI engineering, and staying current. Free or freemium, and genuinely worth your time."
+        subtitle="A hand-picked list of the resources I keep coming back to — for learning to build software, building toward Network DevOps, and staying current. Free or freemium, and genuinely worth your time."
       />
 
       <div className="mt-14 border-t border-[var(--color-rule)] md:mt-20">

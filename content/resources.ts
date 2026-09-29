@@ -18,13 +18,14 @@ const data = [
     ],
   },
   {
-    id: 'ai-engineering',
+    id: 'networking-devops',
     index: 2,
-    title: 'Getting Into AI Engineering',
-    description: 'Where I\'m learning to build with and around AI models.',
+    title: 'Networking & DevOps',
+    description: 'Where I\'m building toward a Network DevOps career.',
     items: [
-      { name: 'DeepLearning.AI', url: 'https://www.deeplearning.ai', description: 'Short, practical courses on LLMs and applied AI.', cost: 'freemium' },
-      { name: 'Hugging Face Learn', url: 'https://huggingface.co/learn', description: 'Free courses on transformers, NLP and agents.', cost: 'free' },
+      { name: 'Cisco Networking Academy', url: 'https://www.netacad.com', description: 'Free CCNA-aligned courses and packet tracer labs.', cost: 'free' },
+      { name: 'Professor Messer', url: 'https://www.professormesser.com', description: 'Free video courses for Network+ and Security+.', cost: 'free' },
+      { name: 'KodeKloud', url: 'https://kodekloud.com', description: 'Hands-on labs for Docker, Kubernetes and CI/CD.', cost: 'freemium' },
     ],
   },
   {
