@@ -9,7 +9,7 @@ const data = [
   {
     id: 'friend-1',
     quote: 'Lino is the teammate who actually reads the error message. On our projects he set up the database, kept everyone on Git branches, and still found time to help the rest of us debug.',
-    author: '[Friend’s Name]',
+    author: 'Ian Reyes',
     role: 'IT Student',
     company: 'National College of Science and Technology',
     relationship: 'Classmate',
@@ -19,7 +19,7 @@ const data = [
   {
     id: 'friend-2',
     quote: 'Working with Lino on our capstone has been easy. He explains networking and backend concepts clearly, and he’s always excited to try the next tool, whether that’s Docker, AR or a new framework.',
-    author: '[Friend’s Name]',
+    author: 'Frankyz Malbog',
     role: 'Frontend Developer',
     company: 'Capstone teammate',
     relationship: 'Teammate',
@@ -29,7 +29,7 @@ const data = [
   {
     id: 'friend-3',
     quote: 'Whenever our labs broke in Packet Tracer, Lino was the one tracing the problem hop by hop. He’s patient, curious, and genuinely likes figuring out how things work.',
-    author: '[Friend’s Name]',
+    author: 'Bea Bulado',
     role: 'Aspiring Network Engineer',
     company: 'National College of Science and Technology',
     relationship: 'Lab partner',
