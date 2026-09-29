@@ -51,7 +51,7 @@ export function Roadmap({ id }: RoadmapProps) {
   const [open, setOpen] = useState<string | null>(roadmap.find((s) => s.status === 'in-progress')?.id ?? roadmap[0]?.id ?? null);
 
   return (
-    <Section id={id} tone="surface">
+    <Section id={id}>
       <SectionHeader
         index={6}
         eyebrow="Roadmap"

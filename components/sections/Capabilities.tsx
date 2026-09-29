@@ -10,7 +10,7 @@ interface CapabilitiesProps {
 
 export function Capabilities({ id }: CapabilitiesProps) {
   return (
-    <Section id={id} tone="surface">
+    <Section id={id}>
       <SectionHeader
         index={3}
         eyebrow="Stack"

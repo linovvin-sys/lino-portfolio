@@ -20,7 +20,7 @@ function initials(name: string) {
 
 export function Testimonials({ id }: TestimonialsProps) {
   return (
-    <Section id={id} tone="surface">
+    <Section id={id}>
       <SectionHeader
         index={9}
         eyebrow="Friends & classmates"

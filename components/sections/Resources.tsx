@@ -10,7 +10,7 @@ interface ResourcesProps {
 
 export function Resources({ id }: ResourcesProps) {
   return (
-    <Section id={id} tone="surface">
+    <Section id={id}>
       <SectionHeader
         index={7}
         eyebrow="Resources"

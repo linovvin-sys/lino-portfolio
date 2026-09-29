@@ -10,7 +10,7 @@ interface AboutProps {
 
 export function About({ id }: AboutProps) {
   return (
-    <Section id={id} tone="surface">
+    <Section id={id}>
       <SectionHeader index={1} eyebrow="About" title="Curious about how it all connects." />
 
       <div className="mt-14 grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-14 md:mt-20">
