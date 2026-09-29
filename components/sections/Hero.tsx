@@ -121,7 +121,7 @@ export function Hero({ id }: HeroProps) {
 
           {/* Portrait, nudged up a little so it hangs level with the intro */}
           <aside style={delay(300)} className="animate-rise-in col-span-12 lg:col-span-5 lg:-mt-12">
-            <div className="relative mx-auto aspect-[1400/1426] w-full max-w-[360px] overflow-hidden border border-[var(--color-rule)] bg-[var(--color-surface)]">
+            <div className="relative mx-auto aspect-[1400/1426] w-full max-w-[360px] overflow-hidden">
               {profile.photo && (
                 <Image
                   src={profile.photo}
