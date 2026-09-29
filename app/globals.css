@@ -16,9 +16,17 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
+    /* Below lg there's a fixed topbar to clear; at lg+ the nav is a left
+       sidebar, so anchored sections only need a small breathing gap. */
     scroll-padding-top: calc(var(--nav-height) + 16px);
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
     color-scheme: light;
+  }
+
+  @media (min-width: 1024px) {
+    html {
+      scroll-padding-top: 24px;
+    }
   }
 
   html[data-theme="dark"] {

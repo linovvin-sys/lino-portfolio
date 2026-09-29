@@ -11,7 +11,9 @@ const SOCIALS = [
 
 export function Footer({ bordered = false }: { bordered?: boolean }) {
   return (
-    <footer className={`bg-[var(--color-bg)] pb-10 pt-16 md:pt-20 ${bordered ? 'border-t border-[var(--color-rule)]' : ''}`}>
+    <footer
+      className={`bg-[var(--color-bg)] pb-10 pt-16 md:pt-20 lg:pl-[var(--sidebar-width)] ${bordered ? 'border-t border-[var(--color-rule)]' : ''}`}
+    >
       <Container>
         <div className="grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-12">
           <div className="col-span-12 md:col-span-6">

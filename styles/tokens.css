@@ -64,6 +64,8 @@
   --grid-gap: 24px;
   --grid-margin: 40px;
   --nav-height: 64px;
+  /* Fixed left sidebar width at lg+ — below that we fall back to the mobile topbar/drawer */
+  --sidebar-width: 264px;
 
   /* ── Motion ────────────────────────────────────── */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);

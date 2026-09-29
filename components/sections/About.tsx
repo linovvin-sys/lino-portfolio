@@ -41,7 +41,7 @@ export function About({ id }: AboutProps) {
         </div>
 
         <aside data-reveal className="col-span-12 lg:col-span-5 lg:col-start-8">
-          <div className="lg:sticky lg:top-[calc(var(--nav-height)+40px)]">
+          <div className="lg:sticky lg:top-10">
             <NetworkLab />
           </div>
         </aside>

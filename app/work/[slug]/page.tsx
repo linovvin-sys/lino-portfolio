@@ -94,7 +94,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
 
       <div className="mt-16 grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-12 md:mt-20">
         <aside className="col-span-12 lg:col-span-3">
-          <div className="space-y-10 lg:sticky lg:top-[calc(var(--nav-height)+32px)]">
+          <div className="space-y-10 lg:sticky lg:top-8">
             <CaseStudySideNav toc={[{ id: 'problem', text: 'Problem' }, ...toc, { id: 'outcome', text: 'Outcome' }]} />
             <div>
               <h2 className="eyebrow">Stack</h2>

@@ -62,7 +62,7 @@ export function Roadmap({ id }: RoadmapProps) {
       <div className="mt-14 grid grid-cols-12 gap-x-[var(--grid-gap)] gap-y-10 md:mt-20">
         {/* Summary */}
         <aside data-reveal className="col-span-12 lg:col-span-4">
-          <div className="rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-bg)] p-6 md:p-7 lg:sticky lg:top-[calc(var(--nav-height)+32px)]">
+          <div className="rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-bg)] p-6 md:p-7 lg:sticky lg:top-8">
             <p className="eyebrow">Overall progress</p>
             <p className="font-display font-tabular mt-3 text-[3.5rem] leading-none text-[var(--color-fg)]">
               <AnimatedNumber value={percent} />

@@ -29,11 +29,11 @@ export default function Home() {
       <SmoothScroll />
       <ScrollProgress />
 
-      <main id="main">
+      <main id="main" className="lg:pl-[var(--sidebar-width)]">
         <Hero id="hero" />
         <About id="about" />
         <SelectedWork id="work" />
-        <Capabilities id="capabilities" />
+        <Capabilities id="stack" />
         <Workflow id="workflow" />
         <Experience id="experience" />
         <Roadmap id="roadmap" />

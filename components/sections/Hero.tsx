@@ -52,7 +52,7 @@ export function Hero({ id }: HeroProps) {
   const time = useLocalTime(profile.timezone);
 
   return (
-    <section id={id} className="relative w-full pt-[calc(var(--nav-height)+56px)] md:pt-[calc(var(--nav-height)+88px)]">
+    <section id={id} className="relative w-full pt-[calc(var(--nav-height)+56px)] md:pt-[calc(var(--nav-height)+88px)] lg:pt-24">
       <Container>
         <div className="grid grid-cols-12 items-center gap-x-[var(--grid-gap)] gap-y-14">
           <div className="col-span-12 lg:col-span-7">

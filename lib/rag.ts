@@ -44,8 +44,8 @@ function buildCorpus(): RagDocument[] {
     docs.push({
       id: `capability-${group.id}`,
       title: group.title,
-      section: 'Capabilities',
-      url: '/#capabilities',
+      section: 'Stack',
+      url: '/#stack',
       text: [group.description, ...group.items.map((i) => `${i.name}${i.detail ? `: ${i.detail}` : ''}`)].join(' '),
     });
   }

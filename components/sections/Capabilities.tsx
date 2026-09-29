@@ -12,7 +12,7 @@ export function Capabilities({ id }: CapabilitiesProps) {
     <Section id={id} tone="surface">
       <SectionHeader
         index={3}
-        eyebrow="Skills"
+        eyebrow="Stack"
         title="What I work with."
         subtitle="The languages, frameworks and tools I’ve used in real projects, and the networking skills I’m building next."
       />

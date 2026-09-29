@@ -25,7 +25,10 @@ export function PageShell({ children, back, size = 'default' }: PageShellProps) 
       {chatEnabled && <CommandPalette />}
       <SmoothScroll />
       <ScrollProgress />
-      <main id="main" className="pb-24 pt-[calc(var(--nav-height)+48px)] md:pb-32 md:pt-[calc(var(--nav-height)+72px)]">
+      <main
+        id="main"
+        className="pb-24 pt-[calc(var(--nav-height)+48px)] md:pb-32 md:pt-[calc(var(--nav-height)+72px)] lg:pl-[var(--sidebar-width)] lg:pt-16"
+      >
         <Container size={size}>
           {back && (
             <a
