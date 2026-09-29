@@ -3,7 +3,7 @@
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { AvailabilityDot } from '@/components/ui/AvailabilityDot';
-import { ArrowRight } from '@/components/ui/Icons';
+import { ArrowRight, ArrowUpRight } from '@/components/ui/Icons';
 import { Magnetic } from '@/components/motion/Magnetic';
 import { AnimatedNumber } from '@/components/motion/AnimatedNumber';
 import { TechMarquee } from '@/components/motion/TechMarquee';
@@ -147,12 +147,23 @@ export function Hero({ id }: HeroProps) {
               ]
                 .filter((l): l is { label: string; href: string } => Boolean(l.href))
                 .map((l) => (
-                  <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className="link-underline text-[var(--color-fg)]">
+                  <a
+                    key={l.label}
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-underline group inline-flex items-center gap-1 text-[var(--color-fg)]"
+                  >
                     {l.label}
+                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 ease-[var(--ease-out)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </a>
                 ))}
-              <a href={`mailto:${profile.links.email}`} className="link-underline text-[var(--color-fg)]">
+              <a
+                href={`mailto:${profile.links.email}`}
+                className="link-underline group inline-flex items-center gap-1 text-[var(--color-fg)]"
+              >
                 Email
+                <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 ease-[var(--ease-out)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </a>
             </div>
           </aside>
