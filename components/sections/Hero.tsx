@@ -95,13 +95,13 @@ export function Hero({ id }: HeroProps) {
 
             <div style={delay(520)} className="animate-rise-in mt-8 flex flex-wrap items-center gap-3">
               <Magnetic className="w-full sm:w-auto">
-                <Button href="#work" size="lg" className="w-full sm:w-auto">
+                <Button href="/work" size="lg" className="w-full sm:w-auto">
                   View selected work
                   <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-[var(--ease-out)] group-hover/button:translate-x-0.5" />
                 </Button>
               </Magnetic>
               <Magnetic className="w-full sm:w-auto">
-                <Button href="#contact" size="lg" variant="secondary" className="w-full sm:w-auto">
+                <Button href="/contact" size="lg" variant="secondary" className="w-full sm:w-auto">
                   Get in touch
                 </Button>
               </Magnetic>

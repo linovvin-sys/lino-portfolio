@@ -22,7 +22,7 @@ function buildCorpus(): RagDocument[] {
     id: 'profile',
     title: `${profile.name} — ${profile.title}`,
     section: 'About',
-    url: '/#about',
+    url: '/about',
     text: [profile.tagline, profile.bio, ...profile.principles.map((p) => `${p.title}: ${p.description}`)].join(' '),
   });
 
@@ -31,7 +31,7 @@ function buildCorpus(): RagDocument[] {
       id: `experience-${role.id}`,
       title: `${role.role} at ${role.company}`,
       section: 'Experience',
-      url: '/#experience',
+      url: '/experience',
       text: [
         role.description,
         ...role.impacts.map((i) => `${i.metric}: ${i.description}`),
@@ -45,7 +45,7 @@ function buildCorpus(): RagDocument[] {
       id: `capability-${group.id}`,
       title: group.title,
       section: 'Stack',
-      url: '/#stack',
+      url: '/stack',
       text: [group.description, ...group.items.map((i) => `${i.name}${i.detail ? `: ${i.detail}` : ''}`)].join(' '),
     });
   }
@@ -65,7 +65,7 @@ function buildCorpus(): RagDocument[] {
       id: `roadmap-${stage.id}`,
       title: `Roadmap: ${stage.title}`,
       section: 'Roadmap',
-      url: '/#roadmap',
+      url: '/roadmap',
       text: [
         `${stage.title} (${stage.status}).`,
         stage.summary,

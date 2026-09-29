@@ -3,13 +3,13 @@ import { experienceListSchema } from './schemas';
 /* PLACEHOLDER: replace the university, dates and coursework with your own */
 const data = [
   {
-    id: 'lampara-capstone',
-    company: 'Capstone project',
+    id: 'lampara-term-project',
+    company: 'Term project',
     role: 'Lampara: AR & AI navigation',
     location: 'Team project',
     type: 'academic' as const,
     period: { start: '2026', end: 'Present' },
-    description: 'Building an augmented-reality navigation app with an AI conversational navigator as our capstone.',
+    description: 'Building an augmented-reality navigation app with an AI conversational navigator as our term project.',
     impacts: [
       { metric: 'AR navigation', description: 'Directions overlaid on the real world through the phone camera.' },
       { metric: 'AI navigator', description: 'Answers “where is…” questions in plain language and points the way.' },

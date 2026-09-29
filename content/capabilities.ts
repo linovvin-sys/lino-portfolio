@@ -59,7 +59,7 @@ const data = [
     id: 'exploring',
     index: 5,
     title: 'Also Exploring',
-    description: 'Newer areas I’ve worked with through my capstone and side projects.',
+    description: 'Newer areas I’ve worked with through my term project and side projects.',
     items: [
       { name: 'Augmented reality', detail: 'Lampara AR navigation' },
       { name: 'Conversational AI', detail: 'Lampara AI navigator' },
@@ -73,7 +73,7 @@ const data = [
     title: 'AI Tools',
     description: 'Assistants and models I use day to day for building and learning faster.',
     items: [
-      { name: 'Claude Code', detail: 'Daily driver for this portfolio' },
+      { name: 'Claude Code', detail: 'AI pair programming' },
       { name: 'ChatGPT', detail: 'Research and rubber-ducking' },
       { name: 'Anthropic', detail: 'Claude models' },
       { name: 'OpenAI', detail: 'GPT models' },
@@ -89,6 +89,7 @@ const data = [
     description: 'Where I actually write code, track work and talk to people.',
     items: [
       { name: 'VS Code', detail: 'Daily driver' },
+      { name: 'GitHub', detail: 'Version control and collaboration' },
       { name: 'PyCharm', detail: 'Python projects' },
       { name: 'NetBeans', detail: 'Java Swing apps' },
       { name: 'Trello', detail: 'Task boards' },

@@ -1,5 +1,5 @@
 import { Container } from '@/components/ui/Container';
-import { ArrowUp } from '@/components/ui/Icons';
+import { BackToTopButton } from '@/components/ui/BackToTopButton';
 import { navigation } from '@/content/navigation';
 import { profile } from '@/content/profile';
 
@@ -74,13 +74,7 @@ export function Footer({ bordered = false }: { bordered?: boolean }) {
           <p>
             © {new Date().getFullYear()} {profile.name}
           </p>
-          <a
-            href="#hero"
-            className="group inline-flex w-fit items-center gap-1.5 transition-colors hover:text-[var(--color-fg)]"
-          >
-            Back to top
-            <ArrowUp className="h-3.5 w-3.5 transition-transform duration-300 ease-[var(--ease-out)] group-hover:-translate-y-0.5" />
-          </a>
+          <BackToTopButton />
         </div>
       </Container>
     </footer>

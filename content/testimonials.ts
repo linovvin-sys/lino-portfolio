@@ -18,10 +18,10 @@ const data = [
   },
   {
     id: 'friend-2',
-    quote: 'Working with Lino on our capstone has been easy. He explains networking and backend concepts clearly, and he’s always excited to try the next tool, whether that’s Docker, AR or a new framework.',
+    quote: 'Working with Lino on our term project has been easy. He explains networking and backend concepts clearly, and he’s always excited to try the next tool, whether that’s Docker, AR or a new framework.',
     author: 'Frankyz Malbog',
     role: 'Frontend Developer',
-    company: 'Capstone teammate',
+    company: 'Term project teammate',
     relationship: 'Teammate',
     url: 'https://example.com',
     featured: true,

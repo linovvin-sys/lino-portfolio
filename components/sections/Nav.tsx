@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { Container } from '@/components/ui/Container';
 import { ArrowRight, Close, Menu, Sparkle } from '@/components/ui/Icons';
@@ -24,38 +26,11 @@ interface NavProps {
   chatEnabled?: boolean;
 }
 
-function useActiveSection() {
-  const [active, setActive] = useState<string | null>(null);
-
-  useEffect(() => {
-    const ids = navigation.map((item) => item.href.split('#')[1]).filter((id): id is string => Boolean(id));
-    const sections = ids.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => Boolean(el));
-    if (sections.length === 0) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) setActive(entry.target.id);
-        }
-      },
-      { rootMargin: '-45% 0px -50% 0px' },
-    );
-    sections.forEach((el) => observer.observe(el));
-    const onTop = () => window.scrollY < window.innerHeight * 0.5 && setActive(null);
-    window.addEventListener('scroll', onTop, { passive: true });
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('scroll', onTop);
-    };
-  }, []);
-
-  return active;
-}
-
 export function Nav({ chatEnabled = false }: NavProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isMac, setIsMac] = useState(true);
-  const active = useActiveSection();
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -77,12 +52,17 @@ export function Nav({ chatEnabled = false }: NavProps) {
     };
   }, [menuOpen]);
 
+  // Each section now lives on its own route, so close the mobile drawer on navigation
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
   const openPalette = () => {
     setMenuOpen(false);
     window.dispatchEvent(new Event(OPEN_PALETTE_EVENT));
   };
 
-  const isActive = (href: string) => Boolean(active && href.endsWith(`#${active}`));
+  const isActive = (href: string) => pathname === href;
 
   return (
     <>
@@ -99,12 +79,12 @@ export function Nav({ chatEnabled = false }: NavProps) {
       >
         <Container>
           <nav aria-label="Primary" className="flex h-[var(--nav-height)] items-center justify-between gap-6">
-            <a href="#hero" className="group flex items-center gap-3" onClick={() => setMenuOpen(false)}>
+            <Link href="/" className="group flex items-center gap-3" onClick={() => setMenuOpen(false)}>
               <span className="font-display flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-fg)] text-[15px] tracking-normal text-[var(--color-bg)] transition-transform duration-300 ease-[var(--ease-out)] group-hover:rotate-[-8deg]">
                 {initials(profile.name)}
               </span>
               <span className="text-sm font-medium text-[var(--color-fg)]">{profile.name}</span>
-            </a>
+            </Link>
 
             <div className="flex items-center gap-1">
               <ThemeToggle />
@@ -127,14 +107,15 @@ export function Nav({ chatEnabled = false }: NavProps) {
             <ul className="flex flex-col">
               {navigation.map((item, i) => (
                 <li key={item.href} className="animate-dialog-in" style={{ animationDelay: `${i * 25}ms` }}>
-                  <a
+                  <Link
                     href={item.href}
+                    aria-current={isActive(item.href) ? 'location' : undefined}
                     onClick={() => setMenuOpen(false)}
-                    className="flex items-center justify-between border-b border-[var(--color-rule)] py-3.5 text-[length:var(--text-lg)] text-[var(--color-fg)]"
+                    className="flex items-center justify-between border-b border-[var(--color-rule)] py-3.5 text-[length:var(--text-lg)] text-[var(--color-fg)] aria-[current=location]:text-[var(--color-accent)]"
                   >
                     {item.label}
                     <span className="font-mono text-xs text-[var(--color-muted)]">{item.index}</span>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -158,19 +139,19 @@ export function Nav({ chatEnabled = false }: NavProps) {
         aria-label="Primary"
       >
         <div className="flex h-full flex-col overflow-y-auto px-6 py-8">
-          <a href="#hero" className="group flex items-center gap-3">
+          <Link href="/" className="group flex items-center gap-3">
             <span className="font-display flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-fg)] text-[15px] tracking-normal text-[var(--color-bg)] transition-transform duration-300 ease-[var(--ease-out)] group-hover:rotate-[-8deg]">
               {initials(profile.name)}
             </span>
             <span className="text-sm font-medium text-[var(--color-fg)]">{profile.name}</span>
-          </a>
+          </Link>
 
           <ul className="mt-10 flex flex-col gap-0.5">
             {navigation.map((item) => {
               const current = isActive(item.href);
               return (
                 <li key={item.href}>
-                  <a
+                  <Link
                     href={item.href}
                     aria-current={current ? 'location' : undefined}
                     className={cn(
@@ -190,7 +171,7 @@ export function Nav({ chatEnabled = false }: NavProps) {
                       {item.label}
                     </span>
                     <span className="font-mono text-[11px] text-[var(--color-muted)]">{item.index}</span>
-                  </a>
+                  </Link>
                 </li>
               );
             })}
