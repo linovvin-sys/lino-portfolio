@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { Container } from '@/components/ui/Container';
-import { ArrowRight, Close, Menu, Sparkle } from '@/components/ui/Icons';
+import { ArrowRight, Close, Mail, Menu, Sparkle } from '@/components/ui/Icons';
 import { navigation } from '@/content/navigation';
 import { profile } from '@/content/profile';
 import { cn } from '@/lib/utils';
@@ -203,8 +203,9 @@ export function Nav({ chatEnabled = false }: NavProps) {
             </p>
             <a
               href={`mailto:${profile.links.email}`}
-              className="link-underline mt-1 inline-block break-all text-[13px] text-[var(--color-fg)]"
+              className="link-underline mt-1 inline-flex items-start gap-1.5 break-all text-[13px] text-[var(--color-fg)]"
             >
+              <Mail className="mt-0.5 h-3.5 w-3.5 shrink-0" />
               {profile.links.email}
             </a>
           </div>

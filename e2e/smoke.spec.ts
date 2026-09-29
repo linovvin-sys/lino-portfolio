@@ -38,42 +38,6 @@ test.describe("Navigation", () => {
   });
 });
 
-test.describe("Contact Form", () => {
-  test("should submit contact form", async ({ page }) => {
-    await page.goto("/#contact");
-
-    const nameInput = page.locator('input[name="name"]');
-    const emailInput = page.locator('input[name="email"]');
-    const messageInput = page.locator('textarea[name="message"]');
-
-    if (await nameInput.isVisible()) {
-      await nameInput.fill("Test User");
-      await emailInput.fill("test@example.com");
-      await messageInput.fill("This is a test message from Playwright.");
-
-      const submitButton = page.locator('button[type="submit"]');
-      await submitButton.click();
-
-      // Should show success or error state
-      // Success renders role="status"; a server-side failure renders role="alert".
-      const contact = page.locator("#contact");
-      await expect(
-        contact.getByRole("status").or(contact.getByRole("alert")),
-      ).toBeVisible({ timeout: 5000 });
-    }
-  });
-
-  test("should reject honeypot submissions", async ({ page }) => {
-    await page.goto("/#contact");
-
-    const honeypot = page.locator('input[name="honeypot"]');
-    if (await honeypot.count()) {
-      // Honeypot should be hidden but present
-      await expect(honeypot).toBeHidden();
-    }
-  });
-});
-
 test.describe("Accessibility", () => {
   test("should have skip link", async ({ page }) => {
     await page.goto("/");

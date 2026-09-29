@@ -11,7 +11,6 @@ const data = [
   { index: '08', label: 'Lab', href: '/lab' },
   { index: '09', label: 'Friends & classmates', href: '/testimonials' },
   { index: '10', label: 'Education', href: '/education' },
-  { index: '11', label: 'Contact', href: '/contact' },
 ];
 
 export const navigation = navigationSchema.parse(data);

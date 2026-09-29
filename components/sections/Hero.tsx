@@ -102,7 +102,7 @@ export function Hero({ id }: HeroProps) {
                 </Button>
               </Magnetic>
               <Magnetic className="w-full sm:w-auto">
-                <Button href="/contact" size="lg" variant="secondary" className="w-full sm:w-auto">
+                <Button href={`mailto:${profile.links.email}`} size="lg" variant="secondary" className="w-full sm:w-auto">
                   Get in touch
                 </Button>
               </Magnetic>

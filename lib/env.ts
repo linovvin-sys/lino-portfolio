@@ -27,10 +27,6 @@ const envSchema = z.object({
   // keeps working when older model versions are retired
   GEMINI_MODEL: z.preprocess(emptyToUndefined, z.string().trim().min(1).default("gemini-flash-latest")),
 
-  // Email (optional — contact form degrades gracefully)
-  RESEND_API_KEY: z.preprocess(emptyToUndefined, z.string().min(1).optional()),
-  CONTACT_EMAIL: z.preprocess(emptyToUndefined, z.string().email().optional()),
-
   // Analytics (optional)
   NEXT_PUBLIC_VERCEL_ANALYTICS_ID: z.preprocess(emptyToUndefined, z.string().optional()),
 
@@ -38,10 +34,6 @@ const envSchema = z.object({
   CHAT_RATE_LIMIT_PER_MINUTE: z.preprocess(
     emptyToUndefined,
     z.coerce.number().int().positive().default(10),
-  ),
-  CONTACT_RATE_LIMIT_PER_HOUR: z.preprocess(
-    emptyToUndefined,
-    z.coerce.number().int().positive().default(5),
   ),
 });
 

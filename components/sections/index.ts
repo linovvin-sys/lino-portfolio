@@ -10,5 +10,4 @@ export { Workflow } from './Workflow';
 export { Lab } from './Lab';
 export { Testimonials } from './Testimonials';
 export { Education } from './Education';
-export { Contact } from './Contact';
 export { Footer } from './Footer';

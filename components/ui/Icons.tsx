@@ -95,6 +95,15 @@ export function Close(props: IconProps) {
   );
 }
 
+export function Mail(props: IconProps) {
+  return (
+    <svg {...defaults} {...props}>
+      <rect x="2" y="3.5" width="12" height="9" rx="1.5" />
+      <path d="M2.5 4.5l5.5 4.5 5.5-4.5" />
+    </svg>
+  );
+}
+
 export function Sun(props: IconProps) {
   return (
     <svg {...defaults} {...props}>
