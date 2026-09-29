@@ -8,8 +8,8 @@ const data = {
   roles: ['Aspiring Network DevOps Engineer', '3rd-year IT Student'],
   location: 'Cavite, Philippines',
   timezone: 'Asia/Manila',
-  // Drop your photo at public/images/portrait.jpg (square-ish, at least 800px wide)
-  photo: '/images/portrait.jpg',
+  // Drop your photo at public/images/portrait.webp (square-ish, at least 800px wide)
+  photo: '/images/portrait.webp',
   tagline: '3rd-year IT student and aspiring Network DevOps engineer who builds full-stack systems and is learning to automate the networks they run on.',
   bio: 'I’m a third-year IT student who likes understanding how things work end to end. I’ve built web, desktop and AR projects with PHP, Java, Python and C++, built this portfolio with Next.js and TypeScript, and I ship my work with Git, Docker and CI/CD pipelines. Now I’m going deeper into networking fundamentals and Linux. My goal is to become a Network DevOps engineer who treats networks like software: automated, versioned and reliable.',
   availability: {
