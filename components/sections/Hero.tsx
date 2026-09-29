@@ -121,7 +121,7 @@ export function Hero({ id }: HeroProps) {
 
           {/* Portrait, nudged up a little so it hangs level with the intro */}
           <aside style={delay(300)} className="animate-rise-in col-span-12 lg:col-span-5 lg:-mt-12">
-            <div className="relative mx-auto aspect-[1400/1426] w-full max-w-[360px] overflow-hidden">
+            <div className="relative mx-auto aspect-[720/733] w-full max-w-[360px] overflow-hidden">
               {profile.photo && (
                 <Image
                   src={profile.photo}
@@ -130,7 +130,11 @@ export function Hero({ id }: HeroProps) {
                   sizes="360px"
                   priority
                   draggable={false}
+                  // Dithered halftone art: skip Next's optimizer (it resizes with smooth
+                  // resampling) and force crisp scaling so the browser doesn't blur the
+                  // dot pattern back into flat gray at display size.
                   unoptimized
+                  style={{ imageRendering: 'pixelated' }}
                   className="object-cover"
                 />
               )}
