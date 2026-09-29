@@ -52,7 +52,7 @@ export function Hero({ id }: HeroProps) {
   const time = useLocalTime(profile.timezone);
 
   return (
-    <section id={id} className="relative w-full pt-[calc(var(--nav-height)+56px)] md:pt-[calc(var(--nav-height)+88px)] lg:pt-24">
+    <section id={id} className="relative w-full pt-[calc(var(--nav-height)+56px)] md:pt-[calc(var(--nav-height)+88px)] lg:pt-10">
       <Container>
         <div className="grid grid-cols-12 items-center gap-x-[var(--grid-gap)] gap-y-14">
           <div className="col-span-12 lg:col-span-7">
@@ -93,7 +93,7 @@ export function Hero({ id }: HeroProps) {
               {profile.bio.split('. ').slice(0, 2).join('. ')}.
             </p>
 
-            <div style={delay(520)} className="animate-rise-in mt-10 flex flex-wrap items-center gap-3">
+            <div style={delay(520)} className="animate-rise-in mt-8 flex flex-wrap items-center gap-3">
               <Magnetic className="w-full sm:w-auto">
                 <Button href="#work" size="lg" className="w-full sm:w-auto">
                   View selected work
@@ -107,7 +107,7 @@ export function Hero({ id }: HeroProps) {
               </Magnetic>
             </div>
 
-            <dl style={delay(620)} className="animate-rise-in mt-12 flex flex-wrap gap-x-10 gap-y-4 text-sm">
+            <dl style={delay(620)} className="animate-rise-in mt-8 flex flex-wrap gap-x-10 gap-y-4 text-sm">
               <div>
                 <dt className="eyebrow">Based in</dt>
                 <dd className="mt-1.5 text-[var(--color-fg)]">{profile.location}</dd>
