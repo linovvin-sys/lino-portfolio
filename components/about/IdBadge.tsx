@@ -340,6 +340,11 @@ export function IdBadge() {
                     fill
                     sizes="272px"
                     draggable={false}
+                    // The photo is deliberately pixel art: skip Next's built-in image
+                    // optimizer (it resizes with smooth resampling, which would blur the
+                    // blocks) and force nearest-neighbor scaling in the browser instead.
+                    unoptimized
+                    style={{ imageRendering: 'pixelated' }}
                     // next/image also calls onLoad for images that failed (they're "complete"
                     // too), so only count it as loaded if it actually has pixels
                     onLoad={(e) => setPhotoLoaded(e.currentTarget.naturalWidth > 0)}
