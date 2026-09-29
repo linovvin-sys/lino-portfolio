@@ -123,7 +123,7 @@ export function Contact({ id }: ContactProps) {
                       name="name"
                       required
                       autoComplete="name"
-                      placeholder="Jane Doe"
+                      placeholder="Lino Dela Cruz"
                       aria-invalid={Boolean(state.errors?.name)}
                       aria-describedby={state.errors?.name ? 'name-error' : undefined}
                       className={fieldClass}
@@ -141,7 +141,7 @@ export function Contact({ id }: ContactProps) {
                       name="email"
                       required
                       autoComplete="email"
-                      placeholder="jane@company.com"
+                      placeholder="lino@company.com"
                       aria-invalid={Boolean(state.errors?.email)}
                       aria-describedby={state.errors?.email ? 'email-error' : undefined}
                       className={fieldClass}
