@@ -54,7 +54,7 @@ export function FloatingDots() {
       canvas.style.height = `${height}px`;
       ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const count = Math.max(28, Math.min(70, Math.round((width * height) / 24000)));
+      const count = Math.max(42, Math.min(105, Math.round((width * height) / 16000)));
       dots = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
