@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { SoundToggle } from '@/components/ui/SoundToggle';
 import { Container } from '@/components/ui/Container';
 import { ArrowRight, Close, Mail, Menu, Sparkle } from '@/components/ui/Icons';
 import { navigation } from '@/content/navigation';
@@ -87,6 +88,7 @@ export function Nav({ chatEnabled = false }: NavProps) {
             </Link>
 
             <div className="flex items-center gap-1">
+              <SoundToggle />
               <ThemeToggle />
               <button
                 type="button"
@@ -197,6 +199,10 @@ export function Nav({ chatEnabled = false }: NavProps) {
             <div className="flex items-center justify-between border-t border-[var(--color-rule)] pt-4">
               <span className="text-xs text-[var(--color-muted)]">Theme</span>
               <ThemeToggle />
+            </div>
+            <div className="mt-2 flex items-center justify-between">
+              <span className="text-xs text-[var(--color-muted)]">Hover sound</span>
+              <SoundToggle />
             </div>
             <p className="mt-5 text-xs leading-relaxed text-[var(--color-muted)]">
               For OJT, collabs and everything else, reach me at

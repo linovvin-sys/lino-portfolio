@@ -37,10 +37,15 @@ export function Capabilities({ id }: CapabilitiesProps) {
               {group.items.map((item) => (
                 <li
                   key={item.name}
-                  className="border-t border-dashed border-[var(--color-rule)] py-3.5 first:border-t-0 first:pt-0 sm:[&:nth-child(2)]:border-t-0 sm:[&:nth-child(2)]:pt-0"
+                  className="group border-t border-dashed border-[var(--color-rule)] py-3.5 first:border-t-0 first:pt-0 sm:[&:nth-child(2)]:border-t-0 sm:[&:nth-child(2)]:pt-0"
                 >
                   <p className="flex items-center gap-2 text-[15px] font-medium text-[var(--color-fg)]">
-                    {item.icon && <TechIcon slug={item.icon} className="h-4 w-4 shrink-0 text-[var(--color-muted)]" />}
+                    {item.icon && (
+                      <TechIcon
+                        slug={item.icon}
+                        className="icon-bounce h-4 w-4 shrink-0 origin-center text-[var(--color-muted)] transition-colors duration-200 group-hover:text-[var(--color-accent)]"
+                      />
+                    )}
                     {item.name}
                   </p>
                   {item.detail && <p className="mt-0.5 text-[13px] text-[var(--color-muted)]">{item.detail}</p>}

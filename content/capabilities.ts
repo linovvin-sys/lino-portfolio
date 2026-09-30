@@ -49,7 +49,8 @@ const data = [
     title: 'DevOps & Tools',
     description: 'Version control, containers and pipelines I use to ship my projects.',
     items: [
-      { name: 'Git & GitHub', detail: 'Branches, pull requests, reviews', icon: 'github' },
+      { name: 'Git', detail: 'Branches, commits, rebasing', icon: 'git' },
+      { name: 'GitHub', detail: 'Pull requests, reviews, Actions', icon: 'github' },
       { name: 'Linux command line', detail: 'Files, permissions, SSH', icon: 'linux' },
       { name: 'Docker', detail: 'Dockerfiles, Docker Compose', icon: 'docker' },
       { name: 'CI/CD', detail: 'GitHub Actions build and deploy pipelines', icon: 'githubactions' },

@@ -104,6 +104,24 @@ export function Mail(props: IconProps) {
   );
 }
 
+export function SpeakerOn(props: IconProps) {
+  return (
+    <svg {...defaults} {...props}>
+      <path d="M2 6.5h2.5L8 3.5v9L4.5 9.5H2v-3z" />
+      <path d="M10.5 5.3a3.5 3.5 0 010 5.4M12.3 3.5a6 6 0 010 9" />
+    </svg>
+  );
+}
+
+export function SpeakerOff(props: IconProps) {
+  return (
+    <svg {...defaults} {...props}>
+      <path d="M2 6.5h2.5L8 3.5v9L4.5 9.5H2v-3z" />
+      <path d="M11 6l3.5 4M14.5 6L11 10" />
+    </svg>
+  );
+}
+
 export function Sun(props: IconProps) {
   return (
     <svg {...defaults} {...props}>

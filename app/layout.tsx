@@ -4,6 +4,7 @@ import { fontVariables } from "@/lib/fonts";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { FloatingDots } from "@/components/ui/FloatingDots";
+import { HoverSoundProvider } from "@/components/ui/HoverSoundProvider";
 import "./globals.css";
 
 export const metadata: Metadata = siteMetadata;
@@ -41,6 +42,7 @@ export default function RootLayout({
       </head>
       <body className={fontVariables}>
         <FloatingDots />
+        <HoverSoundProvider />
         {children}
         <Analytics />
         <SpeedInsights />
