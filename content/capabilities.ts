@@ -9,11 +9,14 @@ const data = [
     title: 'Frontend',
     description: 'Responsive interfaces for web apps and dashboards.',
     items: [
-      { name: 'React & Next.js', detail: 'This portfolio', icon: 'react' },
+      { name: 'React', detail: 'This portfolio', icon: 'react' },
+      { name: 'Next.js', detail: 'This portfolio', icon: 'nextdotjs' },
       { name: 'TypeScript', detail: 'This portfolio', icon: 'typescript' },
       { name: 'Tailwind CSS', detail: 'Lampara and this portfolio', icon: 'tailwindcss' },
       { name: 'Bootstrap', detail: 'Hotel and enrollment systems', icon: 'bootstrap' },
-      { name: 'HTML, CSS & JavaScript', detail: 'The foundations', icon: 'html5' },
+      { name: 'HTML5', detail: 'The foundations', icon: 'html5' },
+      { name: 'CSS3', detail: 'The foundations', icon: 'css' },
+      { name: 'JavaScript', detail: 'The foundations', icon: 'javascript' },
     ],
   },
   {
@@ -54,7 +57,8 @@ const data = [
       { name: 'Linux command line', detail: 'Files, permissions, SSH', icon: 'linux' },
       { name: 'Docker', detail: 'Dockerfiles, Docker Compose', icon: 'docker' },
       { name: 'CI/CD', detail: 'GitHub Actions build and deploy pipelines', icon: 'githubactions' },
-      { name: 'XAMPP & Apache', detail: 'Local PHP and MySQL hosting', icon: 'xampp' },
+      { name: 'XAMPP', detail: 'Local PHP and MySQL hosting', icon: 'xampp' },
+      { name: 'Apache', detail: 'Web server config', icon: 'apache' },
     ],
   },
   {

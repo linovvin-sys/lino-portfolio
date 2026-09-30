@@ -198,11 +198,10 @@ export function Nav({ chatEnabled = false }: NavProps) {
           <div className="mt-auto pt-8">
             <div className="flex items-center justify-between border-t border-[var(--color-rule)] pt-4">
               <span className="text-xs text-[var(--color-muted)]">Theme</span>
-              <ThemeToggle />
-            </div>
-            <div className="mt-2 flex items-center justify-between">
-              <span className="text-xs text-[var(--color-muted)]">Hover sound</span>
-              <SoundToggle />
+              <div className="flex items-center gap-1">
+                <SoundToggle />
+                <ThemeToggle />
+              </div>
             </div>
             <p className="mt-5 text-xs leading-relaxed text-[var(--color-muted)]">
               For OJT, collabs and everything else, reach me at
