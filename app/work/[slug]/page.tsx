@@ -179,7 +179,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
               className="group mt-16 flex items-center justify-between gap-6 rounded-[var(--radius-lg)] border border-[var(--color-rule)] bg-[var(--color-surface)] p-6 transition-[border-color] duration-300 hover:border-[color-mix(in_oklab,var(--color-fg)_20%,var(--color-rule))] md:p-8"
             >
               <span>
-                <span className="eyebrow">Next case study</span>
+                <span className="eyebrow">Next project</span>
                 <span className="font-display mt-2 block text-[length:var(--text-2xl)] leading-[1.1] text-[var(--color-fg)]">
                   {next.title}
                 </span>

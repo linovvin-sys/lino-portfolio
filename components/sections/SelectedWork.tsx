@@ -37,7 +37,7 @@ export function SelectedWork({ id }: SelectedWorkProps) {
                 className="absolute inset-y-0 -inset-x-4 -z-10 rounded-[var(--radius-md)] bg-[var(--color-surface)] opacity-0 transition-opacity duration-300 ease-[var(--ease-out)] group-hover:opacity-100 md:-inset-x-6"
               />
 
-              <span className="sr-only">Read the case study: </span>
+              <span className="sr-only">View project: </span>
               <div className="col-span-12 flex items-baseline gap-5 md:col-span-7">
                 <span className="font-mono font-tabular w-6 shrink-0 text-xs text-[var(--color-muted)] transition-colors duration-300 group-hover:text-[var(--color-accent)]">
                   {formatIndex(i + 1)}

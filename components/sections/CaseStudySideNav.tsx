@@ -36,7 +36,7 @@ export function CaseStudySideNav({ toc }: CaseStudySideNavProps) {
   if (toc.length === 0) return null;
 
   return (
-    <nav aria-label="Case study sections" className="hidden lg:block">
+    <nav aria-label="Project sections" className="hidden lg:block">
       <h2 className="eyebrow">On this page</h2>
       <ul className="mt-4 space-y-0.5 border-l border-[var(--color-rule)]">
         {toc.map((entry) => {
